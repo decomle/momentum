@@ -11,8 +11,7 @@ from app.middlewares import locale_middleware
 from app.routers import auth_router
 from app.exceptions.types import InvalidCredentialsError
 from app.core.logging import setup_logging
-from backend.app.core import scheduler
-from backend.app.core.scheduler import start_scheduler, scheduler
+from app.core.scheduler import start_scheduler, scheduler
 
 setup_logging()
 logger = logging.getLogger(__name__)
