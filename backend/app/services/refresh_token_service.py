@@ -1,20 +1,14 @@
-# services/refresh_token_service.py
-
 import secrets
 import hashlib
 from datetime import datetime, timedelta, timezone
-
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
 
 from app.db.models import RefreshToken
 
 REFRESH_TOKEN_EXPIRE_DAYS = 7
 
-
 def generate_refresh_token() -> str:
     return secrets.token_urlsafe(64)
-
 
 def hash_token(token: str) -> str:
     return hashlib.sha256(token.encode()).hexdigest()

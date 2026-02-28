@@ -1,13 +1,12 @@
-from fastapi import APIRouter, Depends, HTTPException, Response
+from fastapi import APIRouter, Depends, Response
 from sqlalchemy.orm import Session
-from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from app.db.database import get_db
 from app.db.models import User
 from app.schemas.user import UserCreate, UserResponse
-from app.core.security import hash_password
-
 from app.schemas.auth import LoginRequest, TokenResponse
-from app.services.auth_service import login_user
+from app.services.auth_service import login_user, register_user
 from app.services.refresh_token_service import create_refresh_token
 from app.core.security import create_access_token
 from app.dependencies.auth import get_current_user, verify_access_token
@@ -40,25 +39,8 @@ async def login(data: LoginRequest, response: Response, db: Session = Depends(ge
     return { "access_token": access_token }
 
 @router.post("/register", response_model=UserResponse)
-async def register(user_data: UserCreate, db: Session = Depends(get_db)):
-    query_result = await db.execute(select(User).filter(User.email == user_data.email))
-
-    existing_user = query_result.scalar_one_or_none()
-    if existing_user:
-        raise HTTPException(status_code=400, detail="Email already registered")
-
-    hashed_pw = hash_password(user_data.password)
-
-    new_user = User(
-        email=user_data.email,
-        password_hash=hashed_pw
-    )
-
-    db.add(new_user)
-    await db.commit()
-    await db.refresh(new_user)
-
-    return new_user
+async def register(user_data: UserCreate, db: AsyncSession = Depends(get_db)):
+    return await register_user(db, user_data.email, user_data.password)
 
 @router.get("/me", response_model=UserResponse)
 def get_me(current_user: User = Depends(get_current_user)):
