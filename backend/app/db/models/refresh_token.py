@@ -3,7 +3,8 @@
 import uuid
 from datetime import datetime, timezone
 
-from sqlalchemy import String, ForeignKey, DateTime
+from sqlalchemy import Index, String, ForeignKey, DateTime
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.database import Base
@@ -12,10 +13,14 @@ from app.db.database import Base
 class RefreshToken(Base):
     __tablename__ = "refresh_tokens"
 
-    id: Mapped[str] = mapped_column(
-        String,
+    __table_args__ = (
+        Index("ix_refresh_user_expires", "user_id", "expires_at"),
+    )
+
+    id: Mapped[uuid.UUID] = mapped_column(
+        UUID,
         primary_key=True,
-        default=lambda: str(uuid.uuid4()),
+        default=lambda: uuid.uuid4(),
     )
 
     user_id: Mapped[str] = mapped_column(
@@ -28,6 +33,7 @@ class RefreshToken(Base):
         String,
         index=True,
         nullable=False,
+        unique=True
     )
 
     expires_at: Mapped[datetime] = mapped_column(
@@ -42,11 +48,9 @@ class RefreshToken(Base):
         nullable=False,
     )
 
-    updated_at: Mapped[datetime] = mapped_column(
+    revoked_at: Mapped[datetime | None] = mapped_column(
         DateTime(timezone=True),
-        default=lambda: datetime.now(timezone.utc),
-        onupdate=lambda: datetime.now(timezone.utc),
-        nullable=False,
+        nullable=True
     )
 
     user = relationship("User", back_populates="refresh_tokens")
