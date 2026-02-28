@@ -1,0 +1,3 @@
+PASSWORD_TOO_SHORT: Password must be at least 6 characters. . Vie
+PASSWORD_NO_NUMBER: Password must contain at least one number. Vie
+PASSWORD_NO_LETTER: Password must contain at least one letter. Vie

@@ -1,0 +1,8 @@
+
+.env
+
+backend.bk.zip
+
+backend/.venv/
+
+**/__pycache__/
