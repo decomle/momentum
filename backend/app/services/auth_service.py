@@ -43,6 +43,14 @@ async def register_user(db: AsyncSession, email: str, password: str) -> User:
 async def login_user(db: AsyncSession, email: str, password: str) -> User:
     return await authenticate_user(db, email, password)
 
+async def logout_user(db: AsyncSession, raw_refresh_token: str) -> None:
+    token_hash = hash_token(raw_refresh_token)
+    result = await db.execute(select(RefreshToken).where(RefreshToken.token_hash == token_hash))
+    token = result.scalar_one_or_none()
+    if token:
+        await db.delete(token)
+        await db.commit()
+
 async def refresh_access_token(db: AsyncSession, raw_refresh_token: str) -> str:
     # This function will be implemented later when we handle refresh tokens
     token_hash = hash_token(raw_refresh_token)

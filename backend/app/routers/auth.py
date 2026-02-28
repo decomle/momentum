@@ -7,7 +7,7 @@ from app.db.database import get_db
 from app.db.models import User
 from app.schemas.user import UserCreate, UserResponse
 from app.schemas.auth import LoginRequest, TokenResponse
-from app.services.auth_service import login_user, register_user
+from app.services.auth_service import login_user, logout_user, register_user
 from app.services.refresh_token_service import create_refresh_token
 from app.core.security import create_access_token
 from app.dependencies.auth import get_current_user, verify_access_token
@@ -44,21 +44,14 @@ async def login(data: LoginRequest, response: Response, db: Session = Depends(ge
 async def register(user_data: UserCreate, db: AsyncSession = Depends(get_db)):
     return await register_user(db, user_data.email, user_data.password)
 
-@router.post("/refresh")
-async def refresh(
-    request: Request,
-    response: Response,
-    db: AsyncSession = Depends(get_db),
-):
+@router.post("/refresh", response_model=TokenResponse)
+async def refresh(request: Request, response: Response, db: AsyncSession = Depends(get_db)):
     refresh_token = request.cookies.get("refresh_token")
 
     if not refresh_token:
         raise HTTPException(status_code=401, detail="Missing refresh token")
 
-    access_token, new_refresh_token = await refresh_access_token(
-        db,
-        refresh_token
-    )
+    access_token, new_refresh_token = await refresh_access_token(db, refresh_token)
 
     # Set new refresh token cookie
     response.set_cookie(
@@ -72,10 +65,20 @@ async def refresh(
 
     return {"access_token": access_token}
 
+@router.post("/logout")
+async def logout(request: Request, response: Response, db: AsyncSession = Depends(get_db)):
+    refresh_token = request.cookies.get("refresh_token")
+
+    if refresh_token:
+        await logout_user(db, refresh_token)
+
+    # Clear the cookie
+    response.delete_cookie("refresh_token")
+    return {"message": "Logged out successfully"}
+
 
 @router.get("/me", response_model=UserResponse)
 def get_me(current_user: User = Depends(get_current_user)):
-    print("Current user:", current_user.password_hash)
     return current_user
 
 @router.get("/protected")
