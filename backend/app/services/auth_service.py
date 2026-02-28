@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
+from sqlalchemy import select, delete
 
 from app.core.security import hash_password, verify_password
 from app.db.models import User, RefreshToken
@@ -73,3 +73,14 @@ async def refresh_access_token(db: AsyncSession, raw_refresh_token: str) -> str:
     })
 
     return new_access_token, new_refresh_token
+
+
+async def cleanup_expired_refresh_tokens(db: AsyncSession) -> int:
+    now = datetime.now(timezone.utc)
+
+    stmt = (delete(RefreshToken).where(RefreshToken.expires_at < now))
+
+    result = await db.execute(stmt)
+    await db.commit()
+
+    return result.rowcount or 0
