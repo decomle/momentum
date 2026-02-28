@@ -1,16 +1,12 @@
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
-from app.exceptions.validation_error_handler import validation_exception_handler
-
-from app.db.database import async_engine, Base
-from app.db import models  # import models to register metadata
-from app.i18n import configure_i18n
-from app.middlewares.locale import locale_middleware
-
-from app.routers.auth import router as auth_router
-
 from contextlib import asynccontextmanager
 
+from app.exceptions import validation_exception_handler
+from app.db.database import async_engine, Base
+from app.i18n import configure_i18n
+from app.middlewares import locale_middleware
+from app.routers import auth_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
