@@ -1,5 +1,5 @@
 import enum
 
 class HabitFrequency(str, enum.Enum):
-    DAILY = "daily"
-    WEEKLY = "weekly"
+    DAILY = "DAILY"
+    WEEKLY = "WEEKLY"

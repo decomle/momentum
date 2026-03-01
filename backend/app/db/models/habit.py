@@ -14,7 +14,7 @@ from sqlalchemy.sql import func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.database import Base
-from app.db.enums import HabitFrequency
+from app.enums import HabitFrequency
 
 
 class Habit(Base):
@@ -54,6 +54,8 @@ class Habit(Base):
         default=1
     )
 
+    is_active: Mapped[bool] = mapped_column(default=True)
+
     consistency_window_days: Mapped[int] = mapped_column(
         Integer,
         nullable=False,
@@ -90,8 +92,4 @@ class Habit(Base):
         "HabitPeriod",
         back_populates="habit",
         cascade="all, delete-orphan"
-    )
-
-    __table_args__ = (
-        Index("ix_habits_user_active", "user_id", "archived_at"),
     )

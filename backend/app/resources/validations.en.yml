@@ -2,3 +2,6 @@ PASSWORD_TOO_SHORT: "Password must be at least 6 characters. TEST"
 PASSWORD_NO_NUMBER: "Password must contain at least one number. TEST"
 PASSWORD_NO_LETTER: "Password must contain at least one letter. TESTY"
 INVALID_EMAIL: "Invalid email address. TEST"
+
+DAILY_HABIT_TARGET: "Daily habit must have target_per_period = 1"
+WEEKLY_HABIT_TARGET: "Weekly habit target must be between 1 and 7"

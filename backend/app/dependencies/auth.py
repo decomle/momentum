@@ -16,7 +16,6 @@ def verify_access_token(token: str = Depends(oauth2_scheme)):
 
     return payload
 
-
 async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     payload = verify_access_token(token)
 

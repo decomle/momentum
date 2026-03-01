@@ -8,7 +8,7 @@ from app.exceptions.handlers import validation_exception_handler, invalid_creden
 from app.db.database import async_engine, Base
 from app.i18n import configure_i18n
 from app.middlewares import locale_middleware
-from app.routers import auth_router
+from app.routers import auth_router, habits_router
 from app.exceptions.types import InvalidCredentialsError
 from app.core.logging import setup_logging
 from app.core.scheduler import start_scheduler, scheduler
@@ -39,7 +39,7 @@ app.middleware("http")(locale_middleware)
 logger.info("Configuring routers and exception handlers...")
 # Routers
 app.include_router(auth_router)
-
+app.include_router(habits_router)
 
 # Exception handlers
 app.add_exception_handler(
