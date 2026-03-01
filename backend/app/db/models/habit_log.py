@@ -30,9 +30,10 @@ class HabitLog(Base):
         nullable=False
     )
 
-    date: Mapped[datetype] = mapped_column(
+    log_date: Mapped[datetype] = mapped_column(
         Date,
-        nullable=False
+        nullable=False,
+        index=True
     )
 
     value: Mapped[int] = mapped_column(
@@ -50,6 +51,6 @@ class HabitLog(Base):
     habit = relationship("Habit", back_populates="logs")
 
     __table_args__ = (
-        UniqueConstraint("habit_id", "date", name="uq_habit_date"),
-        Index("ix_habit_logs_habit_date", "habit_id", "date"),
+        UniqueConstraint("habit_id", "log_date", name="uq_habit_log_date"),
+        Index("ix_habit_logs_habit_logdate", "habit_id", "log_date"),
     )

@@ -9,7 +9,7 @@ from sqlalchemy import (
     Index
 )
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.sql import func
+from sqlalchemy.sql import func 
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.database import Base
@@ -45,7 +45,7 @@ class HabitPeriod(Base):
         nullable=False
     )
 
-    actual_count: Mapped[int] = mapped_column(
+    actual_value: Mapped[int] = mapped_column(
         Integer,
         nullable=False
     )
