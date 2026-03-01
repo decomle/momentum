@@ -1,3 +1,5 @@
+import uuid
+
 from pydantic import BaseModel, field_validator
 from app.core.types.email import LocalizedEmail
 from pydantic_core import PydanticCustomError
@@ -24,7 +26,7 @@ class UserCreate(BaseModel):
         return value
 
 class UserResponse(BaseModel):
-    id: int
+    id: uuid.UUID
     email: str
     created_at: datetime
 
