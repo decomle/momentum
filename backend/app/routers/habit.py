@@ -2,9 +2,9 @@
 
 import uuid
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.schemas.habit import CreateHabitRequest, HabitResponse, HabitUpdateRequest
+from app.schemas.habit import CreateHabitRequest, HabitListResponse, HabitResponse, HabitUpdateRequest
 from app.services.habit_service import HabitService
 from app.db.database import get_db
 from app.db.transaction import transactional
@@ -24,14 +24,16 @@ async def create_habit(
         payload=payload,
     ))
 
-@router.get("", response_model=list[HabitResponse])
+@router.get("", response_model=HabitListResponse)
 async def list_habits(
     jwt_payload: dict = Depends(verify_access_token),
     db: AsyncSession = Depends(get_db),
+    page: int = Query(1, ge=1),
+    size: int = Query(5, ge=1, le=20),
 ):
     habit_service = HabitService(db)
     user_id = jwt_payload["sub"]
-    return await habit_service.get_user_habits(user_id)
+    return await habit_service.get_user_habits(user_id, page=page, size=size)
 
 @router.get("/{habit_id}", response_model=HabitResponse)
 async def get_habit(

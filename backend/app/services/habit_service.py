@@ -1,8 +1,9 @@
 from datetime import datetime, timezone
+from math import ceil
 import uuid
 
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
+from sqlalchemy import func, select
 from app.db.models import Habit
 from app.schemas.habit import CreateHabitRequest
 from app.exceptions.types.commons import NotFoundError
@@ -26,11 +27,45 @@ class HabitService:
 
         return habit
     
-    async def get_user_habits(self, user_id: uuid.UUID) -> list[Habit]:
-        result = await self.db.execute(
-            select(Habit).where(Habit.user_id == user_id, Habit.deleted_at.is_(None))
+    async def get_user_habits(self, user_id: uuid.UUID, page: int, size: int) -> list[Habit]:
+        offset = (page - 1) * size
+        data_stmt = (
+            select(Habit)
+            .where(Habit.user_id == user_id, Habit.deleted_at.is_(None))
+            .order_by(
+                Habit.created_at.desc(),
+                Habit.id.desc(),
+            )
+            .offset(offset)
+            .limit(size)
         )
-        return result.scalars().all()
+
+        count_stmt = (
+            select(func.count())
+            .select_from(Habit)
+            .where(
+                Habit.user_id == user_id,
+                Habit.deleted_at.is_(None),
+            )
+        )
+
+        result = await self.db.execute(data_stmt)
+        habits = result.scalars().all()
+
+        total_result = await self.db.execute(count_stmt)
+        total = total_result.scalar_one()
+
+        total_pages = ceil(total / size) if total > 0 else 1
+
+        return {
+            "items": habits,
+            "meta": {
+                "page": page,
+                "size": size,
+                "total": total,
+                "total_pages": total_pages,
+            },
+        }
     
     async def get_habit(self, habit_id: uuid.UUID, user_id: uuid.UUID) -> Habit:
         result = await self.db.execute(

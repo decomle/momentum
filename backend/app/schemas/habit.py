@@ -4,6 +4,7 @@ import uuid
 from pydantic import BaseModel, field_validator, model_validator
 from pydantic_core import PydanticCustomError
 from app.enums import HabitFrequency
+from app.schemas.pagination import PaginationMeta
 
 class CreateHabitRequest(BaseModel):
     name: str
@@ -51,3 +52,7 @@ class HabitResponse(BaseModel):
     frequency: HabitFrequency
     target_per_period: int
     is_active: bool
+
+class HabitListResponse(BaseModel):
+    items: list[HabitResponse]
+    meta: PaginationMeta

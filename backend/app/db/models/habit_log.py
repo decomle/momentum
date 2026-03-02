@@ -7,7 +7,8 @@ from sqlalchemy import (
     Integer,
     String,
     UniqueConstraint,
-    Index
+    Index,
+    CheckConstraint,
 )
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql import func
@@ -22,33 +23,45 @@ class HabitLog(Base):
     id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True),
         primary_key=True,
-        default=uuid.uuid4
+        default=uuid.uuid4,
     )
 
     habit_id: Mapped[uuid.UUID] = mapped_column(
         UUID(as_uuid=True),
         ForeignKey("habits.id", ondelete="CASCADE"),
-        nullable=False
+        nullable=False,
+    )
+
+    user_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True),
+        ForeignKey("users.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
 
     log_date: Mapped[datetype] = mapped_column(
         Date,
         nullable=False,
-        index=True
     )
 
-    value: Mapped[int] = mapped_column(
+    # -3 (very bad) to 3 (amazing)
+    # default 0 = neutral
+    mood_score: Mapped[int] = mapped_column(
         Integer,
         nullable=False,
-        default=1
+        default=0,
     )
 
-    remark: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    # Short reflection only
+    remark: Mapped[str | None] = mapped_column(
+        String(255),
+        nullable=True,
+    )
 
     created_at: Mapped[DateTime] = mapped_column(
         DateTime(timezone=True),
         server_default=func.now(),
-        nullable=False
+        nullable=False,
     )
 
     habit = relationship("Habit", back_populates="logs")
@@ -56,4 +69,8 @@ class HabitLog(Base):
     __table_args__ = (
         UniqueConstraint("habit_id", "log_date", name="uq_habit_log_date"),
         Index("ix_habit_logs_habit_logdate", "habit_id", "log_date"),
+        CheckConstraint(
+            "mood_score >= -3 AND mood_score <= 3",
+            name="ck_mood_score_range",
+        ),
     )
