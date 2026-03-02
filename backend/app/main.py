@@ -12,6 +12,8 @@ from app.routers import auth_router, habits_router
 from app.exceptions.types import InvalidCredentialsError
 from app.core.logging import setup_logging
 from app.core.scheduler import start_scheduler, scheduler
+from app.exceptions.handlers import not_found_handler
+from app.exceptions.types import NotFoundError
 
 setup_logging()
 logger = logging.getLogger(__name__)
@@ -42,14 +44,9 @@ app.include_router(auth_router)
 app.include_router(habits_router)
 
 # Exception handlers
-app.add_exception_handler(
-    RequestValidationError,
-    validation_exception_handler
-)
-app.add_exception_handler(
-    InvalidCredentialsError,
-    invalid_credentials_handler
-)
+app.add_exception_handler(RequestValidationError, validation_exception_handler)
+app.add_exception_handler(InvalidCredentialsError, invalid_credentials_handler)
+app.add_exception_handler(NotFoundError, not_found_handler)
 
 @app.get("/")
 def root():

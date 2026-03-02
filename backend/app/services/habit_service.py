@@ -1,3 +1,4 @@
+from datetime import datetime, timezone
 import uuid
 
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -27,7 +28,7 @@ class HabitService:
     
     async def get_user_habits(self, user_id: uuid.UUID) -> list[Habit]:
         result = await self.db.execute(
-            select(Habit).where(Habit.user_id == user_id)
+            select(Habit).where(Habit.user_id == user_id, Habit.deleted_at.is_(None))
         )
         return result.scalars().all()
     
@@ -35,7 +36,8 @@ class HabitService:
         result = await self.db.execute(
             select(Habit).where(
                 Habit.id == habit_id,
-                Habit.user_id == user_id
+                Habit.user_id == user_id,
+                Habit.deleted_at.is_(None)
             )
         )
         habit = result.scalar_one_or_none()
@@ -55,3 +57,11 @@ class HabitService:
         await self.db.flush()
 
         return habit
+    
+    async def delete_habit(self, habit_id: uuid.UUID, user_id: uuid.UUID) -> None:
+        habit = await self.get_habit(habit_id, user_id)
+
+        # Soft delete
+        habit.deleted_at = datetime.now(timezone.utc)
+
+        await self.db.flush()

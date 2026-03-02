@@ -69,3 +69,22 @@ async def update_habit(
     )
 
     return habit
+
+@router.delete("/{habit_id}")
+async def delete_habit(
+    habit_id: uuid.UUID,
+    jwt_payload: dict = Depends(verify_access_token),
+    db: AsyncSession = Depends(get_db),
+):
+    user_id = jwt_payload["sub"]
+    service = HabitService(db)
+
+    await transactional(
+        db,
+        lambda: service.delete_habit(
+            habit_id=habit_id,
+            user_id=user_id,
+        ),
+    )
+
+    return {"message": "Habit deleted successfully."}
