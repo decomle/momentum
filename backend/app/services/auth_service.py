@@ -77,7 +77,7 @@ class AuthService(BaseService):
         new_access_token = create_access_token({
             "sub": str(user_id),
             "roles": ["user"],
-            "tz": TimeZoneUtils.get_timezone(token) 
+            "tz": str(TimeZoneUtils.get_timezone(token)) 
         })
 
         return new_access_token, new_refresh_token

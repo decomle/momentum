@@ -25,7 +25,7 @@ async def login(data: LoginRequest, response: Response, db: AsyncSession = Depen
     access_token = create_access_token({
         "sub": str(user.id),
         "roles": ["user"],
-        "tz": TimeZoneUtils.get_user_timezone(user)
+        "tz": str(TimeZoneUtils.get_timezone(user)),
     })
 
     token_service = RefreshTokenService(db)

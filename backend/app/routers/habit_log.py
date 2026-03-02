@@ -22,8 +22,7 @@ async def create_habit_log(
 ):
     hatbit_log_service = HabitLogService(db)
 
-    return transactional(db, lambda: hatbit_log_service.create_log(
-        db=db,
+    return await transactional(db, lambda: hatbit_log_service.create_log(
         user_id=jwt_payload["sub"],
         habit_id=habit_id,
         timezone=jwt_payload["tz"],
