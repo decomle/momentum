@@ -1,3 +1,5 @@
+# NOT COMPLETED - FOR REFERENCE ONLY
+
 from datetime import timedelta, date
 from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession

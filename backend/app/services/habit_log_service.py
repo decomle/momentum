@@ -1,4 +1,4 @@
-# services/habit_service.py
+# services/habit_log_service.py - REFERENCE ONLY - NOT COMPLETED
 
 from datetime import timedelta, date
 from uuid import UUID
