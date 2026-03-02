@@ -1,5 +1,4 @@
 from fastapi import APIRouter, Depends, Request, Response
-from sqlalchemy.orm import Session
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import HTTPException, status
 
@@ -7,18 +6,19 @@ from app.db.database import get_db
 from app.db.models import User
 from app.schemas.user import UserCreate, UserResponse
 from app.schemas.auth import LoginRequest, TokenResponse
-from app.services.auth_service import login_user, logout_user, register_user
-from app.services.refresh_token_service import create_refresh_token
+from app.services.auth_service import AuthService
+from app.services.refresh_token_service import RefreshTokenService
 from app.core.security import create_access_token
 from app.dependencies.auth import get_current_user, verify_access_token
-from app.services.auth_service import refresh_access_token
-
+from app.db.transaction import transactional
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
 @router.post("/login", response_model=TokenResponse)
-async def login(data: LoginRequest, response: Response, db: Session = Depends(get_db)):
-    user = await login_user(db, data.email, data.password)
+async def login(data: LoginRequest, response: Response, db: AsyncSession = Depends(get_db)):
+    auth_service = AuthService(db)
+    # user = await service.login_user(data.email, data.password)
+    user = await transactional(db, lambda: auth_service.login_user(data.email, data.password))
 
     # We will need roles and permissions later, for now we just put "user" role
     access_token = create_access_token({
@@ -26,7 +26,8 @@ async def login(data: LoginRequest, response: Response, db: Session = Depends(ge
         "roles": ["user"]
     })
 
-    refresh_token = await create_refresh_token(db, user.id)
+    token_service = RefreshTokenService(db)
+    refresh_token = await transactional(db, lambda: token_service.create_refresh_token(user.id))
 
     response.set_cookie(
         key="refresh_token",
@@ -42,7 +43,8 @@ async def login(data: LoginRequest, response: Response, db: Session = Depends(ge
 
 @router.post("/register", response_model=UserResponse)
 async def register(user_data: UserCreate, db: AsyncSession = Depends(get_db)):
-    return await register_user(db, user_data.email, user_data.password)
+    auth_service = AuthService(db)
+    return await transactional(db, lambda: auth_service.register_user(user_data.email, user_data.password))
 
 @router.post("/refresh", response_model=TokenResponse)
 async def refresh(request: Request, response: Response, db: AsyncSession = Depends(get_db)):
@@ -51,7 +53,8 @@ async def refresh(request: Request, response: Response, db: AsyncSession = Depen
     if not refresh_token:
         raise HTTPException(status_code=401, detail="Missing refresh token")
 
-    access_token, new_refresh_token = await refresh_access_token(db, refresh_token)
+    auth_service = AuthService(db)
+    access_token, new_refresh_token = await transactional(db, lambda: auth_service.refresh_access_token(refresh_token))
 
     # Set new refresh token cookie
     response.set_cookie(
@@ -70,7 +73,8 @@ async def logout(request: Request, response: Response, db: AsyncSession = Depend
     refresh_token = request.cookies.get("refresh_token")
 
     if refresh_token:
-        await logout_user(db, refresh_token)
+        auth_service = AuthService(db)
+        await transactional(db, lambda: auth_service.logout_user(refresh_token))
 
     # Clear the cookie
     response.delete_cookie("refresh_token")

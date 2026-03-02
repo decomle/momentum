@@ -5,6 +5,7 @@ from sqlalchemy import (
     DateTime,
     ForeignKey,
     Integer,
+    String,
     UniqueConstraint,
     Index
 )
@@ -41,6 +42,8 @@ class HabitLog(Base):
         nullable=False,
         default=1
     )
+
+    remark: Mapped[str | None] = mapped_column(String(255), nullable=True)
 
     created_at: Mapped[DateTime] = mapped_column(
         DateTime(timezone=True),
