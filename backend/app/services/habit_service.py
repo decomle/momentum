@@ -6,8 +6,10 @@ from app.schemas.habit import CreateHabitRequest
 
 
 class HabitService:
-    @staticmethod
-    async def create_habit(db: AsyncSession, user_id, payload: CreateHabitRequest):
+    def __init__(self, db: AsyncSession) -> None:
+        self.db = db
+
+    async def create_habit(self, user_id, payload: CreateHabitRequest):
         habit = Habit(
             user_id=user_id,
             name=payload.name,
@@ -16,9 +18,8 @@ class HabitService:
             is_active=True,
         )
 
-        db.add(habit)
-        await db.commit()
-        await db.refresh(habit)
+        self.db.add(habit)
+        await self.db.flush()
 
         return habit
         

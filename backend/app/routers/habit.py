@@ -5,6 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.schemas.habit import CreateHabitRequest, HabitResponse
 from app.services.habit_service import HabitService
 from app.db.database import get_db
+from app.db.transaction import transactional
 from app.dependencies.auth import verify_access_token
 
 router = APIRouter(prefix="/habits", tags=["habits"])
@@ -15,8 +16,8 @@ async def create_habit(
     db: AsyncSession = Depends(get_db),
     jwt_payload = Depends(verify_access_token),
 ):
-    return await HabitService.create_habit(
-        db=db,
+    habit_service = HabitService(db)
+    return await transactional(db, lambda: habit_service.create_habit(
         user_id=jwt_payload["sub"],
         payload=payload,
-    )
+    ))
