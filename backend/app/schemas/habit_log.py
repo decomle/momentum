@@ -3,6 +3,8 @@ from datetime import date, datetime
 from pydantic import BaseModel, Field, field_validator
 from pydantic_core import PydanticCustomError
 
+from app.schemas.pagination import PaginationMeta
+
 
 class HabitLogCreate(BaseModel):
     log_date: date
@@ -47,3 +49,7 @@ class HabitLogResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+class HabitLogListResponse(BaseModel):
+    items: list[HabitLogResponse]
+    meta: PaginationMeta
