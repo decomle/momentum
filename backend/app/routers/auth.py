@@ -11,6 +11,7 @@ from app.services.refresh_token_service import RefreshTokenService
 from app.core.security import create_access_token
 from app.dependencies.auth import get_current_user, verify_access_token
 from app.db.transaction import transactional
+from app.utils.timezone import TimeZoneUtils
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -23,7 +24,8 @@ async def login(data: LoginRequest, response: Response, db: AsyncSession = Depen
     # We will need roles and permissions later, for now we just put "user" role
     access_token = create_access_token({
         "sub": str(user.id),
-        "roles": ["user"]
+        "roles": ["user"],
+        "tz": TimeZoneUtils.get_user_timezone(user)
     })
 
     token_service = RefreshTokenService(db)

@@ -7,11 +7,9 @@ from sqlalchemy import func, select
 from app.db.models import Habit
 from app.schemas.habit import CreateHabitRequest
 from app.exceptions.types.commons import NotFoundError
+from app.services.base_service import BaseService
 
-
-class HabitService:
-    def __init__(self, db: AsyncSession) -> None:
-        self.db = db
+class HabitService(BaseService):
 
     async def create_habit(self, user_id, payload: CreateHabitRequest):
         habit = Habit(

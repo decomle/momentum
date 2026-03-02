@@ -8,13 +8,13 @@ DEFAULT_TZ = "Asia/Ho_Chi_Minh"
 
 class TimeZoneUtils:
     @staticmethod
-    def get_user_timezone(user) -> ZoneInfo:
-        if hasattr(user, "timezone") and user.timezone:
-            return ZoneInfo(user.timezone)
+    def get_timezone(tz_object) -> ZoneInfo:
+        if tz_object is not None and hasattr(tz_object, "timezone") and tz_object.timezone:
+            return ZoneInfo(tz_object.timezone)
 
         return ZoneInfo(DEFAULT_TZ)
 
     @staticmethod
     def get_today_for_user(user) -> date:
-        tz = TimeZoneUtils.get_user_timezone(user)
+        tz = TimeZoneUtils.get_timezone(user)
         return datetime.now(tz).date()

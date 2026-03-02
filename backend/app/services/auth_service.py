@@ -1,17 +1,15 @@
 from datetime import datetime, timezone
-from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, delete
 
+from app.services.base_service import BaseService
 from app.core.security import hash_password, verify_password
 from app.db.models import User, RefreshToken
 from app.services.refresh_token_service import RefreshTokenService
 from app.core.security import create_access_token
 from app.exceptions.types import InvalidCredentialsError
+from app.utils.timezone import TimeZoneUtils
 
-
-class AuthService:
-    def __init__(self, db: AsyncSession) -> None:
-        self.db = db
+class AuthService(BaseService):
 
     async def authenticate_user(self, email: str, password: str) -> User:
         result = await self.db.execute(select(User).filter(User.email == email))
@@ -74,9 +72,12 @@ class AuthService:
 
         token_service = RefreshTokenService(self.db)
         new_refresh_token = await token_service.create_refresh_token(user_id)
+
+        # Might need to add timezone to RefreshToken model in the future
         new_access_token = create_access_token({
             "sub": str(user_id),
             "roles": ["user"],
+            "tz": TimeZoneUtils.get_timezone(token) 
         })
 
         return new_access_token, new_refresh_token
