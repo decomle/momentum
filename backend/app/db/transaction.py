@@ -14,4 +14,4 @@ async def transactional(db: AsyncSession, operation: Callable[[], Awaitable[T]])
     except Exception as e:
         await db.rollback()
         logger.error("Error during transaction: %s", e)
-        raise AppException("An error occurred during the transaction.")
+        raise AppException(f"An error occurred during the transaction: {str(e)}")

@@ -1,8 +1,7 @@
+from typing import Optional
 import uuid
 
-from pydantic import BaseModel, model_validator
-from enum import Enum
-
+from pydantic import BaseModel, field_validator, model_validator
 from pydantic_core import PydanticCustomError
 from app.enums import HabitFrequency
 
@@ -23,6 +22,26 @@ class CreateHabitRequest(BaseModel):
                 raise PydanticCustomError("validations.WEEKLY_HABIT_TARGET", "Weekly habit target must be between 1 and 7")
 
         return self
+    
+class HabitUpdateRequest(BaseModel):
+    name: Optional[str] = None
+    description: Optional[str] = None
+
+    @field_validator("name")
+    @classmethod
+    def validate_name(cls, value: Optional[str]) -> Optional[str]:
+        if value is None:
+            return value
+
+        value = value.strip()
+
+        if len(value) > 120:
+            raise PydanticCustomError(
+                "validations.HABIT_NAME_LENGTH",
+                "Habit name must not exceed 120 characters.",
+            )
+
+        return value
 
 
 class HabitResponse(BaseModel):
