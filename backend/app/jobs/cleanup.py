@@ -9,9 +9,9 @@ async def cleanup_job():
     logger.info("Cleanup job started")
 
     try:
-        db = async_session_maker()
-        auth_service = AuthService(db)
-        deleted = await transactional(db, lambda: auth_service.cleanup_expired_refresh_tokens())
+        async with async_session_maker() as db:
+            auth_service = AuthService(db)
+            deleted = await transactional(db, lambda: auth_service.cleanup_expired_refresh_tokens())
 
         logger.info(f"Cleanup job finished. Deleted {deleted} expired tokens.")
     except Exception as e:

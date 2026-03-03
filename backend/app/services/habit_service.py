@@ -4,6 +4,7 @@ from typing import Optional
 import uuid
 
 from sqlalchemy import func, select, tuple_
+from sqlalchemy.orm import selectinload
 from app.db.models import Habit
 from app.schemas.habit import CreateHabitRequest
 from app.exceptions.types.commons import NotFoundError
@@ -103,19 +104,18 @@ class HabitService(BaseService):
     async def get_active_habits(
         self, 
         no_of_record = 10, 
-        offset = 0, 
         last_created_at: Optional[datetime] = None,
         last_id: Optional[uuid.UUID] = None
     ) -> list[Habit]:
         stmt = (
             select(Habit)
+            .options(selectinload(Habit.user))
             .where(
-                Habit.is_active == True, 
+                Habit.is_active.is_(True), 
                 Habit.deleted_at.is_(None),
             )
             .order_by(Habit.created_at.asc(), Habit.id.asc())
             .limit(no_of_record)
-            .offset(offset)
         )
         if last_created_at is not None and last_id is not None:
             stmt = stmt.where(

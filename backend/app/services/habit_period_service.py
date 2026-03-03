@@ -14,7 +14,7 @@ class HabitPeriodService(BaseService):
         self,
         habit: Habit,
         timezone: ZoneInfo
-    ) -> None:
+    ) -> bool:
         """
         Ensure all CLOSED periods from habit creation until yesterday exist.
         Idempotent and self-healing.
@@ -23,6 +23,7 @@ class HabitPeriodService(BaseService):
         # Compute user today in their timezone
         today: date = datetime.now(timezone).date()
         yesterday = today - timedelta(days=1)
+        has_success_period = False
 
         # Determine last closed period bounds
         last_closed_start, last_closed_end = HabitPeriodBoundHelper.get_period_bounds(yesterday, habit.frequency)
@@ -90,6 +91,8 @@ class HabitPeriodService(BaseService):
             )
 
             is_successful = actual_logs >= required_for_success
+            if is_successful == True:
+                has_success_period = True
 
             period = HabitPeriod(
                 habit_id=habit.id,
@@ -112,6 +115,7 @@ class HabitPeriodService(BaseService):
                     habit.frequency
                 )
             )
+        return has_success_period
 
 
     async def upsert_for_log(self, habit: Habit, user_id: uuid.UUID, log_date: date) -> HabitPeriod:
