@@ -1,9 +1,9 @@
 from datetime import datetime, timezone
 from math import ceil
+from typing import Optional
 import uuid
 
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import func, select
+from sqlalchemy import func, select, tuple_
 from app.db.models import Habit
 from app.schemas.habit import CreateHabitRequest
 from app.exceptions.types.commons import NotFoundError
@@ -99,3 +99,29 @@ class HabitService(BaseService):
         habit.deleted_at = datetime.now(timezone.utc)
 
         await self.db.flush()
+
+    async def get_active_habits(
+        self, 
+        no_of_record = 10, 
+        offset = 0, 
+        last_created_at: Optional[datetime] = None,
+        last_id: Optional[uuid.UUID] = None
+    ) -> list[Habit]:
+        stmt = (
+            select(Habit)
+            .where(
+                Habit.is_active == True, 
+                Habit.deleted_at.is_(None),
+            )
+            .order_by(Habit.created_at.asc(), Habit.id.asc())
+            .limit(no_of_record)
+            .offset(offset)
+        )
+        if last_created_at is not None and last_id is not None:
+            stmt = stmt.where(
+                tuple_(Habit.created_at, Habit.id) > (last_created_at, last_id)
+            )
+
+
+        result = await self.db.execute(stmt)
+        return result.scalars().all()
