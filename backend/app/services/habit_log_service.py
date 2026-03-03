@@ -5,17 +5,25 @@ from datetime import date, datetime, timedelta
 from zoneinfo import ZoneInfo
 from sqlalchemy import desc, func, select
 
-from app.services.base_service import BaseService
+from app.db.models.habit_period import HabitPeriod
+from app.enums.habit_frequency import HabitFrequency
+from app.helpers import HabitPeriodBoundHelper
+from app.services import BaseService
 from app.db.models import Habit
 from app.db.models import HabitLog
 from app.exceptions.types import NotFoundError, LoggingWindowExpiredError
 from app.schemas.habit_log import HabitLogCreate
+from app.services.habit_period_service import HabitPeriodService
 
 
 class HabitLogService(BaseService):
+    def __init__(self, db):
+        super().__init__(db)
+        self.habit_period_service = HabitPeriodService(db)
     
     async def create_log(self, user_id, habit_id, timezone, payload: HabitLogCreate):
         user_today = datetime.now(ZoneInfo(timezone)).date()
+
         allowed_dates = {
             user_today,
             user_today - timedelta(days=1),
@@ -24,14 +32,8 @@ class HabitLogService(BaseService):
 
         if payload.log_date not in allowed_dates:
             raise LoggingWindowExpiredError("You can only log for today and the past 2 days")
-
-        result = await self.db.execute(
-            select(Habit).where(
-                Habit.id == habit_id,
-                Habit.user_id == user_id
-            )
-        )
-        habit = result.scalar_one_or_none()
+        
+        habit = await self._get_habit(user_id, habit_id)
 
         if not habit:
             raise NotFoundError("Habit not found")
@@ -47,8 +49,10 @@ class HabitLogService(BaseService):
         self.db.add(log)
         await self.db.flush()
 
+        await self.habit_period_service.upsert_for_log(habit, user_id, payload.log_date)
+
         return log
-    
+
     async def get_logs(
         self,
         user_id: uuid.UUID,
@@ -97,3 +101,12 @@ class HabitLogService(BaseService):
                 "total_pages": total_pages,
             }
         }
+
+    async def _get_habit(self, user_id, habit_id) -> Habit | None:
+        result = await self.db.execute(
+            select(Habit).where(
+                Habit.id == habit_id,
+                Habit.user_id == user_id,
+            )
+        )
+        return result.scalar_one_or_none()

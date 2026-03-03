@@ -1,0 +1,1 @@
+SUCCESS_RATIO = 0.85

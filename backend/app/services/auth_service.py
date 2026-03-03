@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 from sqlalchemy import select, delete
 
-from app.services.base_service import BaseService
+from app.services import BaseService
 from app.core.security import hash_password, verify_password
 from app.db.models import User, RefreshToken
 from app.services.refresh_token_service import RefreshTokenService

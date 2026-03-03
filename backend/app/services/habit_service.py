@@ -7,7 +7,7 @@ from sqlalchemy import func, select
 from app.db.models import Habit
 from app.schemas.habit import CreateHabitRequest
 from app.exceptions.types.commons import NotFoundError
-from app.services.base_service import BaseService
+from app.services import BaseService
 
 class HabitService(BaseService):
 

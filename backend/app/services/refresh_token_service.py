@@ -3,7 +3,7 @@ import hashlib
 from datetime import datetime, timedelta, timezone
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.services.base_service import BaseService
+from app.services import BaseService
 from app.db.models import RefreshToken
 
 REFRESH_TOKEN_EXPIRE_DAYS = 7
