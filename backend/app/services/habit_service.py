@@ -15,6 +15,7 @@ class HabitService(BaseService):
         habit = Habit(
             user_id=user_id,
             name=payload.name,
+            description=payload.description,
             frequency=payload.frequency,
             target_per_period=payload.target_per_period,
             is_active=True,

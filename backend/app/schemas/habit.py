@@ -12,6 +12,22 @@ class CreateHabitRequest(BaseModel):
     description: str | None = None
     target_per_period: int
 
+    @field_validator("name")
+    @classmethod
+    def validate_name(cls, value: Optional[str]) -> Optional[str]:
+        if value is None:
+            return value
+
+        value = value.strip()
+
+        if len(value) > 120:
+            raise PydanticCustomError(
+                "validations.HABIT_NAME_LENGTH",
+                "Habit name must not exceed 120 characters.",
+            )
+
+        return value
+
     @model_validator(mode="after")
     def validate_target(self):
         if self.frequency == HabitFrequency.DAILY:
