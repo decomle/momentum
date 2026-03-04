@@ -1,11 +1,13 @@
-import uuid
+import uuid, re
 
-from pydantic import BaseModel, field_validator
-from app.core.types.email import LocalizedEmail
-from pydantic_core import PydanticCustomError
-from app.core.translator import t
 from datetime import datetime
-import re
+from typing import Optional
+from pydantic import BaseModel, field_validator
+from pydantic_core import PydanticCustomError
+
+from app.core.translator import t
+from app.core.types.email import LocalizedEmail
+
 
 class UserCreateRequest(BaseModel):
     email: LocalizedEmail
@@ -13,8 +15,8 @@ class UserCreateRequest(BaseModel):
     username: str
     first_name: str
     last_name: str
-    phone_number: str | None = None
-    self_introduction: str | None = None
+    phone_number: Optional[str] = None
+    self_introduction: Optional[str] = None
 
     @field_validator("password")
     @classmethod
@@ -37,3 +39,17 @@ class UserResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+class UserUpdateRequest(BaseModel):
+    username: Optional[str] = None
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    phone_number: Optional[str] = None
+    self_introduction: Optional[str] = None
+
+class UserDetailResponse(UserResponse):
+    username: Optional[str]
+    first_name: Optional[str]
+    last_name: Optional[str]
+    self_introduction: Optional[str]
+    phone_number: Optional[str]

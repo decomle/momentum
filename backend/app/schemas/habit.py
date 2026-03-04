@@ -8,12 +8,11 @@ from app.enums import HabitFrequency
 from app.schemas.habit_log import HabitLog
 from app.schemas.habit_period import HabitPeriod
 from app.schemas.pagination import PaginationMeta
-from app.core.translator import t
 
 class CreateHabitRequest(BaseModel):
     name: str
     frequency: HabitFrequency
-    description: str | None = None
+    description: Optional[str] = None
     target_per_period: int
 
     @field_validator("name")
@@ -68,16 +67,16 @@ class HabitUpdateRequest(BaseModel):
 class HabitResponse(BaseModel):
     id: uuid.UUID
     name: str
-    description: str | None
+    description: Optional[str]
     frequency: HabitFrequency
     target_per_period: int
     is_active: bool
-    current_streak: int | None
-    longest_streak: int | None
+    current_streak: Optional[int]
+    longest_streak: Optional[int]
 
 class HabitDetailResponse(HabitResponse):
-    mood_message: str | None = None
-    cheer_message: str | None = None
+    mood_message: Optional[str] = None
+    cheer_message: Optional[str] = None
 
     recent_logs: list[HabitLog] | None = None
     recent_periods: list[HabitPeriod] | None = None
