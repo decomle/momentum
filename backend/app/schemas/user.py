@@ -4,6 +4,7 @@ from datetime import datetime
 from pydantic import BaseModel, field_validator
 from pydantic_core import PydanticCustomError
 
+from app.db.models import User
 from app.core.translator import t
 from app.core.types.email import LocalizedEmail
 
@@ -47,8 +48,30 @@ class UserUpdateRequest(BaseModel):
     self_introduction: str | None = None
 
 class UserDetailResponse(UserResponse):
+    username: str | None = None
+    first_name: str | None = None
+    last_name: str | None = None
+    phone_number: str | None = None
+    self_introduction: str | None = None
+
+    @classmethod
+    def from_user(cls, user:User):
+        profile = user.profile
+
+        return cls(
+            id=user.id,
+            email=user.email,
+            created_at=user.created_at,
+            username=profile.username if profile else None,
+            first_name=profile.first_name if profile else None,
+            last_name=profile.last_name if profile else None,
+            phone_number=profile.phone_number if profile else None,
+            self_introduction=profile.self_introduction if profile else None,
+        )
+
+class UpdateProfileResponse(BaseModel):
     username: str | None
     first_name: str | None
     last_name: str | None
-    self_introduction: str | None
     phone_number: str | None
+    self_introduction: str | None
