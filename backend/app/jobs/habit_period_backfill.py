@@ -48,7 +48,7 @@ async def period_backfill_job():
 
                     await transactional(db, back_fill_and_update)
                 except Exception as e:
-                    logger.error(f"Error backfilling habit {habit.id}: {e}")
+                    logger.error(f"Error backfilling habit: {e}")
             
             last_habit = habits[-1]
             last_created_at = last_habit.created_at

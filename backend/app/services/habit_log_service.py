@@ -21,7 +21,9 @@ class HabitLogService(BaseService):
         self.habit_streak_service = HabitStreakService(db)
     
     async def create_log(self, user_id, habit_id, timezone, payload: HabitLogCreate):
-        user_today = datetime.now(ZoneInfo(timezone)).date()
+
+        tz = ZoneInfo(timezone)
+        user_today = datetime.now(tz).date()
 
         allowed_dates = {
             user_today,
@@ -49,7 +51,7 @@ class HabitLogService(BaseService):
         await self.db.flush()
 
         await self.habit_period_service.upsert_for_log(habit, user_id, payload.log_date)
-        current_streak, longest_streak = await self.habit_streak_service.evaluate(habit.id, timezone)
+        current_streak, longest_streak = await self.habit_streak_service.evaluate(habit.id, tz)
         habit.current_streak = current_streak
         habit.longest_streak = longest_streak
 

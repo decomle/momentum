@@ -6,3 +6,4 @@ backend.bk.zip
 backend/.venv/
 
 **/__pycache__/
+backend/test.log

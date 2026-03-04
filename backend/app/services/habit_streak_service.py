@@ -12,8 +12,8 @@ from app.services import BaseService
 
 class HabitStreakService(BaseService):
 
-    async def evaluate(self, habit_id: UUID, timezone: str) -> tuple[int, int]:
-        user_today = datetime.now(ZoneInfo(timezone)).date()
+    async def evaluate(self, habit_id: UUID, timezone: ZoneInfo) -> tuple[int, int]:
+        user_today = datetime.now(timezone).date()
         stmt = (
             select(HabitPeriod)
             .where(
@@ -25,7 +25,6 @@ class HabitStreakService(BaseService):
 
         result = await self.db.execute(stmt)
         periods: List[HabitPeriod] = result.scalars().all()
-
         if not periods:
             return 0, 0
 
