@@ -1,8 +1,7 @@
 import uuid
 
-from sqlalchemy import String, Boolean, DateTime
+from sqlalchemy import String, Boolean, DateTime, Index, func
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.sql import func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.database import Base
@@ -19,7 +18,6 @@ class User(Base):
 
     email: Mapped[str] = mapped_column(
         String(255),
-        unique=True,
         nullable=False,
         index=True
     )
@@ -41,7 +39,12 @@ class User(Base):
         nullable=False
     )
 
-    
+    timezone: Mapped[str] = mapped_column(
+        String(50),
+        nullable=False,
+        default="UTC"
+    )
+
     # Relationships
     refresh_tokens = relationship(
         "RefreshToken",
@@ -53,4 +56,19 @@ class User(Base):
         "Habit",
         back_populates="user",
         cascade="all, delete-orphan"
+    )
+
+    profile = relationship(
+        "UserProfile",
+        back_populates="user",
+        uselist=False,
+        cascade="all, delete-orphan"
+    )
+
+    __table_args__ = (
+        Index(
+            "ix_users_email_lower",
+            func.lower(email),
+            unique=True
+        ),
     )

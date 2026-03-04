@@ -7,9 +7,14 @@ from app.core.translator import t
 from datetime import datetime
 import re
 
-class UserCreate(BaseModel):
+class UserCreateRequest(BaseModel):
     email: LocalizedEmail
     password: str
+    username: str
+    first_name: str
+    last_name: str
+    phone_numer: str | None = None
+    self_introduction: str | None = None
 
     @field_validator("password")
     @classmethod

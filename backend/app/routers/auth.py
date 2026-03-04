@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, Request, Response
 from sqlalchemy.ext.asyncio import AsyncSession
-from fastapi import HTTPException, status
+from fastapi import HTTPException
 
 from app.db.database import get_db
 from app.db.models import User
-from app.schemas.user import UserCreate, UserResponse
+from app.schemas.user import UserCreateRequest, UserResponse
 from app.schemas.auth import LoginRequest, TokenResponse
 from app.services.auth_service import AuthService
 from app.services.refresh_token_service import RefreshTokenService
@@ -44,9 +44,10 @@ async def login(data: LoginRequest, response: Response, db: AsyncSession = Depen
     return { "access_token": access_token }
 
 @router.post("/register", response_model=UserResponse)
-async def register(user_data: UserCreate, db: AsyncSession = Depends(get_db)):
+async def register(user_data: UserCreateRequest, db: AsyncSession = Depends(get_db)):
     auth_service = AuthService(db)
-    return await transactional(db, lambda: auth_service.register_user(user_data.email, user_data.password))
+    user, _ = await transactional(db, lambda: auth_service.register_user(user_data))
+    return user
 
 @router.post("/refresh", response_model=TokenResponse)
 async def refresh(request: Request, response: Response, db: AsyncSession = Depends(get_db)):

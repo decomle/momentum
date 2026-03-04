@@ -1,13 +1,14 @@
 from datetime import datetime, timezone
-from sqlalchemy import select, delete
+from sqlalchemy import select, delete, func, exists
 
 from app.services import BaseService
 from app.core.security import hash_password, verify_password
-from app.db.models import User, RefreshToken
+from app.db.models import User, UserProfile, RefreshToken
 from app.services.refresh_token_service import RefreshTokenService
 from app.core.security import create_access_token
 from app.exceptions.types import InvalidCredentialsError
 from app.utils.timezone import TimeZoneUtils
+from app.schemas.user import UserCreateRequest
 
 class AuthService(BaseService):
 
@@ -25,21 +26,48 @@ class AuthService(BaseService):
         return result.scalar_one_or_none()
 
     async def is_email_registered(self, email: str) -> bool:
-        user = await self.get_user_by_email(email)
-        return user is not None
+        stmt = select(
+            exists().where(
+                func.lower(User.email) == email.lower()
+            )
+        )
 
-    async def register_user(self, email: str, password: str) -> User:
-        if await self.is_email_registered(email):
+        result = await self.db.execute(stmt)
+        return result.scalar()
+    
+    async def is_username_registered(self, username: str) -> bool:
+        stmt = select(
+            exists().where(
+                func.lower(UserProfile.username) == username.lower()
+            )
+        )
+
+        result = await self.db.execute(stmt)
+        return result.scalar()
+
+    async def register_user(self, user_data: UserCreateRequest) -> User:
+        if await self.is_email_registered(user_data.email):
             raise InvalidCredentialsError("Email is already registered")
+        
+        if await self.is_username_registered(user_data.username):
+            raise InvalidCredentialsError("Username is already registered")
 
         new_user = User(
-            email=email,
-            password_hash=hash_password(password)
+            email=user_data.email,
+            password_hash=hash_password(user_data.password)
         )
         self.db.add(new_user)
         await self.db.flush()
+        new_profile = UserProfile(
+            user_id=new_user.id,
+            first_name=user_data.first_name,
+            last_name=user_data.last_name,
+            self_introduction=user_data.self_introduction,
+            phone_number = user_data.phone_numer
+        )
+        self.db.add(new_profile)
 
-        return new_user
+        return new_user, new_profile
 
     async def login_user(self, email: str, password: str) -> User:
         # alias for authenticate_user, kept for clarity
