@@ -1,7 +1,6 @@
 import uuid, re
 
 from datetime import datetime
-from typing import Optional
 from pydantic import BaseModel, field_validator
 from pydantic_core import PydanticCustomError
 
@@ -15,8 +14,8 @@ class UserCreateRequest(BaseModel):
     username: str
     first_name: str
     last_name: str
-    phone_number: Optional[str] = None
-    self_introduction: Optional[str] = None
+    phone_number: str | None = None
+    self_introduction: str | None = None
 
     @field_validator("password")
     @classmethod
@@ -41,15 +40,15 @@ class UserResponse(BaseModel):
         from_attributes = True
 
 class UserUpdateRequest(BaseModel):
-    username: Optional[str] = None
-    first_name: Optional[str] = None
-    last_name: Optional[str] = None
-    phone_number: Optional[str] = None
-    self_introduction: Optional[str] = None
+    username: str | None = None
+    first_name: str | None = None
+    last_name: str | None = None
+    phone_number: str | None = None
+    self_introduction: str | None = None
 
 class UserDetailResponse(UserResponse):
-    username: Optional[str]
-    first_name: Optional[str]
-    last_name: Optional[str]
-    self_introduction: Optional[str]
-    phone_number: Optional[str]
+    username: str | None
+    first_name: str | None
+    last_name: str | None
+    self_introduction: str | None
+    phone_number: str | None

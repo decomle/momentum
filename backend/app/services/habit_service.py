@@ -1,7 +1,6 @@
 from datetime import datetime, timezone
 from math import ceil
-from typing import Optional
-import uuid
+from uuid import UUID
 
 from sqlalchemy import func, select, tuple_
 from sqlalchemy.orm import selectinload
@@ -110,8 +109,8 @@ class HabitService(BaseService):
     async def get_active_habits(
         self, 
         no_of_record = 10, 
-        last_created_at: Optional[datetime] = None,
-        last_id: Optional[uuid.UUID] = None
+        last_created_at: datetime | None = None,
+        last_id: UUID | None = None
     ) -> list[Habit]:
         stmt = (
             select(Habit)

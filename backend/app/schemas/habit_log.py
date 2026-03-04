@@ -1,6 +1,5 @@
 import uuid
 
-from typing import Optional
 from datetime import date, datetime
 from pydantic import BaseModel, Field, field_validator
 from pydantic_core import PydanticCustomError
@@ -15,7 +14,7 @@ class HabitLog(BaseModel):
 class HabitLogCreate(BaseModel):
     log_date: date
     mood_score: int = 0
-    remark: Optional[str] = None
+    remark: str | None = None
 
     @field_validator("mood_score")
     @classmethod
@@ -29,7 +28,7 @@ class HabitLogCreate(BaseModel):
     
     @field_validator("remark")
     @classmethod
-    def validate_remark(cls, value: Optional[str]) -> Optional[str]:
+    def validate_remark(cls, value: str | None) -> str | None:
         if value is None:
             return value
 
@@ -50,7 +49,7 @@ class HabitLogResponse(BaseModel):
     user_id: uuid.UUID
     log_date: date
     mood_score: int
-    remark: Optional[str]
+    remark: str | None
     created_at: datetime
 
     class Config:

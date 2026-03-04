@@ -2,7 +2,6 @@ import uuid
 
 from pydantic import BaseModel, field_validator, model_validator
 from pydantic_core import PydanticCustomError
-from typing import Optional
 
 from app.enums import HabitFrequency
 from app.schemas.habit_log import HabitLog
@@ -12,12 +11,12 @@ from app.schemas.pagination import PaginationMeta
 class CreateHabitRequest(BaseModel):
     name: str
     frequency: HabitFrequency
-    description: Optional[str] = None
+    description: str | None = None
     target_per_period: int
 
     @field_validator("name")
     @classmethod
-    def validate_name(cls, value: Optional[str]) -> Optional[str]:
+    def validate_name(cls, value: str | None) -> str | None:
         if value is None:
             return value
 
@@ -44,12 +43,12 @@ class CreateHabitRequest(BaseModel):
         return self
     
 class HabitUpdateRequest(BaseModel):
-    name: Optional[str] = None
-    description: Optional[str] = None
+    name: str | None = None
+    description: str | None = None
 
     @field_validator("name")
     @classmethod
-    def validate_name(cls, value: Optional[str]) -> Optional[str]:
+    def validate_name(cls, value: str | None) -> str | None:
         if value is None:
             return value
 
@@ -67,16 +66,16 @@ class HabitUpdateRequest(BaseModel):
 class HabitResponse(BaseModel):
     id: uuid.UUID
     name: str
-    description: Optional[str]
+    description: str | None
     frequency: HabitFrequency
     target_per_period: int
     is_active: bool
-    current_streak: Optional[int]
-    longest_streak: Optional[int]
+    current_streak: int | None
+    longest_streak: int | None
 
 class HabitDetailResponse(HabitResponse):
-    mood_message: Optional[str] = None
-    cheer_message: Optional[str] = None
+    mood_message: str | None = None
+    cheer_message: str | None = None
 
     recent_logs: list[HabitLog] | None = None
     recent_periods: list[HabitPeriod] | None = None
