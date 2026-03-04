@@ -26,7 +26,7 @@ class HabitService(BaseService):
 
         return habit
     
-    async def get_user_habits(self, user_id: uuid.UUID, page: int, size: int) -> list[Habit]:
+    async def get_user_habits(self, user_id: UUID, page: int, size: int) -> list[Habit]:
         offset = (page - 1) * size
         data_stmt = (
             select(Habit)
@@ -68,11 +68,9 @@ class HabitService(BaseService):
     
     async def get_habit(
             self, 
-            habit_id: uuid.UUID, 
-            user_id: uuid.UUID, 
-            recent_periods=False, 
-            recent_logs=False,
-            current_period=False) -> Habit:
+            habit_id: UUID, 
+            user_id: UUID, 
+    ) -> Habit:
         
         query = select(Habit).where(
             Habit.id == habit_id,
@@ -87,7 +85,7 @@ class HabitService(BaseService):
 
         return habit
     
-    async def update_habit(self, habit_id: uuid.UUID, user_id: uuid.UUID, update_data: dict) -> Habit:
+    async def update_habit(self, habit_id: UUID, user_id: UUID, update_data: dict) -> Habit:
         habit = await self.get_habit(habit_id, user_id)
 
         # Dynamically update provided fields
@@ -98,7 +96,7 @@ class HabitService(BaseService):
 
         return habit
     
-    async def delete_habit(self, habit_id: uuid.UUID, user_id: uuid.UUID) -> None:
+    async def delete_habit(self, habit_id: UUID, user_id: UUID) -> None:
         habit = await self.get_habit(habit_id, user_id)
 
         # Soft delete

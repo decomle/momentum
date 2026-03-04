@@ -2,6 +2,7 @@ from datetime import datetime, timezone
 from sqlalchemy import select, delete, func, exists
 
 from app.services import BaseService
+from app.services.user_service import UserService
 from app.core.security import hash_password, verify_password
 from app.db.models import User, UserProfile, RefreshToken
 from app.services.refresh_token_service import RefreshTokenService
@@ -11,6 +12,9 @@ from app.utils.timezone import TimeZoneUtils
 from app.schemas.user import UserCreateRequest
 
 class AuthService(BaseService):
+    def __init__(self, db):
+        super().__init__(db)
+        self.user_service = UserService(db)
 
     async def authenticate_user(self, email: str, password: str) -> User:
         result = await self.db.execute(select(User).filter(User.email == email))
@@ -34,22 +38,12 @@ class AuthService(BaseService):
 
         result = await self.db.execute(stmt)
         return result.scalar()
-    
-    async def is_username_registered(self, username: str) -> bool:
-        stmt = select(
-            exists().where(
-                func.lower(UserProfile.username) == username.lower()
-            )
-        )
-
-        result = await self.db.execute(stmt)
-        return result.scalar()
 
     async def register_user(self, user_data: UserCreateRequest) -> User:
         if await self.is_email_registered(user_data.email):
             raise InvalidCredentialsError("Email is already registered")
         
-        if await self.is_username_registered(user_data.username):
+        if await self.user_service.is_username_registered(user_data.username):
             raise InvalidCredentialsError("Username is already registered")
 
         new_user = User(
