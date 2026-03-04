@@ -56,7 +56,7 @@ class Habit(Base):
 
     is_active: Mapped[bool] = mapped_column(default=True)
 
-    current_streak: Mapped[int] = mapped_column(Integer, nullable=False, default=0 )
+    current_streak: Mapped[int] = mapped_column(Integer, nullable=False, default=-1 )
     longest_streak: Mapped[int] = mapped_column(Integer, nullable=False, default=0 )
 
     consistency_window_days: Mapped[int] = mapped_column(

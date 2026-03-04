@@ -1,5 +1,5 @@
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-# trigger by interval (every 24 hours) 
+# trigger by interval (eg. every 24 hours) 
 # from apscheduler.triggers.interval import IntervalTrigger
 from apscheduler.triggers.cron import CronTrigger
 from zoneinfo import ZoneInfo

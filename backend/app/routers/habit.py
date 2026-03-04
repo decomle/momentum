@@ -2,10 +2,19 @@
 
 import uuid
 
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, Query, Request
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.schemas.habit import CreateHabitRequest, HabitListResponse, HabitResponse, HabitUpdateRequest
+
+from app.schemas.habit import (
+    CreateHabitRequest, 
+    HabitListResponse, 
+    HabitResponse, 
+    HabitDetailResponse, 
+    HabitUpdateRequest
+)
+from app.core.translator import t
 from app.services.habit_service import HabitService
+from app.services.habit_analytics_service import HabitAnalyticsService
 from app.db.database import get_db
 from app.db.transaction import transactional
 from app.dependencies.auth import verify_access_token
@@ -35,18 +44,26 @@ async def list_habits(
     user_id = jwt_payload["sub"]
     return await habit_service.get_user_habits(user_id, page=page, size=size)
 
-@router.get("/{habit_id}", response_model=HabitResponse)
+@router.get("/{habit_id}", response_model=HabitDetailResponse)
 async def get_habit(
     habit_id: uuid.UUID,
+    request: Request,
     jwt_payload: dict = Depends(verify_access_token),
     db: AsyncSession = Depends(get_db),
 ):
     user_id = jwt_payload["sub"]
-    service = HabitService(db)
+    habit_service = HabitService(db)
+    habit_analytic_service = HabitAnalyticsService(db)
 
-    habit = await service.get_habit(habit_id=habit_id,user_id=user_id)
+    habit = await habit_service.get_habit(habit_id=habit_id,user_id=user_id)
+    
+    res_model = HabitDetailResponse.model_validate(habit, from_attributes=True)
+    res_model = res_model.model_copy(update={
+        "mood_message": t(habit_analytic_service.generate_ai_message(habit.current_streak), request=request),
+        "cheer_message": habit_analytic_service.generate_cheerful_message()
+    })
 
-    return habit
+    return res_model
 
 @router.patch("/{habit_id}", response_model=HabitResponse)
 async def update_habit(

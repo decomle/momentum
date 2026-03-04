@@ -32,7 +32,6 @@ async def period_backfill_job():
                 break
 
             for habit in habits:
-                print("Working on", habit.name)
                 try:
                     user  = habit.user
                     if not user:

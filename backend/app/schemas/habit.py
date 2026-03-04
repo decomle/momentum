@@ -1,10 +1,12 @@
-from typing import Optional
 import uuid
 
 from pydantic import BaseModel, field_validator, model_validator
 from pydantic_core import PydanticCustomError
+from typing import Optional
+
 from app.enums import HabitFrequency
 from app.schemas.pagination import PaginationMeta
+from app.core.translator import t
 
 class CreateHabitRequest(BaseModel):
     name: str
@@ -68,6 +70,12 @@ class HabitResponse(BaseModel):
     frequency: HabitFrequency
     target_per_period: int
     is_active: bool
+    current_streak: int | None
+    longest_streak: int | None
+
+class HabitDetailResponse(HabitResponse):
+    mood_message: str | None = None
+    cheer_message: str | None = None
 
 class HabitListResponse(BaseModel):
     items: list[HabitResponse]

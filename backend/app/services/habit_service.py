@@ -55,7 +55,7 @@ class HabitService(BaseService):
         total_result = await self.db.execute(count_stmt)
         total = total_result.scalar_one()
 
-        total_pages = ceil(total / size) if total > 0 else 1
+        total_pages = ceil(total / size) if total > 0 else 0
 
         return {
             "items": habits,
