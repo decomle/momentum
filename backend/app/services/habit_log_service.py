@@ -12,6 +12,7 @@ from app.exceptions.types import NotFoundError, LoggingWindowExpiredError
 from app.schemas.habit_log import HabitLogCreate
 from app.services.habit_period_service import HabitPeriodService
 from app.services.habit_streak_service import HabitStreakService
+from app.core.constants import NO_OF_RECENT_LOGS
 
 
 class HabitLogService(BaseService):
@@ -56,6 +57,28 @@ class HabitLogService(BaseService):
         habit.longest_streak = longest_streak
 
         return log
+    
+    async def get_recent_logs(
+            self,
+            user_id: uuid.UUID,
+            habit_id: uuid.UUID,
+            timezone: ZoneInfo
+    ) -> list[HabitLog]:
+        today = datetime.now(timezone).date()
+        stmt = (
+            select(HabitLog)
+            .where(
+                HabitLog.user_id == user_id,
+                HabitLog.habit_id == habit_id,
+                HabitLog.log_date <= today
+            )
+            .order_by(HabitLog.log_date.desc())
+            .limit(NO_OF_RECENT_LOGS)
+        )
+        result = await self.db.execute(stmt)
+        habit_logs = result.scalars().all()
+
+        return habit_logs
 
     async def get_logs(
         self,

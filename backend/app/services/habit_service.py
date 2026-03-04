@@ -67,14 +67,20 @@ class HabitService(BaseService):
             },
         }
     
-    async def get_habit(self, habit_id: uuid.UUID, user_id: uuid.UUID) -> Habit:
-        result = await self.db.execute(
-            select(Habit).where(
-                Habit.id == habit_id,
-                Habit.user_id == user_id,
-                Habit.deleted_at.is_(None)
-            )
+    async def get_habit(
+            self, 
+            habit_id: uuid.UUID, 
+            user_id: uuid.UUID, 
+            recent_periods=False, 
+            recent_logs=False,
+            current_period=False) -> Habit:
+        
+        query = select(Habit).where(
+            Habit.id == habit_id,
+            Habit.user_id == user_id,
+            Habit.deleted_at.is_(None)
         )
+        result = await self.db.execute(query)
         habit = result.scalar_one_or_none()
 
         if not habit:

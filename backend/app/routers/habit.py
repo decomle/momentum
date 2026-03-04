@@ -14,7 +14,10 @@ from app.schemas.habit import (
 )
 from app.core.translator import t
 from app.services.habit_service import HabitService
+from app.services.habit_log_service import HabitLogService
+from app.services.habit_period_service import HabitPeriodService
 from app.services.habit_analytics_service import HabitAnalyticsService
+from app.utils.timezone import TimeZoneUtils
 from app.db.database import get_db
 from app.db.transaction import transactional
 from app.dependencies.auth import verify_access_token
@@ -52,13 +55,20 @@ async def get_habit(
     db: AsyncSession = Depends(get_db),
 ):
     user_id = jwt_payload["sub"]
+    timezone = TimeZoneUtils.get_timezone(jwt_payload)
     habit_service = HabitService(db)
+    habit_log_service = HabitLogService(db)
+    habit_period_service = HabitPeriodService(db)
     habit_analytic_service = HabitAnalyticsService(db)
 
     habit = await habit_service.get_habit(habit_id=habit_id,user_id=user_id)
     
     res_model = HabitDetailResponse.model_validate(habit, from_attributes=True)
+
     res_model = res_model.model_copy(update={
+        "recent_logs": await habit_log_service.get_recent_logs(user_id=user_id, habit_id=habit_id, timezone=timezone),
+        "recent_periods": await habit_period_service.get_recent_periods(user_id=user_id, habit_id=habit_id, timezone=timezone),
+        "current_period": await habit_period_service.get_current_period(user_id=user_id, habit_id=habit_id, timezone=timezone),
         "mood_message": t(habit_analytic_service.generate_ai_message(habit.current_streak), request=request),
         "cheer_message": habit_analytic_service.generate_cheerful_message()
     })

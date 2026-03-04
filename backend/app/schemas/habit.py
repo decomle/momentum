@@ -5,6 +5,8 @@ from pydantic_core import PydanticCustomError
 from typing import Optional
 
 from app.enums import HabitFrequency
+from app.schemas.habit_log import HabitLog
+from app.schemas.habit_period import HabitPeriod
 from app.schemas.pagination import PaginationMeta
 from app.core.translator import t
 
@@ -76,6 +78,13 @@ class HabitResponse(BaseModel):
 class HabitDetailResponse(HabitResponse):
     mood_message: str | None = None
     cheer_message: str | None = None
+
+    recent_logs: list[HabitLog] | None = None
+    recent_periods: list[HabitPeriod] | None = None
+    current_period: HabitPeriod | None = None
+
+    class Config:
+        from_attributes = True
 
 class HabitListResponse(BaseModel):
     items: list[HabitResponse]

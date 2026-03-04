@@ -7,9 +7,64 @@ from app.services import BaseService
 from app.helpers import HabitPeriodBoundHelper
 from app.db.models import Habit, HabitLog, HabitPeriod
 from app.helpers import StreakCalculatorHelper
-
+from app.core.constants import NO_OF_RECENT_PERIODS
 
 class HabitPeriodService(BaseService):
+
+    async def get_current_period(
+        self,
+        user_id: uuid.UUID,
+        habit_id: uuid.UUID,
+        timezone: ZoneInfo,
+    ) -> HabitPeriod | None:
+        today = datetime.now(timezone).date()
+        stmt = (
+            select(HabitPeriod)
+            .where(
+                HabitPeriod.user_id == user_id,
+                HabitPeriod.habit_id == habit_id,
+                HabitPeriod.start_date <= today,
+                HabitPeriod.end_date >= today,
+            )
+            .order_by(HabitPeriod.start_date.desc())
+            .limit(1)
+        )
+
+        result = await self.db.execute(stmt)
+        current_period = result.scalars().first()
+
+        if current_period:
+            return current_period
+
+        fallback_stmt = (
+            select(HabitPeriod)
+            .where(
+                HabitPeriod.user_id == user_id,
+                HabitPeriod.habit_id == habit_id,
+            )
+            .order_by(HabitPeriod.start_date.desc())
+            .limit(1)
+        )
+
+        fallback_result = await self.db.execute(fallback_stmt)
+        return fallback_result.scalars().first()
+
+    async def get_recent_periods(self, user_id:uuid.UUID, habit_id: uuid.UUID, timezone:ZoneInfo):
+        today = datetime.now(timezone).date()
+        stmt = (
+            select(HabitPeriod)
+            .where(
+                HabitPeriod.habit_id == habit_id, 
+                HabitPeriod.user_id == user_id,
+                HabitPeriod.end_date < today
+            )
+            .order_by(HabitPeriod.start_date.desc())
+            .limit(NO_OF_RECENT_PERIODS)
+        )
+        result = await self.db.execute(stmt)
+        periods = result.scalars().all()
+        return periods
+
     async def backfill_missing_periods(
         self,
         habit: Habit,
@@ -146,6 +201,7 @@ class HabitPeriodService(BaseService):
         result = await self.db.execute(
             select(HabitPeriod).where(
                 HabitPeriod.habit_id == habit.id,
+                HabitPeriod.user_id == user_id,
                 HabitPeriod.start_date == start_date,
             )
         )

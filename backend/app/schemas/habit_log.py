@@ -5,6 +5,10 @@ from pydantic_core import PydanticCustomError
 
 from app.schemas.pagination import PaginationMeta
 
+class HabitLog(BaseModel):
+    log_date: date
+    mood_score: int
+    remark: str
 
 class HabitLogCreate(BaseModel):
     log_date: date
