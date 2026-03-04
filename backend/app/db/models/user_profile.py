@@ -19,7 +19,7 @@ class UserProfile(Base):
     username: Mapped[str | None] = mapped_column(
         String(50),
         unique=True,
-        nullable=True
+        nullable=False
     )
 
     first_name: Mapped[str] = mapped_column(

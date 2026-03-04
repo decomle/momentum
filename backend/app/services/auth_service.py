@@ -60,10 +60,11 @@ class AuthService(BaseService):
         await self.db.flush()
         new_profile = UserProfile(
             user_id=new_user.id,
+            username=user_data.username,
             first_name=user_data.first_name,
             last_name=user_data.last_name,
             self_introduction=user_data.self_introduction,
-            phone_number = user_data.phone_numer
+            phone_number = user_data.phone_number
         )
         self.db.add(new_profile)
 

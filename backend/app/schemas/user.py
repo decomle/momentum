@@ -13,7 +13,7 @@ class UserCreateRequest(BaseModel):
     username: str
     first_name: str
     last_name: str
-    phone_numer: str | None = None
+    phone_number: str | None = None
     self_introduction: str | None = None
 
     @field_validator("password")
