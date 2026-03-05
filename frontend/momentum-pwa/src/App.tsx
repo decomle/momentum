@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom"
+import AppLayout from "./layout/AppLayout"
 
 function Home() {
   return (
@@ -12,8 +13,10 @@ function Home() {
 
 export default function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-    </Routes>
+    <AppLayout>
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+    </AppLayout>
   )
 }
