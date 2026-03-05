@@ -13,6 +13,12 @@ function Home() {
       >
         Go to Login
       </Link>
+      <Link
+        to="/dashboard"
+        className="px-4 py-2 border rounded-md"
+      >
+        Go to Dashboard
+      </Link>
     </div>
   )
 }
