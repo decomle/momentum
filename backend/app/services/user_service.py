@@ -34,13 +34,8 @@ class UserService(BaseService):
         payload: UserUpdateRequest,
     ) -> UserProfile:
 
-        profile: UserProfile | None = await self.db.get(
-            UserProfile,
-            user_id,
-        )
-
+        profile: UserProfile | None = await self.db.get(UserProfile, user_id)
         update_data = payload.model_dump(exclude_unset=True)
-
 
         if not profile:
             if "username" not in update_data:
