@@ -35,30 +35,36 @@ export default function DemoHabitPage() {
 
   return (
     <div className="min-h-screen bg-neutral-50 flex justify-center">
-      <div className="w-full max-w-md p-4 space-y-5">
+      <div className="w-full max-w-md p-4 space-y-6">
 
         {/* Header */}
-        <div>
+        <div className="text-center space-y-1">
           <h1 className="text-2xl font-semibold">{habit.name}</h1>
           <p className="text-sm text-neutral-500">{habit.description}</p>
         </div>
 
         {/* Habit Stats */}
         <div className="bg-white rounded-xl p-4 shadow-sm border border-neutral-100">
-          <div className="flex justify-between text-sm text-neutral-600">
+          <div className="flex items-center justify-between text-sm text-neutral-600">
 
-            <div>
-              <p className="font-medium">{habit.frequency}</p>
-              <p className="text-xs text-neutral-500">Frequency</p>
+            <div className="text-center flex-1">
+              <p className="text-xs bg-neutral-100 px-2 py-1 rounded-md inline-block">
+                {habit.frequency}
+              </p>
+              <p className="text-xs text-neutral-500 mt-1">Frequency</p>
             </div>
 
-            <div>
-              <p className="font-medium">🔥 {habit.current_streak}</p>
+            <div className="w-px h-10 bg-neutral-200" />
+
+            <div className="text-center flex-1">
+              <p className="font-medium text-lg">🔥 {habit.current_streak}</p>
               <p className="text-xs text-neutral-500">Current</p>
             </div>
 
-            <div>
-              <p className="font-medium">🏆 {habit.longest_streak}</p>
+            <div className="w-px h-10 bg-neutral-200" />
+
+            <div className="text-center flex-1">
+              <p className="font-medium text-lg">🏆 {habit.longest_streak}</p>
               <p className="text-xs text-neutral-500">Best</p>
             </div>
 
@@ -66,39 +72,37 @@ export default function DemoHabitPage() {
         </div>
 
         {/* Motivation */}
-        <div className="text-sm italic text-neutral-500 px-1">
+        <div className="text-sm italic text-neutral-500 text-center">
           {habit.mood_message}
         </div>
 
         {/* Current Period */}
-        <div className="bg-white rounded-xl p-4 shadow-sm border border-neutral-100 space-y-2">
+        <div className="bg-white rounded-xl p-4 shadow-sm border border-neutral-100 space-y-3">
 
-          <p className="text-sm text-neutral-600 font-medium">
+          <p className="text-sm font-medium text-neutral-600">
             Current period
           </p>
 
-          <div className="flex justify-between text-sm text-neutral-600">
-            <span>
-              {habit.current_period.start_date}
-            </span>
+          <div className="bg-neutral-50 rounded-md px-3 py-2 flex justify-between text-sm text-neutral-700">
+            <span>{habit.current_period.start_date}</span>
 
             <span>
               {habit.current_period.actual_logs} / {habit.current_period.required_for_success}
             </span>
           </div>
 
-          <div className="text-xs text-neutral-500">
+          <p className="text-xs text-neutral-500 text-center">
             {habit.current_period.is_successful
               ? "Completed"
               : "Not completed yet"}
-          </div>
+          </p>
 
         </div>
 
         {/* Recent Periods */}
         <div className="bg-white rounded-xl p-4 shadow-sm border border-neutral-100 space-y-3">
 
-          <p className="text-sm text-neutral-600 font-medium">
+          <p className="text-sm font-medium text-neutral-600">
             Recent periods
           </p>
 
@@ -111,7 +115,7 @@ export default function DemoHabitPage() {
                 ${
                   p.is_successful
                     ? "bg-green-500 text-white"
-                    : "border border-neutral-300 text-neutral-500"
+                    : "bg-neutral-100 text-neutral-600"
                 }`}
               >
                 {p.start_date.slice(5)}
@@ -125,7 +129,7 @@ export default function DemoHabitPage() {
         {/* Recent Logs */}
         <div className="bg-white rounded-xl p-4 shadow-sm border border-neutral-100 space-y-3">
 
-          <p className="text-sm text-neutral-600 font-medium">
+          <p className="text-sm font-medium text-neutral-600">
             Recent logs
           </p>
 
@@ -145,15 +149,23 @@ export default function DemoHabitPage() {
 
         </div>
 
-        {/* Cheer Message */}
-        <div className="text-sm italic text-neutral-500 px-1">
-          {habit.cheer_message}
+        {/* Action Buttons */}
+        <div className="flex gap-3">
+
+          <button className="flex-1 py-3 bg-neutral-900 text-white rounded-md hover:bg-neutral-800 transition flex items-center justify-center gap-2">
+            ✏️ Log Habit
+          </button>
+
+          <button className="flex-1 py-3 border border-neutral-300 rounded-md hover:bg-neutral-100 transition flex items-center justify-center gap-2">
+            ⚙️ Update Habit
+          </button>
+
         </div>
 
-        {/* Update Button */}
-        <button className="w-full py-3 bg-neutral-900 text-white rounded-md hover:bg-neutral-800 transition">
-          Update Habit
-        </button>
+        {/* Cheer Message */}
+        <div className="text-sm italic text-neutral-500 text-center">
+          {habit.cheer_message}
+        </div>
 
       </div>
     </div>
