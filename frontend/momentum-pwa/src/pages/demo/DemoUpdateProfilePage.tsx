@@ -19,7 +19,7 @@ export default function DemoUpdateProfilePage() {
 	}
 
 	return (
-		<div className="min-h-screen bg-neutral-50 flex items-start justify-center p-4">
+		<div className="min-h-screen flex items-start justify-center p-4">
 			<div className="w-full max-w-md space-y-6">
 
 				<h1 className="text-2xl font-semibold text-neutral-900">

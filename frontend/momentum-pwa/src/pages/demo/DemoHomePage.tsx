@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 
 export default function DemoHomePage() {
   return (
-    <div className="min-h-screen bg-neutral-50 flex items-center justify-center">
+    <div className="min-h-screen flex items-center justify-center">
       <div className="w-full max-w-md p-6 space-y-8">
 
         {/* Title */}
