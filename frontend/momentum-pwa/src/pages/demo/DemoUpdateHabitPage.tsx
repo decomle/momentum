@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-export default function UpdateHabitPage() {
+export default function DemoUpdateHabitPage() {
   const [name, setName] = useState("Drink Water")
   const [description, setDescription] = useState("Drink at least 2L per day")
   const [frequency, setFrequency] = useState("DAILY")
@@ -12,12 +12,6 @@ export default function UpdateHabitPage() {
   return (
     <div className="min-h-screen bg-neutral-50 flex justify-center">
       <div className="w-full max-w-md p-4 space-y-6">
-
-        {/* Back */}
-        <button className="text-sm text-neutral-500">
-          ← Back
-        </button>
-
         {/* Title */}
         <div>
           <h1 className="text-2xl font-semibold">

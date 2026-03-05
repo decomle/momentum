@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-export default function HabitLogPage() {
+export default function DemoHabitLogPage() {
   const [selectedDate, setSelectedDate] = useState("today")
   const [mood, setMood] = useState(0)
 
@@ -15,12 +15,6 @@ export default function HabitLogPage() {
   return (
     <div className="min-h-screen bg-neutral-50 flex justify-center">
       <div className="w-full max-w-md p-4 space-y-6">
-
-        {/* Back */}
-        <button className="text-sm text-neutral-500">
-          ← Back
-        </button>
-
         {/* Title */}
         <div>
           <h1 className="text-2xl font-semibold">Log Habit</h1>

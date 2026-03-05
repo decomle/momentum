@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom"
 
-export default function DashboardPage() {
+export default function DemoDashboardPage() {
   const navigate = useNavigate()
 
   const meta = {
@@ -14,7 +14,7 @@ export default function DashboardPage() {
   }
 
   const goToHabitLog = () => {
-    navigate("/habit_log")
+    navigate("/demo/habit_log")
   }
 
   return (

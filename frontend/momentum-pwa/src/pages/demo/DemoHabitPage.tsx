@@ -1,4 +1,4 @@
-export default function HabitPage() {
+export default function DemoHabitPage() {
   const habit = {
     name: "Drink",
     description: "Drink 2l per day",
@@ -26,11 +26,6 @@ export default function HabitPage() {
   return (
     <div className="min-h-screen bg-neutral-50 flex justify-center">
       <div className="w-full max-w-md p-4 space-y-6">
-
-        {/* Back */}
-        <button className="text-sm text-neutral-500">
-          ← Back
-        </button>
 
         {/* Habit identity */}
         <div className="space-y-1">

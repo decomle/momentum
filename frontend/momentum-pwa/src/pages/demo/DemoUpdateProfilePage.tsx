@@ -5,7 +5,7 @@ const TIMEZONES = [
 	"Asia/Bangkok",
 ]
 
-export default function UpdateProfilePage() {
+export default function DemoUpdateProfilePage() {
 	const [query, setQuery] = useState("Asia/Ho_Chi_Minh")
 	const [open, setOpen] = useState(false)
 

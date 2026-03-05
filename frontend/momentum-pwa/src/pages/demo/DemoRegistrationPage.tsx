@@ -5,7 +5,7 @@ const TIMEZONES = [
   "Asia/Bangkok",
 ]
 
-export default function RegisterPage() {
+export default function DemoRegisterPage() {
   const [query, setQuery] = useState("Asia/Ho_Chi_Minh")
   const [open, setOpen] = useState(false)
 
