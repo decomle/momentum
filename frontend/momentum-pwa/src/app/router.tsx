@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom"
 
 import HomePage from "@/pages/HomePage"
 import RegistrationPage from "@/pages/RegistrationPage"
+import UpdateHabitPage from "@/pages/UpdateHabitPage"
 import LoginPage from "@/pages/LoginPage"
 import UpdateProfilePage from "@/pages/UpdateProfilePage"
 import CreateHabitPage from "@/pages/CreateHabitPage"
@@ -23,6 +24,10 @@ export const router = createBrowserRouter([
   {
     path: "/create_habit",
     element: <CreateHabitPage />,
+  },
+  {
+    path: "/update_habit",
+    element: <UpdateHabitPage />,
   },
   {
     path: "/update_profile",

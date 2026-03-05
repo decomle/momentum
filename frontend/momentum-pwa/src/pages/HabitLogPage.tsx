@@ -30,38 +30,38 @@ export default function HabitLogPage() {
         </div>
 
         {/* Habit Info */}
-<div className="bg-white rounded-xl p-4 shadow-sm border border-neutral-100 space-y-4">
+        <div className="bg-white rounded-xl p-4 shadow-sm border border-neutral-100 space-y-4">
 
-  <div>
-    <h2 className="font-semibold text-lg">
-      {habit.name}
-    </h2>
+          <div>
+            <h2 className="font-semibold text-lg">
+              {habit.name}
+            </h2>
 
-    <p className="text-sm text-neutral-500">
-      {habit.description}
-    </p>
-  </div>
+            <p className="text-sm text-neutral-500">
+              {habit.description}
+            </p>
+          </div>
 
-  <div className="text-sm text-neutral-600">
-    {habit.frequency} • 🔥 {habit.current_streak} days • 🏆 {habit.longest_streak} days
-  </div>
+          <div className="text-sm text-neutral-600">
+            {habit.frequency} • 🔥 {habit.current_streak} days • 🏆 {habit.longest_streak} days
+          </div>
 
-  {/* Actions */}
-<div className="flex gap-2 pt-1">
+          {/* Actions */}
+          <div className="flex gap-2 pt-1">
 
-  <button className="flex-1 flex items-center justify-center gap-2 py-2 text-sm border border-neutral-300 rounded-md hover:bg-neutral-100">
-    <span>👁</span>
-    <span>View</span>
-  </button>
+            <button className="flex-1 flex items-center justify-center gap-2 py-2 text-sm border border-neutral-300 rounded-md hover:bg-neutral-100">
+              <span>👁</span>
+              <span>View</span>
+            </button>
 
-  <button className="flex-1 flex items-center justify-center gap-2 py-2 text-sm border border-neutral-300 rounded-md hover:bg-neutral-100">
-    <span>✏️</span>
-    <span>Edit</span>
-  </button>
+            <button className="flex-1 flex items-center justify-center gap-2 py-2 text-sm border border-neutral-300 rounded-md hover:bg-neutral-100">
+              <span>✏️</span>
+              <span>Edit</span>
+            </button>
 
-</div>
+          </div>
 
-</div>
+        </div>
 
         {/* Log Date */}
         <div className="bg-white rounded-xl p-4 shadow-sm border border-neutral-100 space-y-3">
