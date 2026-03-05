@@ -1,1 +1,12 @@
-/* General CSS class */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Minimal reset tuning for Momentum */
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  @apply bg-white text-gray-900 antialiased;
+}

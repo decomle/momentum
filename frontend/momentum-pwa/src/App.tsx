@@ -2,8 +2,10 @@ import { Routes, Route } from "react-router-dom"
 
 function Home() {
   return (
-    <div style={{ padding: 40 }}>
-      <h1>Hello, This is momentum</h1>
+    <div className="min-h-screen flex items-center justify-center">
+      <h1 className="text-3xl font-semibold tracking-tight">
+        Hello, This is Momentum
+      </h1>
     </div>
   )
 }
