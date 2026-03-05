@@ -4,6 +4,14 @@ export default function HabitLogPage() {
   const [selectedDate, setSelectedDate] = useState("today")
   const [mood, setMood] = useState(0)
 
+  const habit = {
+    name: "Morning Exercise",
+    description: "10 minutes of stretching or light workout",
+    frequency: "Daily",
+    current_streak: 5,
+    longest_streak: 12,
+  }
+
   return (
     <div className="min-h-screen bg-neutral-50 flex justify-center">
       <div className="w-full max-w-md p-4 space-y-6">
@@ -15,11 +23,45 @@ export default function HabitLogPage() {
 
         {/* Title */}
         <div>
-          <h1 className="text-2xl font-semibold">Log habit</h1>
+          <h1 className="text-2xl font-semibold">Log Habit</h1>
           <p className="text-sm text-neutral-500">
-            Record today's progress.
+            Record your progress for this habit.
           </p>
         </div>
+
+        {/* Habit Info */}
+<div className="bg-white rounded-xl p-4 shadow-sm border border-neutral-100 space-y-4">
+
+  <div>
+    <h2 className="font-semibold text-lg">
+      {habit.name}
+    </h2>
+
+    <p className="text-sm text-neutral-500">
+      {habit.description}
+    </p>
+  </div>
+
+  <div className="text-sm text-neutral-600">
+    {habit.frequency} • 🔥 {habit.current_streak} days • 🏆 {habit.longest_streak} days
+  </div>
+
+  {/* Actions */}
+<div className="flex gap-2 pt-1">
+
+  <button className="flex-1 flex items-center justify-center gap-2 py-2 text-sm border border-neutral-300 rounded-md hover:bg-neutral-100">
+    <span>👁</span>
+    <span>View</span>
+  </button>
+
+  <button className="flex-1 flex items-center justify-center gap-2 py-2 text-sm border border-neutral-300 rounded-md hover:bg-neutral-100">
+    <span>✏️</span>
+    <span>Edit</span>
+  </button>
+
+</div>
+
+</div>
 
         {/* Log Date */}
         <div className="bg-white rounded-xl p-4 shadow-sm border border-neutral-100 space-y-3">
