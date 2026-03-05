@@ -40,11 +40,11 @@ app.middleware("http")(locale_middleware)
 
 logger.info("Configuring routers and exception handlers...")
 # Routers
-app.include_router(auth_router)
-app.include_router(habits_router)
-app.include_router(habit_log_router)
-app.include_router(dashboard_router)
-app.include_router(user_router)
+app.include_router(auth_router, prefix="/api")
+app.include_router(habits_router, prefix="/api")
+app.include_router(habit_log_router, prefix="/api")
+app.include_router(dashboard_router, prefix="/api")
+app.include_router(user_router, prefix="/api")
 
 # Exception handlers
 app.add_exception_handler(RequestValidationError, validation_exception_handler)
