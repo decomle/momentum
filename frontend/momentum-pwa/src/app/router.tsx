@@ -11,6 +11,8 @@ import DemoDemoLoginPage from "@/pages/demo/DemoLoginPage"
 import DemoHabitPage from "@/pages/demo/DemoHabitPage"
 import DemoHabitLogPage from "@/pages/demo/DemoHabitLogPage"
 import DemoDashboardPage from "@/pages/demo/DemoDashboardPage"
+import DemoNotFoundPage from "@/pages/demo/Demo404Page"
+
 import AuthGuard from "@/features/auth/AuthGuard"
 
 export const router = createBrowserRouter([
@@ -21,6 +23,10 @@ export const router = createBrowserRouter([
   {
     path: "/login",
     element: <LoginPage />,
+  },
+  {
+    path: "/demo/404",
+    element: <DemoNotFoundPage />,
   },
   {
     path: "/demo/login",
