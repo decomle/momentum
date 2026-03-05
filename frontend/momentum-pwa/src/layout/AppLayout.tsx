@@ -1,14 +1,10 @@
-import { type ReactNode } from "react"
+import { Outlet } from "react-router-dom"
 
-type Props = {
-  children: ReactNode
-}
-
-export default function AppLayout({ children }: Props) {
+export default function AppLayout() {
   return (
-    <div className="min-h-screen bg-gray-50 flex justify-center">
-      <div className="w-full max-w-md min-h-screen bg-white shadow-sm">
-        {children}
+    <div className="min-h-screen bg-neutral-200 flex justify-center">
+      <div className="w-full max-w-md min-h-screen bg-white border-x border-neutral-300 shadow-xl">
+        <Outlet />
       </div>
     </div>
   )
