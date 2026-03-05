@@ -1,4 +1,8 @@
+import { useNavigate } from "react-router-dom"
+
 export default function DashboardPage() {
+  const navigate = useNavigate()
+
   const meta = {
     date: "2026-03-05",
     total_habits: 5,
@@ -7,6 +11,10 @@ export default function DashboardPage() {
     completion_rate: 40,
     warning_messages: [],
     ai_message: "A fresh start is always possible.",
+  }
+
+  const goToHabitLog = () => {
+    navigate("/habit_log")
   }
 
   return (
@@ -49,10 +57,11 @@ export default function DashboardPage() {
           {meta.ai_message}
         </div>
 
-        {/* Habit Cards */}
-
-        {/* DONE */}
-        <div className="bg-white rounded-xl p-4 shadow-sm border border-neutral-100">
+        {/* Habit Card */}
+        <div
+          onClick={goToHabitLog}
+          className="bg-white rounded-xl p-4 shadow-sm border border-neutral-100 cursor-pointer hover:bg-neutral-50 transition"
+        >
           <div className="flex items-start justify-between">
             <div>
               <h2 className="font-semibold text-lg">Morning Exercise</h2>
@@ -75,9 +84,11 @@ export default function DashboardPage() {
           </div>
         </div>
 
-
-        {/* DONE */}
-        <div className="bg-white rounded-xl p-4 shadow-sm border border-neutral-100">
+        {/* Habit Card */}
+        <div
+          onClick={goToHabitLog}
+          className="bg-white rounded-xl p-4 shadow-sm border border-neutral-100 cursor-pointer hover:bg-neutral-50 transition"
+        >
           <div className="flex items-start justify-between">
             <div>
               <h2 className="font-semibold text-lg">Drink Water</h2>
@@ -100,9 +111,11 @@ export default function DashboardPage() {
           </div>
         </div>
 
-
-        {/* PENDING */}
-        <div className="bg-white rounded-xl p-4 shadow-sm border border-neutral-100">
+        {/* Habit Card */}
+        <div
+          onClick={goToHabitLog}
+          className="bg-white rounded-xl p-4 shadow-sm border border-neutral-100 cursor-pointer hover:bg-neutral-50 transition"
+        >
           <div className="flex items-start justify-between">
             <div>
               <h2 className="font-semibold text-lg">Read Book</h2>
@@ -111,8 +124,7 @@ export default function DashboardPage() {
               </p>
             </div>
 
-            <div className="flex items-center justify-center w-7 h-7 rounded-full border border-neutral-300">
-            </div>
+            <div className="flex items-center justify-center w-7 h-7 rounded-full border border-neutral-300"></div>
           </div>
 
           <div className="mt-3 text-sm text-neutral-600">
@@ -121,54 +133,6 @@ export default function DashboardPage() {
 
           <div className="mt-3 text-sm italic text-neutral-500">
             Knowledge compounds over time.
-          </div>
-        </div>
-
-
-        {/* PENDING */}
-        <div className="bg-white rounded-xl p-4 shadow-sm border border-neutral-100">
-          <div className="flex items-start justify-between">
-            <div>
-              <h2 className="font-semibold text-lg">Meditation</h2>
-              <p className="text-sm text-neutral-500">
-                5 minutes of breathing
-              </p>
-            </div>
-
-            <div className="flex items-center justify-center w-7 h-7 rounded-full border border-neutral-300">
-            </div>
-          </div>
-
-          <div className="mt-3 text-sm text-neutral-600">
-            Daily • 🔥 1 day • 🏆 4 days
-          </div>
-
-          <div className="mt-3 text-sm italic text-neutral-500">
-            Calm mind, clear day.
-          </div>
-        </div>
-
-
-        {/* PENDING */}
-        <div className="bg-white rounded-xl p-4 shadow-sm border border-neutral-100">
-          <div className="flex items-start justify-between">
-            <div>
-              <h2 className="font-semibold text-lg">Write Journal</h2>
-              <p className="text-sm text-neutral-500">
-                Reflect on the day
-              </p>
-            </div>
-
-            <div className="flex items-center justify-center w-7 h-7 rounded-full border border-neutral-300">
-            </div>
-          </div>
-
-          <div className="mt-3 text-sm text-neutral-600">
-            Daily • 🔥 0 days • 🏆 6 days
-          </div>
-
-          <div className="mt-3 text-sm italic text-neutral-500">
-            Awareness builds consistency.
           </div>
         </div>
 
