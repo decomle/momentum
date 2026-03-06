@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Link } from "react-router-dom"
 
 const TIMEZONES = [
   "Asia/Ho_Chi_Minh",
@@ -8,6 +9,7 @@ const TIMEZONES = [
 export default function DemoRegisterPage() {
   const [query, setQuery] = useState("Asia/Ho_Chi_Minh")
   const [open, setOpen] = useState(false)
+  const [acceptedTerms, setAcceptedTerms] = useState(false)
 
   const filtered = TIMEZONES.filter((tz) =>
     tz.toLowerCase().includes(query.toLowerCase())
@@ -36,6 +38,11 @@ export default function DemoRegisterPage() {
         </div>
 
         <div className="pt-6 border-t border-neutral-200 space-y-4">
+
+          {/* MESSAGE */}
+          <div className="rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+            You don&apos;t have an account yet. Would you like to create one?
+          </div>
 
           {/* FORM ERROR */}
           <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
@@ -198,10 +205,32 @@ export default function DemoRegisterPage() {
             />
           </div>
 
+          {/* Terms and conditions */}
+          <label className="flex items-start gap-3 text-sm text-neutral-700">
+            <input
+              type="checkbox"
+              checked={acceptedTerms}
+              onChange={(e) => setAcceptedTerms(e.target.checked)}
+              className="mt-0.5 h-4 w-4 rounded border-neutral-300 text-neutral-900 focus:ring-neutral-300"
+            />
+            <span>
+              I agree to the{" "}
+              <Link to="/demo/terms" className="underline underline-offset-2 hover:text-neutral-900">
+                Terms and Conditions
+              </Link>
+              .
+            </span>
+          </label>
+
           {/* Submit */}
           <button
             type="button"
-            className="w-full py-2 btn-primary rounded-md transition"
+            disabled={!acceptedTerms}
+            className={`w-full py-2 rounded-md transition ${
+              acceptedTerms
+                ? "btn-primary"
+                : "bg-neutral-200 text-neutral-500 cursor-not-allowed"
+            }`}
           >
             Create Account
           </button>

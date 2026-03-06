@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import JammyLoader from "@/components/JammyLoader"
 
 export default function DemoHomePage() {
   return (
@@ -21,6 +22,8 @@ export default function DemoHomePage() {
           </p>
         </div>
 
+        <JammyLoader/>
+
         <div className="border-t border-neutral-200" />
 
         {/* Description Card */}
@@ -36,19 +39,18 @@ export default function DemoHomePage() {
 
         {/* Action */}
         <div className="space-y-3">
-
           <Link
             to="/login"
             className="block w-full text-center py-2.5 btn-primary rounded-md transition"
           >
-            Log in
+            Login/Create account
           </Link>
 
           <p className="text-xs text-neutral-500 text-center">
             Track habits. Maintain streaks. Build momentum.
           </p>
-
         </div>
+
 
       </div>
     </div>

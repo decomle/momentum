@@ -12,6 +12,7 @@ import DemoHabitLogPage from "@/pages/demo/DemoHabitLogPage"
 import DemoDashboardPage from "@/pages/demo/DemoDashboardPage"
 import DemoNotFoundPage from "@/pages/demo/Demo404Page"
 import DemoWeeklyHabitPage from "@/pages/demo/DemoWeeklyHabitPage"
+import DemoTermsPage from "@/pages/demo/DemoTermsPage"
 
 import AuthGuard from "@/features/auth/AuthGuard"
 import AppLayout from "@/layout/AppLayout"
@@ -51,6 +52,10 @@ export const router = createBrowserRouter([
       {
         path: "/demo/register",
         element: <DemoRegistrationPage />,
+      },
+      {
+        path: "/demo/terms",
+        element: <DemoTermsPage />,
       },
       {
         path: "/demo/habit",
