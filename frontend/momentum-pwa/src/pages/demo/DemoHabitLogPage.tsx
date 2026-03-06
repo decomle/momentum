@@ -3,6 +3,15 @@ import { useState } from "react"
 export default function DemoHabitLogPage() {
   const [selectedDate, setSelectedDate] = useState("today")
   const [mood, setMood] = useState(0)
+  const moodOptions = [
+    { score: -3, emoji: "😫" },
+    { score: -2, emoji: "😟" },
+    { score: -1, emoji: "🙁" },
+    { score: 0, emoji: "🙂" },
+    { score: 1, emoji: "😄" },
+    { score: 2, emoji: "😁" },
+    { score: 3, emoji: "🤩" },
+  ]
 
   const habit = {
     name: "Morning Exercise",
@@ -95,22 +104,22 @@ export default function DemoHabitLogPage() {
           {/* Mood */}
           <div className="bg-white rounded-xl p-4 shadow-sm border border-neutral-100 space-y-3">
             <p className="text-sm text-neutral-600">
-              Mood
+              How do you feel?
             </p>
 
             <div className="flex justify-between">
 
-              {[-3, -2, -1, 0, 1, 2, 3].map((m) => (
+              {moodOptions.map((m) => (
                 <button
-                  key={m}
-                  onClick={() => setMood(m)}
+                  key={m.score}
+                  onClick={() => setMood(m.score)}
                   className={`w-9 h-9 flex items-center justify-center rounded-full text-sm
-                ${mood === m
+                ${mood === m.score
                       ? "bg-neutral-900 text-white"
                       : "border border-neutral-300 text-neutral-600"
                     }`}
                 >
-                  {m}
+                  {m.emoji}
                 </button>
               ))}
 
@@ -122,7 +131,7 @@ export default function DemoHabitLogPage() {
           </div>
 
           {/* Remark */}
-          <div className="bg-white rounded-xl p-4 shadow-sm border border-neutral-100 space-y-2">
+          <div className="space-y-2">
             <p className="text-sm text-neutral-600">
               Remark (optional)
             </p>
