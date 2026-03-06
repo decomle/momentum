@@ -95,9 +95,9 @@ export default function DemoDashboardPage() {
               <img
                 src="/icons/generated/m-mark-neutral-120.png"
                 alt="Momentum M icon"
-                className="w-10 h-10 object-contain"
+                className="w-12 h-12 object-contain"
               />
-              <h1 className="-ml-1 text-3xl font-bold tracking-tight leading-none">omentum</h1>
+              <h1 className="-ml-1 text-4xl font-bold tracking-tight leading-none">omentum</h1>
             </div>
             <p className="mt-1 text-xs text-neutral-500">Build good habit - build good self</p>
           </div>
