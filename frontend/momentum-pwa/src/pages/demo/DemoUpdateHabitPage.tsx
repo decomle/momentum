@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { LeftAlginedHeading } from "@/components/Heading"
 
 export default function DemoUpdateHabitPage() {
   const [name, setName] = useState("Drink Water")
@@ -14,20 +14,7 @@ export default function DemoUpdateHabitPage() {
     <div className="min-h-full flex justify-center">
       <div className="w-full max-w-md p-4 space-y-6">
         {/* Title */}
-        <Link to="/demo/dashboard" className="block space-y-1">
-          <div className="flex items-center gap-1">
-            <img
-              src="/icons/generated/m-mark-neutral-120.png"
-              alt="Momentum M icon"
-              className="w-10 h-10 object-contain"
-            />
-            <h1 className="text-2xl font-semibold tracking-tight">Update Habit</h1>
-          </div>
-
-          <p className="text-sm text-neutral-500">
-            Modify the habit details.
-          </p>
-        </Link>
+        <LeftAlginedHeading heading="Update Habit" desc="Modify the habit details." />
 
         <div className="pt-6 border-t border-neutral-200 space-y-6">
           {/* Form Error */}

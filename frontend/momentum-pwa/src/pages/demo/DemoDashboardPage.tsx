@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 
+import { DashboardHeading } from "@/components/Heading"
+
 export default function DemoDashboardPage() {
   const navigate = useNavigate()
   const [isAtBottom, setIsAtBottom] = useState(false)
@@ -121,23 +123,7 @@ export default function DemoDashboardPage() {
       <div className="w-full max-w-md p-4 pb-6 space-y-5">
 
         {/* Header */}
-        <div className="flex items-start justify-between gap-3">
-          <div>
-            <div className="flex items-center gap-1">
-              <img
-                src="/icons/generated/m-mark-neutral-120.png"
-                alt="Momentum M icon"
-                className="w-12 h-12 object-contain"
-              />
-              <h1 className="-ml-1 text-4xl font-bold tracking-tight leading-none">omentum</h1>
-            </div>
-            <p className="text-xs text-neutral-500">Build good habits - good life - good self</p>
-          </div>
-          <div className="self-end text-right leading-tight">
-            <p className="text-sm text-neutral-500">{meta.date}</p>
-            <p className="mt-0.5 text-xs text-neutral-500">Lunar: {meta.lunar}</p>
-          </div>
-        </div>
+        <DashboardHeading date={meta.date} lunar={meta.lunar}/>
 
         {/* Meta */}
         <div className="bg-white rounded-xl p-4 shadow-sm border border-neutral-100">

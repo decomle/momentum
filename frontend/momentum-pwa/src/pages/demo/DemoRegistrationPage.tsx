@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import { CenterAlginedHeading } from "@/components/Heading"
 
 const TIMEZONES = [
   "Asia/Ho_Chi_Minh",
@@ -23,19 +24,7 @@ export default function DemoRegisterPage() {
   return (
     <div className="min-h-full flex items-start px-6 pt-12 pb-6">
       <div className="w-full space-y-8">
-        <Link to="/demo/dashboard" className="block text-center">
-          <div className="flex items-center justify-center gap-1">
-            <img
-              src="/icons/generated/m-mark-neutral-120.png"
-              alt="Momentum M icon"
-              className="w-11 h-11 object-contain"
-            />
-            <h1 className="-ml-1 text-3xl font-bold tracking-tight leading-none text-neutral-900">Create account</h1>
-          </div>
-          <p className="mt-1 text-sm text-neutral-500">
-            Build better habits, one small step each day.
-          </p>
-        </Link>
+        <CenterAlginedHeading />
 
         <div className="pt-6 border-t border-neutral-200 space-y-4">
 

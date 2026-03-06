@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
 import JammyLoader from "@/components/JammyLoader"
+import { DashboardHeading } from "@/components/Heading"
 
 export default function DemoHomePage() {
   return (
@@ -8,20 +9,7 @@ export default function DemoHomePage() {
         <div className="space-y-8">
 
           {/* Title */}
-          <div className="text-center space-y-2">
-            <div className="flex items-center justify-center gap-1">
-              <img
-                src="/icons/generated/m-mark-neutral-120.png"
-                alt="Momentum M icon"
-                className="w-11 h-11 object-contain"
-              />
-              <h1 className="-ml-1 text-3xl font-bold tracking-tight leading-none">omentum</h1>
-            </div>
-
-            <p className="text-neutral-600 text-sm">
-              A calm place to keep your habits moving forward.
-            </p>
-          </div>
+          <DashboardHeading />
 
           <div className="border-t border-neutral-200" />
 

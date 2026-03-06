@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { LeftAlginedHeading } from "@/components/Heading"
 
 const TIMEZONES = [
 	"Asia/Ho_Chi_Minh",
@@ -22,19 +22,7 @@ export default function DemoUpdateProfilePage() {
 	return (
 		<div className="min-h-full flex items-start justify-center p-4">
 			<div className="w-full max-w-md space-y-8">
-				<Link to="/demo/dashboard" className="block space-y-1">
-					<div className="flex items-center gap-1">
-						<img
-							src="/icons/generated/m-mark-neutral-120.png"
-							alt="Momentum M icon"
-							className="w-10 h-10 object-contain"
-						/>
-						<h1 className="text-2xl font-semibold tracking-tight text-neutral-900">Update profile</h1>
-					</div>
-					<p className="text-sm text-neutral-500">
-						Keep your profile details up to date for a smoother habit journey.
-					</p>
-				</Link>
+				<LeftAlginedHeading heading="Update profile" desc="Tell me a little more about you..." />
 
 				<div className="pt-6 border-t border-neutral-200 space-y-4">
 

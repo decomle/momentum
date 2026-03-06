@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { Link } from "react-router-dom"
+import { LeftAlginedHeading } from "@/components/Heading"
 
 export default function DemoHabitLogPage() {
   const [selectedDate, setSelectedDate] = useState("today")
@@ -43,20 +43,8 @@ export default function DemoHabitLogPage() {
   return (
     <div className="min-h-full flex justify-center">
       <div className="w-full max-w-md p-4 space-y-6">
-        {/* Title */}
-        <Link to="/demo/dashboard" className="block space-y-1">
-          <div className="flex items-center gap-1">
-            <img
-              src="/icons/generated/m-mark-neutral-120.png"
-              alt="Momentum M icon"
-              className="w-10 h-10 object-contain"
-            />
-            <h1 className="text-2xl font-semibold tracking-tight">Log Habit</h1>
-          </div>
-          <p className="text-sm text-neutral-500">
-            Record your progress for this habit.
-          </p>
-        </Link>
+        {/* Heading */}
+        <LeftAlginedHeading heading="Log Habit" desc="Record your progress for this habit." />
 
         <div className="pt-6 border-t border-neutral-200 space-y-6">
           {/* Log Date */}
@@ -79,9 +67,9 @@ export default function DemoHabitLogPage() {
                     onClick={() => setSelectedDate(d.value)}
                     className={`flex-1 py-2 text-sm rounded-md border
                 ${selectedDate === d.value
-                      ? "bg-neutral-200 border-neutral-300 text-neutral-700"
-                      : "border-neutral-200 text-neutral-600"
-                    }`}
+                        ? "bg-neutral-200 border-neutral-300 text-neutral-700"
+                        : "border-neutral-200 text-neutral-600"
+                      }`}
                   >
                     {d.label}
                   </button>
