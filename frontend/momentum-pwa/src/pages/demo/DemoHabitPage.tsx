@@ -91,9 +91,21 @@ export default function DemoHabitPage() {
           {/* Current Period */}
           <div className="bg-white rounded-xl p-4 shadow-sm border border-neutral-100 space-y-3">
 
-          <p className="text-sm font-medium text-neutral-600">
-            Current period
-          </p>
+          <div className="flex items-center justify-between">
+            <p className="text-sm font-medium text-neutral-600">
+              Current period
+            </p>
+            {habit.current_period.result_tag === "COMPLETED" && (
+              <span className="text-xs text-green-700 font-medium bg-green-50 border border-green-200 rounded-full px-2 py-0.5">
+                Completed
+              </span>
+            )}
+            {habit.current_period.result_tag === "NOT_COMPLETE" && (
+              <span className="text-xs text-amber-700 font-medium bg-amber-50 border border-amber-200 rounded-full px-2 py-0.5">
+                Not complete
+              </span>
+            )}
+          </div>
 
           <div className="bg-neutral-50 rounded-md px-3 py-2 flex justify-between text-sm text-neutral-700">
             <span>{habit.current_period.start_date}</span>
@@ -108,13 +120,6 @@ export default function DemoHabitPage() {
               ✓
             </span>
           </div>
-
-          {habit.current_period.result_tag === "COMPLETED" && (
-            <p className="text-xs text-green-700 text-center font-medium">Completed</p>
-          )}
-          {habit.current_period.result_tag === "NOT_COMPLETE" && (
-            <p className="text-xs text-amber-700 text-center font-medium">Not complete</p>
-          )}
 
           </div>
 
