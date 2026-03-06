@@ -1,8 +1,20 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 export default function DemoHabitLogPage() {
   const [selectedDate, setSelectedDate] = useState("today")
   const [mood, setMood] = useState(0)
+  const dateOptions = [
+    { label: "Today", value: "today" },
+    { label: "Yesterday", value: "yesterday" },
+    { label: "2 days ago", value: "two_days" },
+  ]
+  const alreadyLoggedByOption: Record<string, boolean> = {
+    yesterday: false,
+    two_days: false,
+  }
+  const availableDateOptions = dateOptions.filter(
+    (option) => option.value === "today" || !alreadyLoggedByOption[option.value]
+  )
   const moodOptions = [
     { score: -3, emoji: "😫" },
     { score: -2, emoji: "😟" },
@@ -20,6 +32,12 @@ export default function DemoHabitLogPage() {
     current_streak: 5,
     longest_streak: 12,
   }
+
+  useEffect(() => {
+    if (!availableDateOptions.some((option) => option.value === selectedDate)) {
+      setSelectedDate(availableDateOptions[0]?.value ?? "today")
+    }
+  }, [availableDateOptions, selectedDate])
 
   return (
     <div className="min-h-full flex justify-center">
@@ -42,29 +60,34 @@ export default function DemoHabitLogPage() {
         <div className="pt-6 border-t border-neutral-200 space-y-6">
           {/* Log Date */}
           <div className="bg-white rounded-xl p-4 shadow-sm border border-neutral-100 space-y-3">
-            <p className="text-sm text-neutral-600">Log date</p>
+            {availableDateOptions.length === 1 ? (
+              <div className="flex items-center justify-between gap-2">
+                <p className="text-sm text-neutral-600">Log date:</p>
+                <p className="text-sm text-neutral-500 italic">Today</p>
+              </div>
+            ) : (
+              <p className="text-sm text-neutral-600">Log date</p>
+            )}
 
-            <div className="flex gap-2">
+            {availableDateOptions.length > 1 && (
+              <div className="flex gap-2">
 
-              {[
-                { label: "Today", value: "today" },
-                { label: "Yesterday", value: "yesterday" },
-                { label: "2 days ago", value: "two_days" },
-              ].map((d) => (
-                <button
-                  key={d.value}
-                  onClick={() => setSelectedDate(d.value)}
-                  className={`flex-1 py-2 text-sm rounded-md border
+                {availableDateOptions.map((d) => (
+                  <button
+                    key={d.value}
+                    onClick={() => setSelectedDate(d.value)}
+                    className={`flex-1 py-2 text-sm rounded-md border
                 ${selectedDate === d.value
-                      ? "bg-neutral-900 text-white border-neutral-900"
+                      ? "bg-neutral-200 border-neutral-300 text-neutral-700"
                       : "border-neutral-200 text-neutral-600"
                     }`}
-                >
-                  {d.label}
-                </button>
-              ))}
+                  >
+                    {d.label}
+                  </button>
+                ))}
 
-            </div>
+              </div>
+            )}
           </div>
 
           {/* Mood */}
