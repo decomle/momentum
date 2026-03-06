@@ -19,14 +19,23 @@ export default function DemoRegisterPage() {
   }
 
   return (
-    <div className="min-h-full flex items-start justify-center p-4">
-      <div className="w-full max-w-md space-y-6">
+    <div className="min-h-full flex items-start px-6 pt-12 pb-6">
+      <div className="w-full space-y-8">
+        <div className="text-center">
+          <div className="flex items-center justify-center gap-1">
+            <img
+              src="/icons/generated/m-mark-neutral-120.png"
+              alt="Momentum M icon"
+              className="w-10 h-10 object-contain"
+            />
+            <h1 className="text-2xl font-semibold text-neutral-900">Create account</h1>
+          </div>
+          <p className="mt-1 text-sm text-neutral-500">
+            Build better habits, one small step each day.
+          </p>
+        </div>
 
-        <h1 className="text-2xl font-semibold text-neutral-900">
-          Create Account
-        </h1>
-
-        <div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-5 space-y-4">
+        <div className="pt-6 border-t border-neutral-200 space-y-4">
 
           {/* FORM ERROR */}
           <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
