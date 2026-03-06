@@ -7,7 +7,14 @@ export default function DemoLoginPage() {
 
         {/* Title */}
         <div className="text-center">
-          <h1 className="text-2xl font-semibold">Momentum</h1>
+          <div className="flex items-center justify-center gap-1">
+            <img
+              src="/icons/generated/m-mark-neutral-120.png"
+              alt="Momentum M icon"
+              className="w-11 h-11 object-contain"
+            />
+            <h1 className="-ml-1 text-3xl font-bold tracking-tight leading-none">omentum</h1>
+          </div>
           <p className="text-sm text-neutral-500">
             Log in to continue your habits
           </p>
