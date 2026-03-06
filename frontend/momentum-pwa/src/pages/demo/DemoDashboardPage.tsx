@@ -189,14 +189,17 @@ export default function DemoDashboardPage() {
           ))
         )}
 
-        <div className="sticky bottom-0 -mx-4 px-4 pt-3 pb-4 bg-gradient-to-t from-white via-white to-transparent">
-          <button
-            onClick={goToCreateHabit}
-            className="w-full py-3 rounded-md bg-neutral-900 text-white font-medium hover:bg-neutral-800 transition"
-          >
-            Add Habit
-          </button>
-        </div>
+        {habits.length > 0 && (
+          <div className="sticky bottom-4 flex justify-end pointer-events-none">
+            <button
+              onClick={goToCreateHabit}
+              aria-label="Add habit"
+              className="pointer-events-auto w-14 h-14 rounded-full bg-neutral-900 text-white text-3xl leading-none shadow-lg hover:bg-neutral-800 transition flex items-center justify-center"
+            >
+              +
+            </button>
+          </div>
+        )}
 
       </div>
     </div>
