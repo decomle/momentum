@@ -1,7 +1,9 @@
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
 export default function DemoDashboardPage() {
   const navigate = useNavigate()
+  const [isAtBottom, setIsAtBottom] = useState(false)
 
   const habits = [
     {
@@ -93,6 +95,26 @@ export default function DemoDashboardPage() {
   const goToCreateHabit = () => {
     navigate("/demo/create_habit")
   }
+
+  useEffect(() => {
+    const scrollContainer = document.getElementById("app-scroll-container")
+    if (!scrollContainer) return
+
+    const updateBottomState = () => {
+      const distanceToBottom =
+        scrollContainer.scrollHeight - scrollContainer.scrollTop - scrollContainer.clientHeight
+      setIsAtBottom(distanceToBottom <= 16)
+    }
+
+    updateBottomState()
+    scrollContainer.addEventListener("scroll", updateBottomState, { passive: true })
+    window.addEventListener("resize", updateBottomState)
+
+    return () => {
+      scrollContainer.removeEventListener("scroll", updateBottomState)
+      window.removeEventListener("resize", updateBottomState)
+    }
+  }, [])
 
   return (
     <div className="min-h-full flex justify-center">
@@ -190,14 +212,32 @@ export default function DemoDashboardPage() {
         )}
 
         {habits.length > 0 && (
-          <div className="sticky bottom-4 flex justify-end pointer-events-none">
-            <button
-              onClick={goToCreateHabit}
-              aria-label="Add habit"
-              className="pointer-events-auto w-14 h-14 rounded-full bg-neutral-900 text-white text-3xl leading-none shadow-lg hover:bg-neutral-800 transition flex items-center justify-center"
-            >
-              +
-            </button>
+          <div className="sticky bottom-4 pointer-events-none">
+            <div className="relative h-14 w-full">
+              <button
+                onClick={goToCreateHabit}
+                aria-label="Add habit"
+                className={`absolute right-0 bottom-0 w-14 h-14 rounded-full bg-neutral-900 text-white text-3xl leading-none shadow-lg hover:bg-neutral-800 flex items-center justify-center transition-[transform,opacity] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform ${
+                  isAtBottom
+                    ? "opacity-0 scale-75 translate-y-1 pointer-events-none"
+                    : "opacity-100 scale-100 translate-y-0 pointer-events-auto"
+                }`}
+              >
+                +
+              </button>
+
+              <button
+                onClick={goToCreateHabit}
+                aria-label="Add new habit"
+                className={`absolute left-0 right-0 bottom-0 h-12 rounded-md bg-neutral-900 text-white text-sm font-medium shadow-lg hover:bg-neutral-800 transition-[transform,opacity] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform ${
+                  isAtBottom
+                    ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
+                    : "opacity-0 scale-95 translate-y-1 pointer-events-none"
+                }`}
+              >
+                Add new Habit
+              </button>
+            </div>
           </div>
         )}
 
