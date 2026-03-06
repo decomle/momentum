@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 export default function DemoDashboardPage() {
   const navigate = useNavigate()
@@ -118,7 +118,7 @@ export default function DemoDashboardPage() {
 
   return (
     <div className="min-h-full flex justify-center">
-      <div className="w-full max-w-md p-4 pb-28 space-y-5">
+      <div className="w-full max-w-md p-4 pb-6 space-y-5">
 
         {/* Header */}
         <div className="flex items-start justify-between gap-3">
@@ -240,6 +240,15 @@ export default function DemoDashboardPage() {
             </div>
           </div>
         )}
+
+        <div className="pt-5 border-t border-neutral-200 text-center">
+          <Link
+            to="/author"
+            className="text-sm text-neutral-600 underline underline-offset-2 hover:text-neutral-900"
+          >
+            Wanna know more about the author?
+          </Link>
+        </div>
 
       </div>
     </div>
