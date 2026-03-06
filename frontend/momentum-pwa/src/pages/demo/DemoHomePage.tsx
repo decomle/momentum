@@ -39,7 +39,7 @@ export default function DemoHomePage() {
 
           <Link
             to="/login"
-            className="block w-full text-center py-2.5 bg-neutral-700 text-white rounded-md hover:bg-neutral-800 transition"
+            className="block w-full text-center py-2.5 btn-primary rounded-md transition"
           >
             Log in
           </Link>

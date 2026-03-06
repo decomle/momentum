@@ -190,7 +190,7 @@ export default function DemoWeeklyHabitPage() {
           {/* Action Buttons */}
           <div className="flex gap-3">
 
-          <button className="flex-1 py-3 bg-neutral-700 text-white rounded-md hover:bg-neutral-800 transition flex items-center justify-center gap-2">
+          <button className="flex-1 py-3 btn-primary rounded-md transition flex items-center justify-center gap-2">
             ✏️ Log Habit
           </button>
 
