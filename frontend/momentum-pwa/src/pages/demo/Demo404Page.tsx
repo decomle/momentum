@@ -1,6 +1,6 @@
 export default function DemoNotFoundPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="min-h-full flex items-center justify-center">
       <div className="w-full max-w-md p-6 text-center space-y-6">
 
         <div>

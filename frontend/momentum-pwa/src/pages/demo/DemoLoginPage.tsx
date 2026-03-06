@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 
 export default function DemoLoginPage() {
   return (
-    <div className="min-h-screen flex justify-center items-center">
+    <div className="min-h-full flex justify-center items-center">
       <div className="w-full max-w-md p-4 space-y-6">
 
         {/* Title */}
