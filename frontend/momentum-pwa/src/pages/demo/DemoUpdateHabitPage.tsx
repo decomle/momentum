@@ -82,14 +82,30 @@ export default function DemoUpdateHabitPage() {
                 Frequency
               </label>
 
-              <select
-                value={frequency}
-                onChange={(e) => setFrequency(e.target.value)}
-                className="w-full border border-neutral-200 rounded-md px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-neutral-300"
-              >
-                <option value="DAILY">Daily</option>
-                <option value="WEEKLY">Weekly</option>
-              </select>
+              <div className="flex gap-4">
+                <label className="inline-flex items-center gap-2 text-sm text-neutral-700">
+                  <input
+                    type="radio"
+                    name="frequency"
+                    value="DAILY"
+                    checked={frequency === "DAILY"}
+                    onChange={(e) => setFrequency(e.target.value)}
+                    className="w-4 h-4"
+                  />
+                  Daily
+                </label>
+                <label className="inline-flex items-center gap-2 text-sm text-neutral-700">
+                  <input
+                    type="radio"
+                    name="frequency"
+                    value="WEEKLY"
+                    checked={frequency === "WEEKLY"}
+                    onChange={(e) => setFrequency(e.target.value)}
+                    className="w-4 h-4"
+                  />
+                  Weekly
+                </label>
+              </div>
 
               <p className="text-xs text-neutral-500">
                 How often this habit should be completed.

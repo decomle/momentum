@@ -4,8 +4,8 @@ export default function DemoCreateHabitPage() {
       <div className="w-full space-y-8">
 
         {/* Header */}
-        <div className="text-center">
-          <div className="flex items-center justify-center gap-1">
+        <div className="space-y-1">
+          <div className="flex items-center gap-1">
             <img
               src="/icons/generated/m-mark-neutral-120.png"
               alt="Momentum M icon"
@@ -20,7 +20,7 @@ export default function DemoCreateHabitPage() {
 
         <div className="pt-6 border-t border-neutral-200">
           {/* Form */}
-          <form className="space-y-4">
+          <form className="space-y-5">
 
           {/* Habit Name */}
           <div>
@@ -51,11 +51,27 @@ export default function DemoCreateHabitPage() {
             <label className="block text-sm text-neutral-600 mb-1">
               Frequency
             </label>
-            <select className="w-full px-3 py-2 border border-neutral-200 rounded-md focus:outline-none focus:ring-2 focus:ring-neutral-300">
-              <option value="DAILY">Daily</option>
-              <option value="WEEKLY">Weekly</option>
-              <option value="MONTHLY">Monthly</option>
-            </select>
+            <div className="flex gap-4">
+              <label className="inline-flex items-center gap-2 text-sm text-neutral-700">
+                <input
+                  type="radio"
+                  name="frequency"
+                  value="DAILY"
+                  defaultChecked
+                  className="w-4 h-4"
+                />
+                Daily
+              </label>
+              <label className="inline-flex items-center gap-2 text-sm text-neutral-700">
+                <input
+                  type="radio"
+                  name="frequency"
+                  value="WEEKLY"
+                  className="w-4 h-4"
+                />
+                Weekly
+              </label>
+            </div>
           </div>
 
           {/* Target per Period */}
@@ -92,7 +108,7 @@ export default function DemoCreateHabitPage() {
           {/* Submit */}
           <button
             type="submit"
-            className="w-full py-2 bg-neutral-900 text-white rounded-md hover:bg-neutral-800 transition"
+            className="w-full mt-8 py-2 bg-neutral-900 text-white rounded-md hover:bg-neutral-800 transition"
           >
             Create Habit
           </button>
