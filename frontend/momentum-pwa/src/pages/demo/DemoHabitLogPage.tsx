@@ -47,10 +47,6 @@ export default function DemoHabitLogPage() {
               <h2 className="font-semibold text-lg">
                 {habit.name}
               </h2>
-
-              <p className="text-sm text-neutral-500">
-                {habit.description}
-              </p>
             </div>
 
             <div className="text-sm text-neutral-600">
@@ -113,10 +109,10 @@ export default function DemoHabitLogPage() {
                 <button
                   key={m.score}
                   onClick={() => setMood(m.score)}
-                  className={`w-9 h-9 flex items-center justify-center rounded-full text-sm
+                  className={`w-10 h-10 flex items-center justify-center rounded-full text-xl transition
                 ${mood === m.score
-                      ? "bg-neutral-900 text-white"
-                      : "border border-neutral-300 text-neutral-600"
+                      ? "bg-neutral-200 border border-neutral-300"
+                      : "border border-neutral-300 bg-white hover:bg-neutral-50"
                     }`}
                 >
                   {m.emoji}
@@ -124,10 +120,6 @@ export default function DemoHabitLogPage() {
               ))}
 
             </div>
-
-            <p className="text-xs text-neutral-500">
-              -3 very low · 0 neutral · +3 great
-            </p>
           </div>
 
           {/* Remark */}
