@@ -1,10 +1,12 @@
+import { Link } from "react-router-dom"
+
 export default function DemoCreateHabitPage() {
   return (
     <div className="min-h-full p-4">
       <div className="w-full space-y-8">
 
         {/* Header */}
-        <div className="space-y-1">
+        <Link to="/demo/dashboard" className="block space-y-1">
           <div className="flex items-center gap-1">
             <img
               src="/icons/generated/m-mark-neutral-120.png"
@@ -16,7 +18,7 @@ export default function DemoCreateHabitPage() {
           <p className="text-sm text-neutral-500">
             Start building a better routine today.
           </p>
-        </div>
+        </Link>
 
         <div className="pt-6 border-t border-neutral-200">
           {/* Form */}

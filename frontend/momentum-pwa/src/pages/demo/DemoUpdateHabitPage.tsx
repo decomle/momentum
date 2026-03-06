@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Link } from "react-router-dom"
 
 export default function DemoUpdateHabitPage() {
   const [name, setName] = useState("Drink Water")
@@ -13,7 +14,7 @@ export default function DemoUpdateHabitPage() {
     <div className="min-h-full flex justify-center">
       <div className="w-full max-w-md p-4 space-y-6">
         {/* Title */}
-        <div className="space-y-1">
+        <Link to="/demo/dashboard" className="block space-y-1">
           <div className="flex items-center gap-1">
             <img
               src="/icons/generated/m-mark-neutral-120.png"
@@ -26,7 +27,7 @@ export default function DemoUpdateHabitPage() {
           <p className="text-sm text-neutral-500">
             Modify the habit details.
           </p>
-        </div>
+        </Link>
 
         <div className="pt-6 border-t border-neutral-200 space-y-6">
           {/* Form Error */}

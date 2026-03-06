@@ -4,14 +4,14 @@ export default function DemoTermsPage() {
   return (
     <div className="min-h-full flex items-start px-6 pt-12 pb-8">
       <div className="w-full max-w-2xl mx-auto space-y-6">
-        <div className="space-y-2">
+        <Link to="/demo/dashboard" className="block space-y-2">
           <h1 className="text-3xl font-bold tracking-tight text-neutral-900">
             Terms and Conditions
           </h1>
           <p className="text-sm text-neutral-600">
             Demo terms for Momentum preview flows.
           </p>
-        </div>
+        </Link>
 
         <div className="rounded-xl border border-neutral-200 bg-white p-5 shadow-sm space-y-4 text-sm text-neutral-700">
           <p>

@@ -6,7 +6,7 @@ export default function DemoLoginPage() {
       <div className="w-full space-y-8">
 
         {/* Title */}
-        <div className="text-center">
+        <Link to="/demo/dashboard" className="block text-center">
           <div className="flex items-center justify-center gap-1">
             <img
               src="/icons/generated/m-mark-neutral-120.png"
@@ -18,7 +18,7 @@ export default function DemoLoginPage() {
           <p className="text-sm text-neutral-500">
             Log in to continue your habits
           </p>
-        </div>
+        </Link>
 
         <div className="pt-6 border-t border-neutral-200">
           <form className="space-y-4">

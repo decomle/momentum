@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { Link } from "react-router-dom"
 
 export default function DemoHabitLogPage() {
   const [selectedDate, setSelectedDate] = useState("today")
@@ -43,7 +44,7 @@ export default function DemoHabitLogPage() {
     <div className="min-h-full flex justify-center">
       <div className="w-full max-w-md p-4 space-y-6">
         {/* Title */}
-        <div className="space-y-1">
+        <Link to="/demo/dashboard" className="block space-y-1">
           <div className="flex items-center gap-1">
             <img
               src="/icons/generated/m-mark-neutral-120.png"
@@ -55,7 +56,7 @@ export default function DemoHabitLogPage() {
           <p className="text-sm text-neutral-500">
             Record your progress for this habit.
           </p>
-        </div>
+        </Link>
 
         <div className="pt-6 border-t border-neutral-200 space-y-6">
           {/* Log Date */}

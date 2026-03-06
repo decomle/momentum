@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom"
+
 export default function DemoHabitPage() {
   const habit = {
     name: "Drink",
@@ -51,7 +53,7 @@ export default function DemoHabitPage() {
       <div className="w-full max-w-md p-4 space-y-6">
 
         {/* Header */}
-        <div className="space-y-1">
+        <Link to="/demo/dashboard" className="block space-y-1">
           <div className="flex items-center gap-1">
             <img
               src="/icons/generated/m-mark-neutral-120.png"
@@ -61,7 +63,7 @@ export default function DemoHabitPage() {
             <h1 className="text-2xl font-semibold tracking-tight">{habit.name}</h1>
           </div>
           <p className="text-sm text-neutral-500">{headingSlogan}</p>
-        </div>
+        </Link>
 
         <div className="pt-6 border-t border-neutral-200 space-y-6">
           {/* Habit Stats */}

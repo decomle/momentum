@@ -23,7 +23,7 @@ export default function DemoRegisterPage() {
   return (
     <div className="min-h-full flex items-start px-6 pt-12 pb-6">
       <div className="w-full space-y-8">
-        <div className="text-center">
+        <Link to="/demo/dashboard" className="block text-center">
           <div className="flex items-center justify-center gap-1">
             <img
               src="/icons/generated/m-mark-neutral-120.png"
@@ -35,7 +35,7 @@ export default function DemoRegisterPage() {
           <p className="mt-1 text-sm text-neutral-500">
             Build better habits, one small step each day.
           </p>
-        </div>
+        </Link>
 
         <div className="pt-6 border-t border-neutral-200 space-y-4">
 
