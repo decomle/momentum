@@ -18,9 +18,9 @@ export default function DemoHabitPage() {
     },
 
     recent_periods: [
-      { start_date: "2026-03-03", end_date: "2026-03-03", is_successful: false },
+      { start_date: "2026-03-03", end_date: "2026-03-03", is_successful: true },
       { start_date: "2026-03-02", end_date: "2026-03-02", is_successful: false },
-      { start_date: "2026-03-01", end_date: "2026-03-01", is_successful: false },
+      { start_date: "2026-03-01", end_date: "2026-03-01", is_successful: true },
       { start_date: "2026-02-28", end_date: "2026-02-28", is_successful: false },
       { start_date: "2026-02-27", end_date: "2026-02-27", is_successful: false },
     ],
@@ -36,6 +36,15 @@ export default function DemoHabitPage() {
   const headingSlogan =
     habit.description?.trim() || "Small daily steps create lasting momentum."
   const didLogCurrentPeriod = habit.current_period.actual_logs > 0
+  const moodEmojiByScore: Record<number, string> = {
+    "-3": "😫",
+    "-2": "😟",
+    "-1": "🙁",
+    0: "🙂",
+    1: "😄",
+    2: "😁",
+    3: "🤩",
+  }
 
   return (
     <div className="min-h-full flex justify-center">
@@ -69,7 +78,7 @@ export default function DemoHabitPage() {
             <div className="w-px h-10 bg-neutral-200" />
 
             <div className="text-center flex-1">
-              <p className="font-medium text-lg">🔥 {habit.current_streak}</p>
+              <p className="font-medium text-lg">🏃 {habit.current_streak}</p>
               <p className="text-xs text-neutral-500">Current</p>
             </div>
 
@@ -165,7 +174,7 @@ export default function DemoHabitPage() {
                 className="flex justify-between text-sm text-neutral-600"
               >
                 <span>{log.log_date}</span>
-                <span>Mood {log.mood_score}</span>
+                <span>{moodEmojiByScore[log.mood_score] ?? "🙂"}</span>
               </div>
             ))}
 
