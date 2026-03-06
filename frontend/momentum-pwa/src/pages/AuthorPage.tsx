@@ -7,6 +7,7 @@ const skills = [
   "TypeScript",
   "Python",
   "Django",
+  "FastApi",
   "SFCC",
   "Fluent Commerce OMS",
   "React",
@@ -15,6 +16,7 @@ const skills = [
   "Oracle",
   "Redis",
   "Playwright",
+  "..."
 ]
 
 const highlights = [
@@ -45,7 +47,7 @@ const experience = [
   {
     company: "Groove Technology",
     role: "Senior Software Engineer",
-    period: "Dec 2016 - Present",
+    period: "Dec 2016 - Nov 2025",
     points: [
       "Led system reliability for AU/NZ e-commerce ecosystems.",
       "Designed OMS orchestration flows across third-party integrations.",
@@ -181,15 +183,26 @@ export default function AuthorPage() {
               ))}
             </div>
           </section>
+
+          <section className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm lg:col-span-3">
+              <h2 className="text-xl font-semibold">Fun fact</h2>
+              <div className="mt-4 grid gap-4">
+                <p className="text-sm text-neutral-600">
+                  I enjoy using my spare time to craft web tools and offering them for free to anyone. See if you like these...
+                </p>
+                <div className="lg:col-span-2">
+                  <Link to="/" className="rounded-md border border-neutral-300 px-4 py-2 text-sm font-medium hover:bg-neutral-100">
+                    Momentum  
+                  </Link>
+                </div>
+              </div>
+            </section>
         </main>
 
         <footer className="mt-8 flex flex-col items-start justify-between gap-4 rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm md:flex-row md:items-center">
           <p className="text-sm text-neutral-600">
             Open to high-impact engineering roles. Email: <a className="underline underline-offset-2" href="mailto:thedat230589@gmail.com">thedat230589@gmail.com</a>
           </p>
-          <Link to="/" className="rounded-md border border-neutral-300 px-4 py-2 text-sm font-medium hover:bg-neutral-100">
-            Back To Momentum Demo
-          </Link>
         </footer>
       </div>
     </div>

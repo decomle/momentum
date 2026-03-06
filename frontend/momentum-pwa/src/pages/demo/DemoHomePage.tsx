@@ -23,9 +23,9 @@ export default function DemoHomePage() {
             </p>
           </div>
 
-          <JammyLoader/>
-
           <div className="border-t border-neutral-200" />
+
+          <JammyLoader/>
 
           {/* Description Card */}
           <div className="bg-white rounded-xl p-5 shadow-sm border border-neutral-100 space-y-3">
