@@ -20,13 +20,22 @@ export default function DemoUpdateProfilePage() {
 
 	return (
 		<div className="min-h-full flex items-start justify-center p-4">
-			<div className="w-full max-w-md space-y-6">
+			<div className="w-full max-w-md space-y-8">
+				<div className="space-y-1">
+					<div className="flex items-center gap-1">
+						<img
+							src="/icons/generated/m-mark-neutral-120.png"
+							alt="Momentum M icon"
+							className="w-10 h-10 object-contain"
+						/>
+						<h1 className="text-2xl font-semibold tracking-tight text-neutral-900">Update profile</h1>
+					</div>
+					<p className="text-sm text-neutral-500">
+						Keep your profile details up to date for a smoother habit journey.
+					</p>
+				</div>
 
-				<h1 className="text-2xl font-semibold text-neutral-900">
-					Update Profile
-				</h1>
-
-				<div className="bg-white rounded-xl shadow-sm border border-neutral-200 p-5 space-y-4">
+				<div className="pt-6 border-t border-neutral-200 space-y-4">
 
 					{/* Username (readonly) */}
 					<div>

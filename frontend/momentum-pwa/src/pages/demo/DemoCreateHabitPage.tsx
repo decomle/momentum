@@ -1,18 +1,26 @@
 export default function DemoCreateHabitPage() {
   return (
     <div className="min-h-full p-4">
-      <div className="w-full space-y-6">
+      <div className="w-full space-y-8">
 
         {/* Header */}
         <div className="text-center">
-          <h1 className="text-xl font-semibold">Create Habit</h1>
+          <div className="flex items-center justify-center gap-1">
+            <img
+              src="/icons/generated/m-mark-neutral-120.png"
+              alt="Momentum M icon"
+              className="w-10 h-10 object-contain"
+            />
+            <h1 className="text-2xl font-semibold tracking-tight">Create Habit</h1>
+          </div>
           <p className="text-sm text-neutral-500">
             Start building a better routine today.
           </p>
         </div>
 
-        {/* Form */}
-        <form className="space-y-4">
+        <div className="pt-6 border-t border-neutral-200">
+          {/* Form */}
+          <form className="space-y-4">
 
           {/* Habit Name */}
           <div>
@@ -88,7 +96,8 @@ export default function DemoCreateHabitPage() {
           >
             Create Habit
           </button>
-        </form>
+          </form>
+        </div>
 
       </div>
     </div>
