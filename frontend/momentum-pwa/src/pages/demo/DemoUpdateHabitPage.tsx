@@ -140,7 +140,7 @@ export default function DemoUpdateHabitPage() {
               Cancel
             </button>
 
-            <button className="flex-1 py-3 bg-neutral-900 text-white rounded-md hover:bg-neutral-800 transition">
+            <button className="flex-1 py-3 bg-neutral-700 text-white rounded-md hover:bg-neutral-800 transition">
               Update Habit
             </button>
 

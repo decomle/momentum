@@ -201,7 +201,7 @@ export default function DemoRegisterPage() {
           {/* Submit */}
           <button
             type="button"
-            className="w-full py-2 bg-neutral-900 text-white rounded-md hover:bg-neutral-800 transition"
+            className="w-full py-2 bg-neutral-700 text-white rounded-md hover:bg-neutral-800 transition"
           >
             Create Account
           </button>

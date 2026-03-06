@@ -177,7 +177,7 @@ export default function DemoDashboardPage() {
             </p>
             <button
               onClick={goToCreateHabit}
-              className="mt-4 inline-flex items-center justify-center px-4 py-2 rounded-md bg-neutral-900 text-white text-sm hover:bg-neutral-800 transition"
+              className="mt-4 inline-flex items-center justify-center px-4 py-2 rounded-md bg-neutral-700 text-white text-sm hover:bg-neutral-800 transition"
             >
               Create your first habit
             </button>
@@ -217,7 +217,7 @@ export default function DemoDashboardPage() {
               <button
                 onClick={goToCreateHabit}
                 aria-label="Add habit"
-                className={`absolute right-0 bottom-0 w-14 h-14 rounded-full bg-neutral-900 text-white text-3xl leading-none shadow-lg hover:bg-neutral-800 flex items-center justify-center transition-[transform,opacity] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform ${
+                className={`absolute right-0 bottom-0 w-14 h-14 rounded-full bg-neutral-700 text-white text-3xl leading-none shadow-lg hover:bg-neutral-800 flex items-center justify-center transition-[transform,opacity] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform ${
                   isAtBottom
                     ? "opacity-0 scale-75 translate-y-1 pointer-events-none"
                     : "opacity-100 scale-100 translate-y-0 pointer-events-auto"
@@ -229,7 +229,7 @@ export default function DemoDashboardPage() {
               <button
                 onClick={goToCreateHabit}
                 aria-label="Add new habit"
-                className={`absolute left-0 right-0 bottom-0 h-12 rounded-md bg-neutral-900 text-white text-sm font-medium shadow-lg hover:bg-neutral-800 transition-[transform,opacity] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform ${
+                className={`absolute left-0 right-0 bottom-0 h-12 rounded-md bg-neutral-700 text-white text-sm font-medium shadow-lg hover:bg-neutral-800 transition-[transform,opacity] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform ${
                   isAtBottom
                     ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
                     : "opacity-0 scale-95 translate-y-1 pointer-events-none"

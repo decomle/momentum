@@ -27,7 +27,7 @@ export default function DemoNotFoundPage() {
         </div>
 
         <button
-          className="w-full py-3 bg-neutral-900 text-white rounded-md hover:bg-neutral-800 transition"
+          className="w-full py-3 bg-neutral-700 text-white rounded-md hover:bg-neutral-800 transition"
         >
           Go to Dashboard
         </button>

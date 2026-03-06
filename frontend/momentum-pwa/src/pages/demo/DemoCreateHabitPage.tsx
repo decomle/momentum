@@ -108,7 +108,7 @@ export default function DemoCreateHabitPage() {
           {/* Submit */}
           <button
             type="submit"
-            className="w-full mt-8 py-2 bg-neutral-900 text-white rounded-md hover:bg-neutral-800 transition"
+            className="w-full mt-8 py-2 bg-neutral-700 text-white rounded-md hover:bg-neutral-800 transition"
           >
             Create Habit
           </button>

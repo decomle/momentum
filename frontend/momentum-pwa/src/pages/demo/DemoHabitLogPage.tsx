@@ -129,7 +129,7 @@ export default function DemoHabitLogPage() {
           </div>
 
           {/* Submit */}
-          <button className="w-full py-3 bg-neutral-900 text-white rounded-md hover:bg-neutral-800 transition">
+          <button className="w-full py-3 bg-neutral-700 text-white rounded-md hover:bg-neutral-800 transition">
             Save log
           </button>
 

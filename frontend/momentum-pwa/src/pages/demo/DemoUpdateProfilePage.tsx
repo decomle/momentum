@@ -157,7 +157,7 @@ export default function DemoUpdateProfilePage() {
 					{/* Save */}
 					<button
 						type="button"
-						className="w-full py-2 bg-neutral-900 text-white rounded-md hover:bg-neutral-800 transition"
+						className="w-full py-2 bg-neutral-700 text-white rounded-md hover:bg-neutral-800 transition"
 					>
 						Save Changes
 					</button>
