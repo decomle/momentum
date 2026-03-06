@@ -90,13 +90,13 @@ export default function DemoDashboardPage() {
         {/* Header */}
         <div className="flex items-start justify-between gap-3">
           <div>
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-1">
               <img
                 src="/icons/generated/m-mark-neutral-120.png"
                 alt="Momentum M icon"
-                className="w-8 h-8 object-contain"
+                className="w-10 h-10 object-contain"
               />
-              <h1 className="text-3xl font-bold tracking-tight leading-none">omentum</h1>
+              <h1 className="-ml-1 text-3xl font-bold tracking-tight leading-none">omentum</h1>
             </div>
             <p className="mt-1 text-xs text-neutral-500">Build good habit - build good self</p>
           </div>
