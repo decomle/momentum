@@ -242,7 +242,7 @@ export default function DemoDashboardPage() {
         )}
 
         <div className="pt-5 border-t border-neutral-200 text-center">
-          <Link
+          <Link target="_blank"
             to="/author"
             className="text-sm text-neutral-600 underline underline-offset-2 hover:text-neutral-900"
           >
