@@ -118,7 +118,7 @@ export default function DemoDashboardPage() {
 
   return (
     <div className="min-h-full flex justify-center">
-      <div className="w-full max-w-md p-4 pb-24 space-y-5">
+      <div className="w-full max-w-md p-4 pb-28 space-y-5">
 
         {/* Header */}
         <div className="flex items-start justify-between gap-3">
@@ -212,7 +212,7 @@ export default function DemoDashboardPage() {
         )}
 
         {habits.length > 0 && (
-          <div className="sticky bottom-4 pointer-events-none">
+          <div className="sticky bottom-[calc(env(safe-area-inset-bottom)+12px)] pointer-events-none">
             <div className="relative h-14 w-full">
               <button
                 onClick={goToCreateHabit}
