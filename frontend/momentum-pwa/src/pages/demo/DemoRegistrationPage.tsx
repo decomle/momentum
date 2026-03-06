@@ -26,9 +26,9 @@ export default function DemoRegisterPage() {
             <img
               src="/icons/generated/m-mark-neutral-120.png"
               alt="Momentum M icon"
-              className="w-10 h-10 object-contain"
+              className="w-11 h-11 object-contain"
             />
-            <h1 className="text-2xl font-semibold text-neutral-900">Create account</h1>
+            <h1 className="-ml-1 text-3xl font-bold tracking-tight leading-none text-neutral-900">Create account</h1>
           </div>
           <p className="mt-1 text-sm text-neutral-500">
             Build better habits, one small step each day.

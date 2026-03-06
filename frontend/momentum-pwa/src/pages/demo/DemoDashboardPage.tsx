@@ -131,7 +131,7 @@ export default function DemoDashboardPage() {
               />
               <h1 className="-ml-1 text-4xl font-bold tracking-tight leading-none">omentum</h1>
             </div>
-            <p className="mt-1 text-xs text-neutral-500">Build good habits - good life - good self</p>
+            <p className="text-xs text-neutral-500">Build good habits - good life - good self</p>
           </div>
           <div className="self-end text-right leading-tight">
             <p className="text-sm text-neutral-500">{meta.date}</p>
