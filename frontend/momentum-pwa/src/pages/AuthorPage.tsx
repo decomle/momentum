@@ -188,13 +188,22 @@ export default function AuthorPage() {
               <h2 className="text-xl font-semibold">Fun fact</h2>
               <div className="mt-4 grid gap-4">
                 <p className="text-sm text-neutral-600">
-                  I enjoy using my spare time to craft web tools and offering them for free to anyone. See if you like these...
+                  I enjoy my spare time to craft web tools and offering them for free to anyone. See if you like these...
                 </p>
-                <div className="lg:col-span-2">
-                  <Link to="/" className="rounded-md border border-neutral-300 px-4 py-2 text-sm font-medium hover:bg-neutral-100">
-                    Momentum  
-                  </Link>
+                <div className="rounded-lg border border-neutral-200 p-4">
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                    <Link
+                      to="/"
+                      className="inline-flex w-fit shrink-0 rounded-md border border-neutral-300 px-4 py-2 text-sm font-medium hover:bg-neutral-100"
+                    >
+                      Momentum
+                    </Link>
+                    <p className="text-sm text-neutral-600">
+                      A lightweight habit tracker to help people stay consistent routines
+                    </p>
+                  </div>
                 </div>
+                
               </div>
             </section>
         </main>
