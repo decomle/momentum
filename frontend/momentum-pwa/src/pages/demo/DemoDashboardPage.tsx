@@ -71,6 +71,7 @@ export default function DemoDashboardPage() {
 
   const meta = {
     date: "2026-03-05",
+    lunar: "03/12",
     total_habits: habits.length,
     completed_today: habits.filter((habit) => habit.done).length,
     pending_today: habits.filter((habit) => !habit.done).length,
@@ -100,7 +101,10 @@ export default function DemoDashboardPage() {
             </div>
             <p className="mt-1 text-xs text-neutral-500">Build good habit - build good self</p>
           </div>
-          <span className="text-sm text-neutral-500">{meta.date}</span>
+          <div className="self-end text-right leading-tight">
+            <p className="text-sm text-neutral-500">{meta.date}</p>
+            <p className="mt-0.5 text-xs text-neutral-500">Lunar: {meta.lunar}</p>
+          </div>
         </div>
 
         {/* Meta */}
