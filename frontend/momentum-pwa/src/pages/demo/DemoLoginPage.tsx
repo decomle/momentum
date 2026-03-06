@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom"
+import JammyLoader from "@/components/JammyLoader"
 
 export default function DemoLoginPage() {
   return (
@@ -71,6 +72,10 @@ export default function DemoLoginPage() {
               Create one
             </Link>
           </p>
+        </div>
+
+        <div className="mt-8">
+          <JammyLoader />
         </div>
 
         <div className="mt-auto pt-5 border-t border-neutral-200 text-center">
