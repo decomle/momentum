@@ -13,6 +13,7 @@ import DemoDashboardPage from "@/pages/demo/DemoDashboardPage"
 import DemoNotFoundPage from "@/pages/demo/Demo404Page"
 import DemoWeeklyHabitPage from "@/pages/demo/DemoWeeklyHabitPage"
 import DemoTermsPage from "@/pages/demo/DemoTermsPage"
+import AuthorPage from "@/pages/AuthorPage"
 
 import AuthGuard from "@/features/auth/AuthGuard"
 import AppLayout from "@/layout/AppLayout"
@@ -72,6 +73,10 @@ export const router = createBrowserRouter([
       {
         path: "/demo/dashboard",
         element: <AuthGuard><DemoDashboardPage /></AuthGuard>,
+      },
+      {
+        path: "/author",
+        element: <AuthorPage />,
       },
       {
         path: "/dashboard",
