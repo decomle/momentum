@@ -26,11 +26,13 @@ export default function DemoWeeklyHabitPage() {
     ],
 
     recent_logs: [
-      { log_date: "2026-01-10", mood_score: 0 },
-      { log_date: "2026-01-09", mood_score: 0 },
-      { log_date: "2026-01-08", mood_score: 0 },
-      { log_date: "2026-01-07", mood_score: 0 },
-      { log_date: "2026-01-06", mood_score: 0 },
+      { log_date: "2026-03-08", mood_score: 1 },
+      { log_date: "2026-03-07", mood_score: 0 },
+      { log_date: "2026-03-06", mood_score: 2 },
+      { log_date: "2026-03-05", mood_score: -1 },
+      { log_date: "2026-03-04", mood_score: 3 },
+      { log_date: "2026-03-03", mood_score: -2 },
+      { log_date: "2026-03-02", mood_score: -3 },
     ],
   }
   const headingSlogan =
@@ -39,6 +41,15 @@ export default function DemoWeeklyHabitPage() {
   const periodRequired = habit.current_period.required_for_success
   const isMetTarget = periodActual === periodRequired
   const isOverTarget = periodActual > periodRequired
+  const moodEmojiByScore: Record<number, string> = {
+    "-3": "😫",
+    "-2": "😟",
+    "-1": "🙁",
+    0: "🙂",
+    1: "😄",
+    2: "😁",
+    3: "🤩",
+  }
 
   return (
     <div className="min-h-full flex justify-center">
@@ -168,7 +179,7 @@ export default function DemoWeeklyHabitPage() {
                 className="flex justify-between text-sm text-neutral-600"
               >
                 <span>{log.log_date}</span>
-                <span>Mood {log.mood_score}</span>
+                <span>{moodEmojiByScore[log.mood_score] ?? "🙂"}</span>
               </div>
             ))}
 
