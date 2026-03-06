@@ -69,13 +69,19 @@ export default function DemoDashboardPage() {
     },
   ]
 
+  const completedToday = habits.filter((habit) => habit.done).length
+  const pendingToday = habits.length - completedToday
+  const completionRate = habits.length > 0
+    ? Math.round((completedToday / habits.length) * 100)
+    : 0
+
   const meta = {
     date: "2026-03-05",
     lunar: "03/12",
     total_habits: habits.length,
-    completed_today: habits.filter((habit) => habit.done).length,
-    pending_today: habits.filter((habit) => !habit.done).length,
-    completion_rate: Math.round((habits.filter((habit) => habit.done).length / habits.length) * 100),
+    completed_today: completedToday,
+    pending_today: pendingToday,
+    completion_rate: completionRate,
     warning_messages: [],
     ai_message: "A fresh start is always possible.",
   }
@@ -84,9 +90,13 @@ export default function DemoDashboardPage() {
     navigate("/demo/habit_log")
   }
 
+  const goToCreateHabit = () => {
+    navigate("/demo/create_habit")
+  }
+
   return (
     <div className="min-h-full flex justify-center">
-      <div className="w-full max-w-md p-4 space-y-5">
+      <div className="w-full max-w-md p-4 pb-24 space-y-5">
 
         {/* Header */}
         <div className="flex items-start justify-between gap-3">
@@ -99,7 +109,7 @@ export default function DemoDashboardPage() {
               />
               <h1 className="-ml-1 text-4xl font-bold tracking-tight leading-none">omentum</h1>
             </div>
-            <p className="mt-1 text-xs text-neutral-500">Build good habit - build good self</p>
+            <p className="mt-1 text-xs text-neutral-500">Build good habits - good life - good self</p>
           </div>
           <div className="self-end text-right leading-tight">
             <p className="text-sm text-neutral-500">{meta.date}</p>
@@ -137,32 +147,56 @@ export default function DemoDashboardPage() {
           {meta.ai_message}
         </div>
 
-        {habits.map((habit) => (
-          <div
-            key={habit.name}
-            onClick={goToHabitLog}
-            className="bg-white rounded-xl p-4 shadow-sm border border-neutral-100 cursor-pointer hover:bg-neutral-50 transition"
-          >
-            <div className="flex items-start justify-between">
-              <div>
-                <h2 className="font-semibold text-lg">{habit.name}</h2>
-                <p className="text-sm text-neutral-500">{habit.description}</p>
+        {habits.length === 0 ? (
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-neutral-100 text-center">
+            <h2 className="text-lg font-semibold">No habits yet</h2>
+            <p className="mt-1 text-sm text-neutral-500">
+              Start with one small habit and build your momentum.
+            </p>
+            <button
+              onClick={goToCreateHabit}
+              className="mt-4 inline-flex items-center justify-center px-4 py-2 rounded-md bg-neutral-900 text-white text-sm hover:bg-neutral-800 transition"
+            >
+              Create your first habit
+            </button>
+          </div>
+        ) : (
+          habits.map((habit) => (
+            <div
+              key={habit.name}
+              onClick={goToHabitLog}
+              className="bg-white rounded-xl p-4 shadow-sm border border-neutral-100 cursor-pointer hover:bg-neutral-50 transition"
+            >
+              <div className="flex items-start justify-between">
+                <div>
+                  <h2 className="font-semibold text-lg">{habit.name}</h2>
+                  <p className="text-sm text-neutral-500">{habit.description}</p>
+                </div>
+
+                {habit.done ? (
+                  <div className="flex items-center justify-center w-7 h-7 rounded-full bg-green-500 text-white text-sm">
+                    ✓
+                  </div>
+                ) : (
+                  <div className="flex items-center justify-center w-7 h-7 rounded-full border border-neutral-300"></div>
+                )}
               </div>
 
-              {habit.done ? (
-                <div className="flex items-center justify-center w-7 h-7 rounded-full bg-green-500 text-white text-sm">
-                  ✓
-                </div>
-              ) : (
-                <div className="flex items-center justify-center w-7 h-7 rounded-full border border-neutral-300"></div>
-              )}
+              <div className="mt-3 text-sm text-neutral-600">{habit.stats}</div>
+
+              <div className="mt-3 text-sm italic text-neutral-500">{habit.note}</div>
             </div>
+          ))
+        )}
 
-            <div className="mt-3 text-sm text-neutral-600">{habit.stats}</div>
-
-            <div className="mt-3 text-sm italic text-neutral-500">{habit.note}</div>
-          </div>
-        ))}
+        <div className="sticky bottom-0 -mx-4 px-4 pt-3 pb-4 bg-gradient-to-t from-white via-white to-transparent">
+          <button
+            onClick={goToCreateHabit}
+            className="w-full py-3 rounded-md bg-neutral-900 text-white font-medium hover:bg-neutral-800 transition"
+          >
+            Add Habit
+          </button>
+        </div>
 
       </div>
     </div>
