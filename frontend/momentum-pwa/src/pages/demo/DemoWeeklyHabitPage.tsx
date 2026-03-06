@@ -72,7 +72,7 @@ export default function DemoWeeklyHabitPage() {
             <div className="w-px h-10 bg-neutral-200" />
 
             <div className="text-center flex-1">
-              <p className="font-medium text-lg">🔥 {habit.current_streak}</p>
+              <p className="font-medium text-lg">🏃 {habit.current_streak}</p>
               <p className="text-xs text-neutral-500">Current</p>
             </div>
 
