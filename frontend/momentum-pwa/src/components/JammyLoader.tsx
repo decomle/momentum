@@ -13,7 +13,7 @@ function JammyLoader({desc = "Perfecting Yolk..."} : {desc?: string | React.Reac
 
       </div>
 
-      <p className="text-neutral-600 tracking-tight">{desc}</p>
+      <p className="text-neutral-600 text-sm tracking-tight">{desc}</p>
     </div>
   );
 }

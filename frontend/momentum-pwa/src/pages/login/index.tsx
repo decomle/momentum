@@ -1,3 +1,4 @@
+import { useRef, useState } from "react"
 import { useMutation } from '@tanstack/react-query'
 import { Link, useNavigate, useLocation } from "react-router-dom"
 
@@ -10,6 +11,8 @@ import { JammyLoader, LoadingDots, AuthorCard } from '@/components/commons'
 export default () => {
   const navigate = useNavigate()
   const location = useLocation()
+  const formRef = useRef<HTMLFormElement>(null)
+  const [isFormValid, setIsFormValid] = useState(false)
 
   const from = location.state?.from?.pathname || "/demo/dashboard"
 
@@ -29,6 +32,10 @@ export default () => {
     mutation.mutate({ email, password })
   }
 
+  function handleFormInput() {
+    setIsFormValid(formRef.current?.checkValidity() ?? false)
+  }
+
   return (
     <div className="h-full flex px-6 pt-12 pb-6">
       <div className="w-full flex-1 flex flex-col">
@@ -38,15 +45,17 @@ export default () => {
           <CenterAlginedHeading />
 
           <div className="pt-6 border-t border-neutral-200">
-            <form className="space-y-4" action={handleSubmit}>
-
+            <form ref={formRef} className="space-y-4" 
+              action={handleSubmit}
+              onInput={handleFormInput}
+              onChange={handleFormInput}>
               {/* Email */}
               <div>
                 <label className="block text-sm text-neutral-600 mb-1">
                   Email
                 </label>
 
-                <input type="email" placeholder="your_email@gmail.com"
+                <input type="email" name="email" required placeholder="your_email@gmail.com"
                   className="w-full px-3 py-2 border border-neutral-200 rounded-md focus:outline-none focus:ring-2 focus:ring-neutral-300"
                 />
               </div>
@@ -57,13 +66,15 @@ export default () => {
                   Password
                 </label>
 
-                <input type="password" placeholder="******"
+                <input type="password" name="password" required placeholder="******"
                   className="w-full px-3 py-2 border border-neutral-200 rounded-md focus:outline-none focus:ring-2 focus:ring-neutral-300"
                 />
               </div>
 
               {/* Login Button */}
-              <button type="submit" className="w-full py-2 btn-primary rounded-md transition">
+              <button type="submit" disabled={!isFormValid || mutation.isPending}
+                className="w-full py-2 btn-primary rounded-md transition disabled:opacity-50 disabled:cursor-not-allowed"
+              >
                 Log in
               </button>
 
@@ -80,7 +91,7 @@ export default () => {
         </div>
 
         <div className="mt-8">
-          <JammyLoader desc={<LoadingDots prefix="Remember to install as app for easy access" />}/>
+          <JammyLoader desc={<LoadingDots prefix="Install as app for easy access" />}/>
         </div>
 
         <div className="mt-auto pt-5 border-t border-neutral-200 text-center">
