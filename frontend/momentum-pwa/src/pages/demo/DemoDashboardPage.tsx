@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
+import { AuthorCard } from "@/components/commons"
 import { DashboardHeading } from "@/components/headings"
 
 export default function DemoDashboardPage() {
@@ -228,12 +229,7 @@ export default function DemoDashboardPage() {
         )}
 
         <div className="pt-5 border-t border-neutral-200 text-center">
-          <Link target="_blank"
-            to="/author"
-            className="text-sm text-neutral-600 underline underline-offset-2 hover:text-neutral-900"
-          >
-            Wanna know more about the author?
-          </Link>
+          <AuthorCard />
         </div>
 
       </div>

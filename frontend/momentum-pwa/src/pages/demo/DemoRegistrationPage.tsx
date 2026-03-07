@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import { CenterAlginedHeading } from "@/components/headings"
+import { AuthorCard } from "@/components/commons"
 
 const TIMEZONES = [
   "Asia/Ho_Chi_Minh",
@@ -227,12 +228,7 @@ export default function DemoRegisterPage() {
         </div>
 
         <div className="pt-5 border-t border-neutral-200 text-center">
-          <Link target="_blank"
-            to="/author"
-            className="text-sm text-neutral-600 underline underline-offset-2 hover:text-neutral-900"
-          >
-            Wanna know more about the author?
-          </Link>
+          <AuthorCard />
         </div>
       </div>
     </div>
