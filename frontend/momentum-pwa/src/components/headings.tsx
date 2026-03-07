@@ -1,4 +1,7 @@
 import { Link } from "react-router-dom"
+import { LunarDateCard } from "./commons"
+
+type HeadingProps = { heading?: string, desc?: string}
 
 const DEFAULT_DESCS = [
   "Build good habits - good life - good self",
@@ -10,7 +13,7 @@ const DEFAULT_DESCS = [
 ]
 
 
-export const LeftAlginedHeading = ({heading = "omentum", desc = DEFAULT_DESCS[Math.floor(Math.random() * DEFAULT_DESCS.length)]}: {heading : string, desc?: string}) => {
+export const LeftAlginedHeading = ({heading = "omentum", desc = DEFAULT_DESCS[Math.floor(Math.random() * DEFAULT_DESCS.length)]}: HeadingProps) => {
     return (
         <Link to="/demo/dashboard" className="block space-y-1">
           <div className="flex items-center gap-1">
@@ -28,7 +31,7 @@ export const LeftAlginedHeading = ({heading = "omentum", desc = DEFAULT_DESCS[Ma
     )
 }
 
-export const CenterAlginedHeading =  ({heading = "omentum", desc = DEFAULT_DESCS[Math.floor(Math.random() * DEFAULT_DESCS.length)]}: {heading?: string, desc?: string}) => {
+export const CenterAlginedHeading =  ({heading = "omentum", desc = DEFAULT_DESCS[Math.floor(Math.random() * DEFAULT_DESCS.length)]}: HeadingProps) => {
     return (
         <Link to="/demo/dashboard" className="block space-y-2">
             <div className="text-center space-y-2">
@@ -63,12 +66,7 @@ export const DashboardHeading = ({date, lunar}:{date?:string, lunar?: string}) =
             </div>
             <p className="text-xs text-neutral-500">{DEFAULT_DESCS[0]}</p>
           </div>
-          { (lunar || date) && (
-            <div className="self-end text-right leading-tight">
-              <p className="text-sm text-neutral-500">{date}</p>
-              <p className="mt-0.5 text-xs text-neutral-500">Lunar: {lunar}</p>
-            </div>
-          )}
+          <LunarDateCard date={date} lunar={lunar} />
         </div>
     )
 }
