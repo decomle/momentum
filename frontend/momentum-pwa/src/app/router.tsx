@@ -1,10 +1,9 @@
 import { createBrowserRouter } from "react-router-dom"
-import LoginPage from "@/pages/LoginPage"
 
 import HomePage from "@/pages/home"
 import DemoRegistrationPage from "@/pages/demo/DemoRegistrationPage"
 import DemoUpdateHabitPage from "@/pages/demo/DemoUpdateHabitPage"
-import DemoLoginPage from "@/pages/demo/DemoLoginPage"
+import LoginPage from "@/pages/login"
 import DemoUpdateProfilePage from "@/pages/demo/DemoUpdateProfilePage"
 import DemoCreateHabitPage from "@/pages/demo/DemoCreateHabitPage"
 import DemoHabitPage from "@/pages/demo/DemoHabitPage"
@@ -33,10 +32,6 @@ export const router = createBrowserRouter([
       {
         path: "/demo/404",
         element: <DemoNotFoundPage />,
-      },
-      {
-        path: "/demo/login",
-        element: <DemoLoginPage />,
       },
       {
         path: "/demo/create_habit",

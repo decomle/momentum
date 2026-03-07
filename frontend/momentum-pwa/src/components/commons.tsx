@@ -23,13 +23,18 @@ export const AuthorCard = ({authorUrl = "/author"}: {authorUrl?: string}) => {
     )
 }
 
-export const LoadingDots = ({prefix = "", postfix=""}: {prefix?:string, postfix?:string}) => (
-  <span className="inline-flex ml-1">
-    {prefix + " "}
-    <span className="animate-dot-blink">.</span>
-    {/* Use negative delays so they start at different points in the loop immediately */}
-    <span className="animate-dot-blink [animation-delay:0.2s]">.</span>
-    <span className="animate-dot-blink [animation-delay:0.4s]">.</span>
-    {" " + postfix}
-  </span>
-);
+export const LoadingDots = ({prefix = "Loading", postfix=""}: {prefix?:string, postfix?:string}) => {
+  return (
+    <>
+        {prefix + " "}
+        <span className="inline-flex ml-1">
+            <span className="animate-dot-blink">.</span>
+            {/* Use negative delays so they start at different points in the loop immediately */}
+            <span className="animate-dot-blink [animation-delay:0.2s]">.</span>
+            <span className="animate-dot-blink [animation-delay:0.4s]">.</span>
+            
+        </span>
+        {postfix ? " " + postfix : ""}
+    </>
+  )
+}
