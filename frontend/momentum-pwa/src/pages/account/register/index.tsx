@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { Link } from "react-router-dom"
 
 import { CenterAlginedHeading } from "@/components/headings"
@@ -26,6 +26,9 @@ export default function RegisterPage() {
   const [query, setQuery] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone)
   const [timezoneOpen, setTimezoneOpen] = useState(false)
   const [acceptedTerms, setAcceptedTerms] = useState(false)
+  const [isPasswordMismatch, setIsPasswordMismatch] = useState(false)
+  const passwordRef = useRef<HTMLInputElement>(null)
+  const confirmPasswordRef = useRef<HTMLInputElement>(null)
   const mutation = useMutation({});
 
   const filtered = TIMEZONES.filter((tz) =>
@@ -37,7 +40,20 @@ export default function RegisterPage() {
     setTimezoneOpen(false)
   }
 
+  function validatePasswordMatch() {
+    const password = passwordRef.current?.value ?? ""
+    const confirmPassword = confirmPasswordRef.current?.value ?? ""
+    const isMatch = !confirmPassword || password === confirmPassword
+    setIsPasswordMismatch(!isMatch)
+    return isMatch
+  }
+
   const handleSubmit = (formData: FormData) => {
+    const isMatch = validatePasswordMatch()
+    if (!isMatch) {
+      return
+    }
+
     const data = Object.fromEntries(formData.entries()) as RegistrationData;
 
     console.log("Form Data:", data);
@@ -114,7 +130,9 @@ export default function RegisterPage() {
               <label className="block text-sm text-neutral-600 mb-1">
                 Password *
               </label>
-              <input type="password" name="password" placeholder="********" required
+              <input ref={passwordRef} type="password" name="password" 
+                placeholder="********" required
+                onInput={validatePasswordMatch}
                 className="w-full px-3 py-2 border border-neutral-200 rounded-md focus:outline-none focus:ring-2 focus:ring-neutral-300"
               />
             </div>
@@ -124,12 +142,21 @@ export default function RegisterPage() {
               <label className="block text-sm text-neutral-600 mb-1">
                 Confirm password *
               </label>
-              <input type="password" name="confirmPassword" placeholder="********" required
-                className="w-full px-3 py-2 border border-red-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-200"
+              <input ref={confirmPasswordRef} 
+                type="password" name="confirmPassword" 
+                placeholder="********" required
+                onInput={validatePasswordMatch}
+                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 ${
+                  isPasswordMismatch
+                    ? "border-red-300 focus:ring-red-200"
+                    : "border-neutral-200 focus:ring-neutral-300"
+                }`}
               />
-              <p className="mt-1 text-xs text-red-600">
-                Passwords do not match.
-              </p>
+              {isPasswordMismatch && (
+                <p className="mt-1 text-xs text-red-600">
+                  Passwords do not match.
+                </p>
+              )}
             </div>
 
             {/* Timezone Combobox */}
