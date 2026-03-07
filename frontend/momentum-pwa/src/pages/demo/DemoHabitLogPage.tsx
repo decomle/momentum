@@ -42,12 +42,12 @@ export default function DemoHabitLogPage() {
   }, [availableDateOptions, selectedDate])
 
   return (
-    <div className="min-h-full flex justify-center">
-      <div className="w-full max-w-md p-4">
+    <div className="h-full flex flex-col p-4">
+      <div className="w-full flex-1 flex flex-col">
         {/* Heading */}
         <LeftAlginedHeading heading="Log Habit" desc="Record your progress for this habit." />
 
-        <div className="pt-6 border-t border-neutral-200 space-y-2">
+        <div className="pt-6 border-t border-neutral-200 space-y-3">
           {/* Log Date */}
           <div className="bg-white rounded-xl p-4 shadow-sm border border-neutral-100 space-y-3">
             {availableDateOptions.length === 1 ? (
@@ -158,7 +158,9 @@ export default function DemoHabitLogPage() {
 
           </div>
         </div>
-
+         <div className="mt-auto pt-5 border-t border-neutral-200 text-center">
+          <AuthorCard />
+         </div>
       </div>
     </div>
   )
