@@ -5,5 +5,5 @@ from fastapi.responses import JSONResponse
 def invalid_credentials_handler(request: Request, exc: InvalidCredentialsError):
     return JSONResponse(
         status_code=401,
-        content={"detail": str(exc)}
+        content={"message": str(exc)}
     )

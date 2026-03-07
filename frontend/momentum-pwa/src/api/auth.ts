@@ -12,7 +12,7 @@ export async function login(email: string, password: string) {
   })
 
   if (!res.ok) {
-    throw new Error("Login failed")
+    throw new Error((await res.json())?.message || "Invalid credentials")
   }
 
   return res.json()

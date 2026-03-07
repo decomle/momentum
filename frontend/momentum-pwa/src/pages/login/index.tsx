@@ -17,9 +17,7 @@ export default () => {
   const from = location.state?.from?.pathname || "/demo/dashboard"
 
   const mutation = useMutation({
-    mutationFn: ({ email, password }: { email: string; password: string }) =>
-      login(email, password),
-
+    mutationFn: ({ email, password }: { email: string; password: string }) => login(email, password),
     onSuccess: (data) => {
       setAccessToken(data.access_token)
       navigate(from, { replace: true })
@@ -40,11 +38,17 @@ export default () => {
     <div className="h-full flex px-6 pt-12 pb-6">
       <div className="w-full flex-1 flex flex-col">
         <div className="space-y-8">
-
           {/* Title */}
           <CenterAlginedHeading />
+          <div className="border-t border-neutral-200"/>
 
-          <div className="pt-6 border-t border-neutral-200">
+          { mutation.isError && (
+            <div className="bg-red-50 border border-red-200 text-red-700 rounded-md px-4 py-3 text-sm">
+              {mutation.error instanceof Error ? mutation.error.message  : "An unexpected error occurred;"}
+            </div>
+          )}
+
+          <div>
             <form ref={formRef} className="space-y-4" 
               action={handleSubmit}
               onInput={handleFormInput}
