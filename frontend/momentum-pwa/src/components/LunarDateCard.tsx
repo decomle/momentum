@@ -1,6 +1,7 @@
 import { useState } from "react";
 
-const getLunarString = (date: Date): string => {
+const getLunarString = (): string => {
+  const date = new Date();
   const formatter = new Intl.DateTimeFormat("en-u-ca-chinese", {
     day: "numeric",
     month: "numeric",
@@ -15,7 +16,7 @@ const getLunarString = (date: Date): string => {
 
 export default function LunarDateCard() {
   const [date] = useState(() => new Date().toISOString().split('T')[0]);
-  const [lunar] = useState(() => getLunarString(new Date()));
+  const [lunar] = useState(() => getLunarString());
 
   return (
     <div className="self-end text-right leading-tight">
