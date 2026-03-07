@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"
 
 import { AuthorCard } from "@/components/commons"
 import { DashboardHeading } from "@/components/headings"
+import { LogoutCard } from "@/components/commons"
 
 export default function DemoDashboardPage() {
   const navigate = useNavigate()
@@ -99,6 +100,11 @@ export default function DemoDashboardPage() {
     navigate("/demo/create_habit")
   }
 
+  const handleLogout = () => {
+    console.log('Fake logout action')
+    navigate("/demo/login", { replace: true })
+  }
+
   useEffect(() => {
     const scrollContainer = document.getElementById("app-scroll-container")
     if (!scrollContainer) return
@@ -124,7 +130,7 @@ export default function DemoDashboardPage() {
       <div className="w-full max-w-md p-4 pb-6 space-y-5">
 
         {/* Header */}
-        <DashboardHeading date={meta.date} lunar={meta.lunar}/>
+        <DashboardHeading additionalComponent={<LogoutCard onLogout={handleLogout}/>} />
 
         {/* Meta */}
         <div className="bg-white rounded-xl p-4 shadow-sm border border-neutral-100">

@@ -1,4 +1,5 @@
 import { DashboardHeading } from "@/components/headings"
+import { LunarDateCard } from "@/components/commons"
 import { JammyLoader, AuthorCard, LoadingDots } from "@/components/commons"
 import { HomeDescriptions, HomeActions } from "./HomeSections"
 import { getAccessToken } from "@/lib/tokenStore"
@@ -26,7 +27,7 @@ export default function () {
         <div className="space-y-8">
 
           {/* Title */}
-          <DashboardHeading />
+          <DashboardHeading additionalComponent={<LunarDateCard/>}/>
 
           <div className="border-t border-neutral-200" />
 
