@@ -21,10 +21,10 @@ export default function DemoUpdateProfilePage() {
 
 	return (
 		<div className="min-h-full flex items-start justify-center p-4">
-			<div className="w-full max-w-md space-y-8">
+			<div className="w-full max-w-md">
 				<LeftAlginedHeading heading="Update profile" desc="Tell me a little more about you..." />
 
-				<div className="pt-6 border-t border-neutral-200 space-y-4">
+				<div className="pt-6 border-t border-neutral-200 space-y-3">
 
 					{/* Username (readonly) */}
 					<div>
@@ -94,7 +94,7 @@ export default function DemoUpdateProfilePage() {
 						/>
 
 						<p className="mt-1 text-xs text-neutral-500">
-							Your timezone determines when a day starts and ends for your habit logs.
+							Type to select your timezone...
 						</p>
 
 						{open && (
