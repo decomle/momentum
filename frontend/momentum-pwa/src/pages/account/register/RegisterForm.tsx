@@ -4,8 +4,10 @@ import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation } from "@tanstack/react-query"
+import { useNavigate } from "react-router-dom"
 
 import { ErrorSection } from "@/pages/account/shared"
+import { register as registerApi } from "@/api/auth"
 
 const TIMEZONES = Intl.supportedValuesOf("timeZone")
 
@@ -33,7 +35,23 @@ type RegisterFormValues = z.infer<typeof registerSchema>
 
 export default function RegisterForm() {
   const [timezoneOpen, setTimezoneOpen] = useState(false)
-  const mutation = useMutation({})
+  const navigate = useNavigate()
+  const mutation = useMutation({
+    onSuccess: (data) => {
+      console.log(data)
+      navigate("/login")
+    },
+    mutationFn: (data: RegisterFormValues) =>
+      registerApi({
+        email: data.email,
+        password: data.password,
+        username: data.username,
+        first_name: data.firstName,
+        last_name: data.lastName,
+        phone_number: data.phoneNumber || undefined,
+        self_introduction: data.selfIntroduction || undefined,
+      }),
+  })
 
   const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
@@ -62,7 +80,7 @@ export default function RegisterForm() {
   }
 
   const onSubmit = (data: RegisterFormValues) => {
-    console.log("Form Data:", data)
+    mutation.mutate(data)
   }
 
   const inputClass = (hasError: boolean) =>
@@ -188,8 +206,12 @@ export default function RegisterForm() {
         </label>
         {errors.acceptedTerms && <p className="mt-1 text-xs text-red-600">{errors.acceptedTerms.message}</p>}
 
-        <button type="submit" className="w-full py-2 rounded-md transition btn-primary">
-          Create Account
+        <button
+          type="submit"
+          disabled={mutation.isPending}
+          className="w-full py-2 rounded-md transition btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {mutation.isPending ? "Creating account..." : "Create Account"}
         </button>
       </form>
     </>
