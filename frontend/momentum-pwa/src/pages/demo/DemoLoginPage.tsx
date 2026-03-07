@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom"
 import { CenterAlginedHeading } from "@/components/headings"
-import JammyLoader from "@/components/JammyLoader"
-import { AuthorCard } from "@/components/commons"
+import { AuthorCard, JammyLoader } from "@/components/commons"
 
 export default function DemoLoginPage() {
   return (

@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom"
-import JammyLoader from "@/components/JammyLoader"
 import { DashboardHeading } from "@/components/headings"
-import { AuthorCard } from "@/components/commons"
+import { AuthorCard, JammyLoader } from "@/components/commons"
 
 export default function DemoHomePage() {
   return (

@@ -1,6 +1,7 @@
-export type DateDisplayProps = {date?: string, lunar?:string}
-
 import { Link } from "react-router-dom"
+
+export type DateDisplayProps = {date?: string, lunar?:string}
+export {default as JammyLoader} from "@/components/JammyLoader"
 
 export const LunarDateCard = ({date, lunar}: DateDisplayProps) => {
     return (lunar || date) && (
@@ -21,3 +22,14 @@ export const AuthorCard = ({authorUrl = "/author"}: {authorUrl?: string}) => {
         </Link>
     )
 }
+
+export const LoadingDots = ({prefix = "", postfix=""}: {prefix?:string, postfix?:string}) => (
+  <span className="inline-flex ml-1">
+    {prefix + " "}
+    <span className="animate-dot-blink">.</span>
+    {/* Use negative delays so they start at different points in the loop immediately */}
+    <span className="animate-dot-blink [animation-delay:0.2s]">.</span>
+    <span className="animate-dot-blink [animation-delay:0.4s]">.</span>
+    {" " + postfix}
+  </span>
+);

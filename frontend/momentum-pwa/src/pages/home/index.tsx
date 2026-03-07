@@ -1,0 +1,48 @@
+import { DashboardHeading } from "@/components/headings"
+import { JammyLoader, AuthorCard, LoadingDots } from "@/components/commons"
+import { HomeDescriptions, HomeActions } from "./HomeSections"
+import { getAccessToken } from "@/lib/tokenStore"
+import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
+
+
+export default function () {
+  const navigate = useNavigate()
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const hasAccessToken = !!getAccessToken()
+    setIsLoggedIn(hasAccessToken);
+    if(hasAccessToken) {
+      setTimeout(() => {
+        navigate("/demo/dashboard", {replace: true});
+      }, 1500)
+    }
+  }, []);
+
+  return (
+    <div className="min-h-full flex justify-center">
+      <div className="w-full max-w-md p-6 flex flex-col min-h-full">
+        <div className="space-y-8">
+
+          {/* Title */}
+          <DashboardHeading />
+
+          <div className="border-t border-neutral-200" />
+
+          <JammyLoader desc={isLoggedIn ? <LoadingDots prefix="Logging you in" /> : "Perfecting york...."} />
+
+          {/* Description Card */}
+          <HomeDescriptions />
+
+          {/* Action */}
+          <HomeActions isLoggedIn={isLoggedIn} />
+        </div>
+
+        <div className="mt-auto pt-5 border-t border-neutral-200 text-center">
+          <AuthorCard />
+        </div>
+      </div>
+    </div>
+  )
+}

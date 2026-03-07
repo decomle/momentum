@@ -7,6 +7,10 @@ export default {
   theme: {
     extend: {
       keyframes: {
+        'blink': {
+          '0%, 100%': { opacity: '0' },
+          '50%': { opacity: '1' },
+        },
         'jammy-ooze': {
           '0%, 100%': {
             // Initial state: perfectly round and centered
@@ -33,6 +37,7 @@ export default {
       animation: {
         // Slow and rhythmic like a pulse
         'ooze': 'jammy-ooze 3s ease-in-out infinite',
+        'dot-blink': 'blink 1.4s infinite both',
       }
     },
   },
