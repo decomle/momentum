@@ -20,7 +20,9 @@ const registerSchema = z.object(
     lastName: z.string().trim().min(1, "Last name is required."),
     password: z.string().trim().min(1, "Password is required."),
     confirmPassword: z.string().trim().min(1, "Please confirm your password."),
-    timezone: z.string().optional(),
+    timezone: z.string().refine((val) => TIMEZONES.includes(val), {
+      message: "Please select a valid timezone from the list;"
+    }),
     phoneNumber: z.string().optional(),
     selfIntroduction: z.string().optional(),
     acceptedTerms: z.boolean().refine((value) => value, {
