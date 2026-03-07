@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { LeftAlginedHeading } from "@/components/headings"
+import { AuthorCard } from "@/components/commons"
 
 export default function DemoUpdateHabitPage() {
   const [name, setName] = useState("Drink Water")
@@ -11,8 +12,8 @@ export default function DemoUpdateHabitPage() {
   const nameError = "Habit name is required."
 
   return (
-    <div className="min-h-full flex justify-center">
-      <div className="w-full max-w-md p-4 space-y-6">
+    <div className="h-full flex flex-col p-4">
+      <div className="w-full flex-1 flex flex-col">
         {/* Title */}
         <LeftAlginedHeading heading="Update Habit" desc="Modify the habit details." />
 
@@ -135,7 +136,12 @@ export default function DemoUpdateHabitPage() {
           </div>
         </div>
 
+        <div className="mt-auto pt-5 border-t border-neutral-200 text-center">
+          <AuthorCard />
+        </div>
+
       </div>
+      
     </div>
   )
 }

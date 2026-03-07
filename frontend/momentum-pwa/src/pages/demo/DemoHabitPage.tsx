@@ -50,7 +50,7 @@ export default function DemoHabitPage() {
 
   return (
     <div className="min-h-full flex justify-center">
-      <div className="w-full max-w-md p-4 space-y-6">
+      <div className="w-full max-w-md p-4">
 
         {/* Header */}
         <LeftAlginedHeading heading={habit.name} desc={headingSlogan} />

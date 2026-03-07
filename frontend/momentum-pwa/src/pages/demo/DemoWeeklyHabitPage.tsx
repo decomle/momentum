@@ -32,9 +32,7 @@ export default function DemoWeeklyHabitPage() {
       { log_date: "2026-03-07", mood_score: 0 },
       { log_date: "2026-03-06", mood_score: 2 },
       { log_date: "2026-03-05", mood_score: -1 },
-      { log_date: "2026-03-04", mood_score: 3 },
-      { log_date: "2026-03-03", mood_score: -2 },
-      { log_date: "2026-03-02", mood_score: -3 },
+      { log_date: "2026-03-04", mood_score: 3 }
     ],
   }
   const headingSlogan =
@@ -55,7 +53,7 @@ export default function DemoWeeklyHabitPage() {
 
   return (
     <div className="min-h-full flex justify-center">
-      <div className="w-full max-w-md p-4 space-y-6">
+      <div className="w-full max-w-md p-4">
 
         {/* Header */}
         <LeftAlginedHeading heading={habit.name} desc={headingSlogan} />

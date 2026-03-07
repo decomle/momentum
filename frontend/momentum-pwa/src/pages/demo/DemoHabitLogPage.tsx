@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { LeftAlginedHeading } from "@/components/headings"
+import { AuthorCard } from "@/components/commons"
 
 export default function DemoHabitLogPage() {
   const [selectedDate, setSelectedDate] = useState("today")
@@ -42,11 +43,11 @@ export default function DemoHabitLogPage() {
 
   return (
     <div className="min-h-full flex justify-center">
-      <div className="w-full max-w-md p-4 space-y-6">
+      <div className="w-full max-w-md p-4">
         {/* Heading */}
         <LeftAlginedHeading heading="Log Habit" desc="Record your progress for this habit." />
 
-        <div className="pt-6 border-t border-neutral-200 space-y-6">
+        <div className="pt-6 border-t border-neutral-200 space-y-2">
           {/* Log Date */}
           <div className="bg-white rounded-xl p-4 shadow-sm border border-neutral-100 space-y-3">
             {availableDateOptions.length === 1 ? (

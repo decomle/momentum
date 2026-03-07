@@ -1,9 +1,10 @@
 import { LeftAlginedHeading } from "@/components/headings"
+import { AuthorCard } from "@/components/commons"
 
 export default function DemoCreateHabitPage() {
   return (
-    <div className="min-h-full p-4">
-      <div className="w-full space-y-8">
+    <div className="h-full flex flex-col p-4">
+      <div className="w-full flex-1 flex flex-col">
 
         {/* Header */}
         <LeftAlginedHeading heading="Create Habit"/>
@@ -103,6 +104,11 @@ export default function DemoCreateHabitPage() {
               Create Habit
             </button>
           </form>
+        </div>
+
+{/* pt-5 border-t border-neutral-200 text-center */}
+        <div className="mt-auto pt-5 border-t border-neutral-200 text-center">
+          <AuthorCard />
         </div>
 
       </div>
