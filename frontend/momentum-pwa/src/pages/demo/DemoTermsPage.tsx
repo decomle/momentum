@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { LeftAlginedHeading } from "@/components/Heading"
+import { LeftAlginedHeading } from "@/components/headings"
 
 export default function DemoTermsPage() {
   return (

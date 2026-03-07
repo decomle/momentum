@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { LeftAlginedHeading } from "@/components/Heading"
+import { LeftAlginedHeading } from "@/components/headings"
 
 export default function DemoHabitLogPage() {
   const [selectedDate, setSelectedDate] = useState("today")

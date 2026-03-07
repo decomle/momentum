@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { LeftAlginedHeading } from "@/components/Heading"
+import { LeftAlginedHeading } from "@/components/headings"
 
 const TIMEZONES = [
 	"Asia/Ho_Chi_Minh",

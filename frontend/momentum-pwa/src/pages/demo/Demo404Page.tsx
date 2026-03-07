@@ -1,4 +1,5 @@
-import { CenterAlginedHeading } from "@/components/Heading"
+import { CenterAlginedHeading } from "@/components/headings"
+import { Link } from "react-router-dom"
 
 export default function DemoNotFoundPage() {
   return (
@@ -15,11 +16,12 @@ export default function DemoNotFoundPage() {
           </p>
         </div>
 
-        <button
-          className="w-full py-3 btn-primary rounded-md transition"
+
+        <Link to="/demo/dashboard"
+          className="block text-center py-2.5 btn-primary rounded-md transition"
         >
           Go to Dashboard
-        </button>
+        </Link>
 
       </div>
     </div>

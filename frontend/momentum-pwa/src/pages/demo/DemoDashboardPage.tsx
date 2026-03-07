@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 
-import { DashboardHeading } from "@/components/Heading"
+import { DashboardHeading } from "@/components/headings"
 
 export default function DemoDashboardPage() {
   const navigate = useNavigate()

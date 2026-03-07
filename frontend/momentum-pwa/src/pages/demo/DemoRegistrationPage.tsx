@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
-import { CenterAlginedHeading } from "@/components/Heading"
+import { CenterAlginedHeading } from "@/components/headings"
 
 const TIMEZONES = [
   "Asia/Ho_Chi_Minh",

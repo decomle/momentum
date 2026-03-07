@@ -1,4 +1,4 @@
-import { LeftAlginedHeading } from "@/components/Heading"
+import { LeftAlginedHeading } from "@/components/headings"
 
 export default function DemoHabitPage() {
   const habit = {

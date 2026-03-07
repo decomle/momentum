@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { LeftAlginedHeading } from "@/components/Heading"
+import { LeftAlginedHeading } from "@/components/headings"
 
 export default function DemoUpdateHabitPage() {
   const [name, setName] = useState("Drink Water")
