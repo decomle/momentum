@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 import { useState } from "react"
 
-export {default as LunarDateCard} from "@/components/LunarDateCard"
+export { default as LunarDateCard } from "@/components/LunarDateCard"
 export { default as JammyLoader } from "@/components/JammyLoader"
 
 export const LogoutCard = ({ onLogout }: { onLogout: () => void }) => {

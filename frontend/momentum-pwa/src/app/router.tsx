@@ -1,7 +1,8 @@
 import { createBrowserRouter } from "react-router-dom"
 
 import HomePage from "@/pages/home"
-import DemoRegistrationPage from "@/pages/demo/DemoRegistrationPage"
+import RegisterPage from "@/pages/account/register"
+import DemoRegisterPage from "@/pages/demo/DemoRegistrationPage"
 import DemoUpdateHabitPage from "@/pages/demo/DemoUpdateHabitPage"
 import LoginPage from "@/pages/login"
 import DemoUpdateProfilePage from "@/pages/demo/DemoUpdateProfilePage"
@@ -47,7 +48,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/demo/register",
-        element: <DemoRegistrationPage />,
+        element: <DemoRegisterPage />,
+      },
+      {
+        path: "/register",
+        element: <RegisterPage />,
       },
       {
         path: "/demo/terms",

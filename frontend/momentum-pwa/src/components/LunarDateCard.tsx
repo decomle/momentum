@@ -3,8 +3,8 @@ import { useState } from "react";
 const getLunarString = (): string => {
   const date = new Date();
   const formatter = new Intl.DateTimeFormat("en-u-ca-chinese", {
-    day: "numeric",
-    month: "numeric",
+    day: "2-digit",
+    month: "2-digit",
   });
   
   const parts = formatter.formatToParts(date);

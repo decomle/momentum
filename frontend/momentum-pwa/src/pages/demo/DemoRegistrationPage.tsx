@@ -28,7 +28,7 @@ export default function DemoRegisterPage() {
 
           {/* MESSAGE */}
           <div className="rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
-            You don&apos;t have an account yet. Would you like to create one?
+            You don&apos;t have an account yet. Would you like to create one? asdsad
           </div>
 
           {/* FORM ERROR */}
