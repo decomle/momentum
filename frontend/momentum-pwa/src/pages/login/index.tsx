@@ -1,11 +1,11 @@
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useMutation } from '@tanstack/react-query'
 import { Link, useNavigate, useLocation } from "react-router-dom"
 
 import { CenterAlginedHeading } from '@/components/headings'
 import { login } from '@/api/auth'
 import { setAccessToken } from '@/lib/tokenStore'
-import { JammyLoader, LoadingDots, AuthorCard } from '@/components/commons'
+import { JammyLoader, LoadingDots, AuthorCard, MessageCard } from '@/components/commons'
 
 
 export default () => {
@@ -15,6 +15,16 @@ export default () => {
   const [isFormValid, setIsFormValid] = useState(false)
 
   const from = location.state?.from?.pathname || "/demo/dashboard"
+  const successMessage = location.state?.message as string | undefined
+
+  useEffect(() => {
+    if (!successMessage) return
+
+    navigate(location.pathname, {
+      replace: true,
+      state: location.state?.from ? { from: location.state.from } : {},
+    })
+  }, [successMessage, navigate, location.pathname, location.state])
 
   const mutation = useMutation({
     mutationFn: ({ email, password }: { email: string; password: string }) => login(email, password),
@@ -41,6 +51,8 @@ export default () => {
           {/* Title */}
           <CenterAlginedHeading />
           <div className="border-t border-neutral-200"/>
+
+          {successMessage && <MessageCard message={successMessage} />}
 
           { mutation.isError && (
             <div className="bg-red-50 border border-red-200 text-red-700 rounded-md px-4 py-3 text-sm">

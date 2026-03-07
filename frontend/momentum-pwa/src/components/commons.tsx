@@ -33,6 +33,14 @@ export const AuthorCard = ({ authorUrl = "/author" }: { authorUrl?: string }) =>
   )
 }
 
+export const MessageCard = ({ message }: { message: string }) => {
+  return (
+    <div className="rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+      {message}
+    </div>
+  )
+}
+
 export const LoadingDots = ({ prefix = "Loading", postfix = "" }: { prefix?: string, postfix?: string }) => {
   return (
     <>

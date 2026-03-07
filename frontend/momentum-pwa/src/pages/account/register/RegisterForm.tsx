@@ -37,9 +37,11 @@ export default function RegisterForm() {
   const [timezoneOpen, setTimezoneOpen] = useState(false)
   const navigate = useNavigate()
   const mutation = useMutation({
-    onSuccess: (data) => {
-      console.log(data)
-      navigate("/login")
+    onSuccess: () => {
+      navigate("/login", {
+        replace: true,
+        state: { message: "Account created successfully. Please log in." },
+      })
     },
     mutationFn: (data: RegisterFormValues) =>
       registerApi({
