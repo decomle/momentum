@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { LunarDateCard } from "./commons"
+import { LunarDateCard, type DateDisplayProps } from "@/components/commons"
 
 type HeadingProps = { heading?: string, desc?: string}
 
@@ -52,7 +52,7 @@ export const CenterAlginedHeading =  ({heading = "omentum", desc = DEFAULT_DESCS
     )
 }
 
-export const DashboardHeading = ({date, lunar}:{date?:string, lunar?: string}) => {
+export const DashboardHeading = ({date, lunar}: DateDisplayProps) => {
     return (
         <div className="flex items-start justify-between gap-3">
           <div>
@@ -66,7 +66,7 @@ export const DashboardHeading = ({date, lunar}:{date?:string, lunar?: string}) =
             </div>
             <p className="text-xs text-neutral-500">{DEFAULT_DESCS[0]}</p>
           </div>
-          <LunarDateCard date={date} lunar={lunar} />
+          <LunarDateCard {...{date, lunar}}/>
         </div>
     )
 }
