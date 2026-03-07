@@ -5,9 +5,9 @@ import { AuthorCard } from "@/components/commons"
 
 const TIMEZONES = Intl.supportedValuesOf('timeZone');
 
-export default function DemoRegisterPage() {
-  const [query, setQuery] = useState("Asia/Ho_Chi_Minh")
-  const [open, setOpen] = useState(false)
+export default function RegisterPage() {
+  const [query, setQuery] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone)
+  const [timezoneOpen, setTimezoneOpen] = useState(false)
   const [acceptedTerms, setAcceptedTerms] = useState(false)
 
   const filtered = TIMEZONES.filter((tz) =>
@@ -16,7 +16,7 @@ export default function DemoRegisterPage() {
 
   function selectTimezone(tz: string) {
     setQuery(tz)
-    setOpen(false)
+    setTimezoneOpen(false)
   }
 
   return (
@@ -25,11 +25,6 @@ export default function DemoRegisterPage() {
         <CenterAlginedHeading />
 
         <div className="pt-6 border-t border-neutral-200 space-y-4">
-
-          {/* MESSAGE */}
-          <div className="rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
-            You don&apos;t have an account yet. Would you like to create one?
-          </div>
 
           {/* FORM ERROR */}
           <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
@@ -46,9 +41,7 @@ export default function DemoRegisterPage() {
             <label className="block text-sm text-neutral-600 mb-1">
               Username
             </label>
-            <input
-              type="text"
-              placeholder="yourname"
+            <input type="text" placeholder="yourname" required
               className="w-full px-3 py-2 border border-neutral-200 rounded-md focus:outline-none focus:ring-2 focus:ring-neutral-300"
             />
           </div>
@@ -58,9 +51,7 @@ export default function DemoRegisterPage() {
             <label className="block text-sm text-neutral-600 mb-1">
               Email *
             </label>
-            <input
-              type="email"
-              placeholder="you@example.com"
+            <input type="email" placeholder="your_email@gmail.com" required
               className="w-full px-3 py-2 border border-red-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-200"
             />
             <p className="mt-1 text-xs text-red-600">
@@ -76,9 +67,7 @@ export default function DemoRegisterPage() {
               <label className="block text-sm text-neutral-600 mb-1">
                 First name *
               </label>
-              <input
-                type="text"
-                placeholder="Dat"
+              <input type="text" placeholder="John" required
                 className="w-full px-3 py-2 border border-red-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-200"
               />
               <p className="mt-1 text-xs text-red-600">
@@ -89,11 +78,9 @@ export default function DemoRegisterPage() {
             {/* Last Name */}
             <div>
               <label className="block text-sm text-neutral-600 mb-1">
-                Last name
+                Last name *
               </label>
-              <input
-                type="text"
-                placeholder="Phung"
+              <input type="text" placeholder="Doe" required
                 className="w-full px-3 py-2 border border-neutral-200 rounded-md focus:outline-none focus:ring-2 focus:ring-neutral-300"
               />
             </div>
@@ -103,10 +90,9 @@ export default function DemoRegisterPage() {
           {/* Password */}
           <div>
             <label className="block text-sm text-neutral-600 mb-1">
-              Password
+              Password *
             </label>
-            <input
-              type="password"
+            <input type="password" placeholder="********" required
               className="w-full px-3 py-2 border border-neutral-200 rounded-md focus:outline-none focus:ring-2 focus:ring-neutral-300"
             />
           </div>
@@ -114,10 +100,9 @@ export default function DemoRegisterPage() {
           {/* Confirm Password */}
           <div>
             <label className="block text-sm text-neutral-600 mb-1">
-              Confirm password
+              Confirm password *
             </label>
-            <input
-              type="password"
+            <input type="password" placeholder="********" required
               className="w-full px-3 py-2 border border-red-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-200"
             />
             <p className="mt-1 text-xs text-red-600">
@@ -135,18 +120,18 @@ export default function DemoRegisterPage() {
               value={query}
               onChange={(e) => {
                 setQuery(e.target.value)
-                setOpen(true)
+                setTimezoneOpen(true)
               }}
-              onFocus={() => setOpen(true)}
+              onFocus={() => setTimezoneOpen(true)}
               placeholder="Search timezone"
               className="w-full px-3 py-2 border border-neutral-200 rounded-md focus:outline-none focus:ring-2 focus:ring-neutral-300"
             />
 
             <p className="mt-1 text-xs text-neutral-500">
-              Your timezone determines when a new day begins for your habit streaks.
+              Typing to search for your timezone
             </p>
 
-            {open && (
+            {timezoneOpen && (
               <div className="absolute mt-1 w-full bg-white border border-neutral-200 rounded-md shadow-sm max-h-40 overflow-y-auto z-10">
                 {filtered.map((tz) => (
                   <button
@@ -213,11 +198,10 @@ export default function DemoRegisterPage() {
           <button
             type="button"
             disabled={!acceptedTerms}
-            className={`w-full py-2 rounded-md transition ${
-              acceptedTerms
+            className={`w-full py-2 rounded-md transition ${acceptedTerms
                 ? "btn-primary"
                 : "bg-neutral-200 text-neutral-500 cursor-not-allowed"
-            }`}
+              }`}
           >
             Create Account
           </button>
