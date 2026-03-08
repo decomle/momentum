@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { ErrorSection } from "@/pages/account/shared";
+import { ErrorSection } from "@/components/commons";
 import { registerSchema, type RegisterFormValues, TIMEZONES } from "@/lib/schemas";
 import { useRegister } from "@/hooks";
 

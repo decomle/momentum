@@ -1,1 +1,0 @@
-export { ErrorSection } from "@/pages/account/shared"

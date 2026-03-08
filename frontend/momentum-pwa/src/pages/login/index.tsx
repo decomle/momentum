@@ -21,7 +21,11 @@ export default function LoginPage() {
   const handleSubmit = (formData: FormData) => {
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
-    loginUser({ email, password });
+    loginUser({ email, password }, {
+      onError: () => {
+        setIsFormValid(false);
+      }
+    });
   };
 
   const handleFormInput = () => {

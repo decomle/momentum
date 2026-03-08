@@ -1,14 +1,14 @@
 import { useNavigate } from "react-router-dom";
-import { AuthorCard, JammyLoader, LogoutCard, LoadingDots } from "@/components/commons";
+import { AuthorCard, JammyLoader, LogoutCard, LoadingDots, ErrorSection } from "@/components/commons";
 import { DashboardHeading } from "@/components/headings";
-import { CreateHabitCard, HabitCard, MetadataCard, CreateHabitButtons } from "../dashboard/DashboardSections";
+import { CreateHabitCard, HabitCard, MetadataCard, CreateHabitButtons } from "@/pages/dashboard/DashboardSections";
 
 import { useDashboard, useScrollPosition } from "@/hooks";
 
 export default function DashboardPage() {
   const navigate = useNavigate();
   const { isAtBottom } = useScrollPosition("app-scroll-container");
-  const { metadata, habits, hasHabits, isLoading, isError, isSuccess, errorMessage } = useDashboard();
+  const { metadata, habits, hasHabits, isLoading, isError, isSuccess, errorMessage: formError } = useDashboard();
 
   const handleLogout = () => {
     // We'll replace this with your real apiFetch/router.navigate logic soon
@@ -23,11 +23,7 @@ export default function DashboardPage() {
 
           {isLoading && <JammyLoader desc={<LoadingDots prefix="Loading dashboard..." />} />}
 
-          {isError && (
-            <div className="bg-red-50 border border-red-200 text-red-700 rounded-md px-4 py-3 text-sm">
-              {errorMessage}
-            </div>
-          )}
+          {isError && <ErrorSection error={formError}/>}
 
           {isSuccess && (
             <>
