@@ -1,97 +1,46 @@
 import { useEffect, useState } from "react"
+import { useQuery } from "@tanstack/react-query"
 import { useNavigate } from "react-router-dom"
 
-import { AuthorCard } from "@/components/commons"
+import { AuthorCard, JammyLoader } from "@/components/commons"
 import { DashboardHeading } from "@/components/headings"
-import { LogoutCard, JammyLoader } from "@/components/commons"
+import { LogoutCard, LoadingDots } from "@/components/commons"
+import { getDashboard } from "@/api/dashboard"
 import { CreateHabitCard, HabitCard, MetadataCard, CreateHabitButtons } from "../dashboard/DashboardSections"
 
 export default function DashboardPage() {
   const navigate = useNavigate()
   const [isAtBottom, setIsAtBottom] = useState(false)
 
-  const habits = [
-    {
-      name: "Morning Exercise",
-      description: "10 minutes of stretching or light workout",
-      stats: "Daily • 🔥 5 days • 🏆 12 days",
-      note: "Keep the momentum going.",
-      done: true,
-    },
-    {
-      name: "Drink Water",
-      description: "At least 8 glasses",
-      stats: "Daily • 🔥 3 days • 🏆 9 days",
-      note: "Small habits compound.",
-      done: true,
-    },
-    {
-      name: "Read Book",
-      description: "Read at least 10 pages",
-      stats: "Daily • 🔥 2 days • 🏆 8 days",
-      note: "Knowledge compounds over time.",
-      done: false,
-    },
-    {
-      name: "Meditate",
-      description: "5 minutes mindful breathing",
-      stats: "Daily • 🔥 4 days • 🏆 10 days",
-      note: "Calm mind, clearer focus.",
-      done: true,
-    },
-    {
-      name: "Journal",
-      description: "Write 3 short reflections",
-      stats: "Daily • 🔥 1 day • 🏆 6 days",
-      note: "Small notes build awareness.",
-      done: false,
-    },
-    {
-      name: "Language Practice",
-      description: "15 minutes vocabulary review",
-      stats: "Daily • 🔥 6 days • 🏆 14 days",
-      note: "Consistency beats intensity.",
-      done: true,
-    },
-    {
-      name: "Evening Walk",
-      description: "20 minutes outdoor walk",
-      stats: "Daily • 🔥 2 days • 🏆 7 days",
-      note: "Movement helps reset the day.",
-      done: false,
-    },
-    {
-      name: "No Sugar Soda",
-      description: "Avoid sweet drinks today",
-      stats: "Daily • 🔥 8 days • 🏆 16 days",
-      note: "Your future self will thank you.",
-      done: true,
-    },
-    {
-      name: "Plan Tomorrow",
-      description: "Set top 3 priorities before bed",
-      stats: "Daily • 🔥 3 days • 🏆 11 days",
-      note: "Clear plan, smoother morning.",
-      done: false,
-    },
-  ]
+  const dashboardQuery = useQuery({
+    queryKey: ["dashboard"],
+    queryFn: getDashboard,
+  })
 
-  const completedToday = habits.filter((habit) => habit.done).length
-  const pendingToday = habits.length - completedToday
-  const completionRate = habits.length > 0
-    ? Math.round((completedToday / habits.length) * 100)
-    : 0
-
-  const meta = {
-    date: "2026-03-05",
-    lunar: "03/12",
-    total_habits: habits.length,
-    completed_today: completedToday,
-    pending_today: pendingToday,
-    completion_rate: completionRate,
+  const meta = dashboardQuery.data?.metadata ?? {
+    date: "",
+    total_habits: 0,
+    completed_today: 0,
+    pending_today: 0,
+    completion_rate: 0,
     warning_messages: [],
-    ai_message: "A fresh start is always possible.",
+    ai_message: "",
   }
+
+  const habits = (dashboardQuery.data?.habits ?? []).map((habit) => ({
+    name: habit.name,
+    description: habit.description,
+    done: habit.completed_today,
+    stats: `${habit.frequency} • 🔥 ${habit.current_streak} days • 🏆 ${habit.longest_streak} days`,
+    note: habit.description || "Keep the momentum going.",
+  }))
+  const isLoading = dashboardQuery.isPending
+  const isError = dashboardQuery.isError
+  const isSuccess = dashboardQuery.isSuccess
+  const hasHabits = habits.length > 0
+  const errorMessage = dashboardQuery.error instanceof Error
+    ? dashboardQuery.error.message
+    : "Failed to load dashboard data."
 
 
   const handleLogout = () => {
@@ -127,32 +76,41 @@ export default function DashboardPage() {
           {/* Header */}
           <DashboardHeading additionalComponent={<LogoutCard onLogout={handleLogout} />} />
 
-          {/* Meta */}
-          <MetadataCard
-            totalHabits={meta.total_habits}
-            completedToday={meta.completed_today}
-            pendingToday={meta.pending_today}
-            completionRate={meta.completion_rate}
-          />
-
-          {/* AI Message */}
-          <div className="text-sm italic text-neutral-500 px-1">
-            {meta.ai_message}
-          </div>
-
-          {habits.length === 0 ? (
-            <>
-              <CreateHabitCard />
-              <JammyLoader desc="Funfact, you can install Momentum as app" />
-            </>
-          ) : (
-            habits.map((habit) => (
-              <HabitCard habit={habit} />
-            ))
+          {isLoading && (
+            <JammyLoader desc={<LoadingDots prefix="Loading dashboard..." />}/>
           )}
 
-          {habits.length > 0 && (
-            <CreateHabitButtons isAtBottom={isAtBottom} />
+          {isError && (
+            <div className="bg-red-50 border border-red-200 text-red-700 rounded-md px-4 py-3 text-sm">
+              {errorMessage}
+            </div>
+          )}
+
+          {isSuccess && (
+            <>
+              <MetadataCard
+                totalHabits={meta.total_habits}
+                completedToday={meta.completed_today}
+                pendingToday={meta.pending_today}
+                completionRate={meta.completion_rate}
+              />
+
+              <div className="text-sm italic text-neutral-500 px-1">
+                {meta.ai_message}
+              </div>
+
+              {hasHabits ? (
+                habits.map((habit) => (
+                  <HabitCard habit={habit} />
+                ))
+              ) : (
+                <CreateHabitCard />
+              )}
+
+              {hasHabits && (
+                <CreateHabitButtons isAtBottom={isAtBottom} />
+              )}
+            </>
           )}
 
         </div>
