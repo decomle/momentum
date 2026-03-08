@@ -1,108 +1,71 @@
-import { useEffect, useRef, useState } from "react"
-import { useMutation } from '@tanstack/react-query'
-import { Link, useNavigate, useLocation } from "react-router-dom"
+import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 
-import { CenterAlginedHeading } from '@/components/headings'
-import { login } from '@/api/auth'
-import { setAccessToken } from '@/lib/tokenStore'
-import { JammyLoader, LoadingDots, AuthorCard, MessageCard } from '@/components/commons'
+import { CenterAlginedHeading } from '@/components/headings';
+import { JammyLoader, LoadingDots, AuthorCard, MessageCard } from '@/components/commons';
+import { useLogin } from "@/hooks";
 
+export default function LoginPage() {
+  const formRef = useRef<HTMLFormElement>(null);
+  const [isFormValid, setIsFormValid] = useState(false);
+  const { loginUser, isLoading, error, isError, successMessage, clearMessageState } = useLogin();
 
-export default () => {
-  const navigate = useNavigate()
-  const location = useLocation()
-  const formRef = useRef<HTMLFormElement>(null)
-  const [isFormValid, setIsFormValid] = useState(false)
-
-  const from = location.state?.from?.pathname || "/demo/dashboard"
-  const successMessage = location.state?.message as string | undefined
-
+  // Clear the "Account created" message if the user refreshes or navigates away
   useEffect(() => {
-    if (!successMessage) return
+    if (successMessage) {
+      const timer = setTimeout(clearMessageState, 5000); // Optional: clear after 5s
+      return () => clearTimeout(timer);
+    }
+  }, [successMessage]);
 
-    navigate(location.pathname, {
-      replace: true,
-      state: location.state?.from ? { from: location.state.from } : {},
-    })
-  }, [successMessage, navigate, location.pathname, location.state])
+  const handleSubmit = (formData: FormData) => {
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+    loginUser({ email, password });
+  };
 
-  const mutation = useMutation({
-    mutationFn: ({ email, password }: { email: string; password: string }) => login(email, password),
-    onSuccess: (data) => {
-      setAccessToken(data.access_token)
-      navigate(from, { replace: true })
-    },
-  })
+  const handleFormInput = () => {
+    setIsFormValid(formRef.current?.checkValidity() ?? false);
+  };
 
-  function handleSubmit(formData: FormData) {
-    const email = formData.get("email") as string
-    const password = formData.get("password") as string
-    mutation.mutate({ email, password })
-  }
-
-  function handleFormInput() {
-    setIsFormValid(formRef.current?.checkValidity() ?? false)
-  }
+  const inputClass = "w-full px-3 py-2 border border-neutral-200 rounded-md focus:outline-none focus:ring-2 focus:ring-neutral-300 transition-all";
 
   return (
     <div className="h-full flex px-6 pt-12 pb-6">
       <div className="w-full flex-1 flex flex-col">
         <div className="space-y-8">
-          {/* Title */}
           <CenterAlginedHeading />
           <div className="border-t border-neutral-200"/>
 
           {successMessage && <MessageCard message={successMessage} />}
 
-          { mutation.isError && (
-            <div className="bg-red-50 border border-red-200 text-red-700 rounded-md px-4 py-3 text-sm">
-              {mutation.error instanceof Error ? mutation.error.message  : "An unexpected error occurred;"}
+          {isError && (
+            <div className="bg-red-50 border border-red-200 text-red-700 rounded-md px-4 py-3 text-sm animate-in fade-in duration-300">
+              {error}
             </div>
           )}
 
-          <div>
-            <form ref={formRef} className="space-y-4" 
-              action={handleSubmit}
-              onInput={handleFormInput}
-              onChange={handleFormInput}>
-              {/* Email */}
-              <div>
-                <label className="block text-sm text-neutral-600 mb-1">
-                  Email
-                </label>
+          <form ref={formRef} action={handleSubmit} onInput={handleFormInput} className="space-y-4">
+            <div>
+              <label className="block text-sm text-neutral-600 mb-1">Email</label>
+              <input type="email" name="email" required placeholder="your_email@gmail.com" className={inputClass} />
+            </div>
 
-                <input type="email" name="email" required placeholder="your_email@gmail.com"
-                  className="w-full px-3 py-2 border border-neutral-200 rounded-md focus:outline-none focus:ring-2 focus:ring-neutral-300"
-                />
-              </div>
+            <div>
+              <label className="block text-sm text-neutral-600 mb-1">Password</label>
+              <input type="password" name="password" required placeholder="******" className={inputClass} />
+            </div>
 
-              {/* Password */}
-              <div>
-                <label className="block text-sm text-neutral-600 mb-1">
-                  Password
-                </label>
+            <button type="submit" disabled={!isFormValid || isLoading}
+              className="w-full py-2 btn-primary rounded-md transition disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isLoading ? "Logging in..." : "Log in"}
+            </button>
+          </form>
 
-                <input type="password" name="password" required placeholder="******"
-                  className="w-full px-3 py-2 border border-neutral-200 rounded-md focus:outline-none focus:ring-2 focus:ring-neutral-300"
-                />
-              </div>
-
-              {/* Login Button */}
-              <button type="submit" disabled={!isFormValid || mutation.isPending}
-                className="w-full py-2 btn-primary rounded-md transition disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Log in
-              </button>
-
-            </form>
-          </div>
-
-          {/* Footer */}
           <p className="text-sm text-center text-neutral-500">
             Don't have an account?{" "}
-            <Link to="/register" className="text-neutral-900 hover:underline" >
-              Create one
-            </Link>
+            <Link to="/register" className="text-neutral-900 hover:underline">Create one</Link>
           </p>
         </div>
 
@@ -113,8 +76,7 @@ export default () => {
         <div className="mt-auto pt-5 border-t border-neutral-200 text-center">
           <AuthorCard />
         </div>
-
       </div>
     </div>
-  )
+  );
 }

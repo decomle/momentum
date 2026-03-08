@@ -14,6 +14,7 @@ import DemoNotFoundPage from "@/pages/demo/Demo404Page"
 import DemoWeeklyHabitPage from "@/pages/demo/DemoWeeklyHabitPage"
 import DemoTermsPage from "@/pages/demo/DemoTermsPage"
 import AuthorPage from "@/pages/AuthorPage"
+import DemoRegisterPage from "@/pages/demo/DemoRegistrationPage"
 
 import AuthGuard from "@/features/auth/AuthGuard"
 import AppLayout from "@/layout/AppLayout"
@@ -49,6 +50,10 @@ export const router = createBrowserRouter([
       {
         path: "/register",
         element: <RegisterPage />,
+      },
+      {
+        path: "/demo/register",
+        element: <DemoRegisterPage />,
       },
       {
         path: "/demo/terms",

@@ -57,7 +57,9 @@ export async function apiFetch(url: string, options: ApiOptions = {}) {
   const exec = (t?: string | null) => fetch(url, {
     ...rest,
     credentials: "include",
+    method: rest.method || 'GET',
     headers: {
+      'Content-Type': 'application/json',
       ...rest.headers,
       ...(t ? { Authorization: `Bearer ${t}` } : {}),
     }
