@@ -2,13 +2,13 @@ import { createBrowserRouter } from "react-router-dom"
 
 import HomePage from "@/pages/home"
 import RegisterPage from "@/pages/account/register"
-import DemoRegisterPage from "@/pages/demo/DemoRegistrationPage"
 import DemoUpdateHabitPage from "@/pages/demo/DemoUpdateHabitPage"
 import LoginPage from "@/pages/login"
 import DemoUpdateProfilePage from "@/pages/demo/DemoUpdateProfilePage"
 import DemoCreateHabitPage from "@/pages/demo/DemoCreateHabitPage"
 import DemoHabitPage from "@/pages/demo/DemoHabitPage"
 import DemoHabitLogPage from "@/pages/demo/DemoHabitLogPage"
+import DashboardPage from "@/pages/dashboard"
 import DemoDashboardPage from "@/pages/demo/DemoDashboardPage"
 import DemoNotFoundPage from "@/pages/demo/Demo404Page"
 import DemoWeeklyHabitPage from "@/pages/demo/DemoWeeklyHabitPage"
@@ -47,10 +47,6 @@ export const router = createBrowserRouter([
         element: <DemoUpdateProfilePage />,
       },
       {
-        path: "/demo/register",
-        element: <DemoRegisterPage />,
-      },
-      {
         path: "/register",
         element: <RegisterPage />,
       },
@@ -80,7 +76,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/dashboard",
-        element: <AuthGuard><DemoDashboardPage /></AuthGuard>,
+        element: <AuthGuard><DashboardPage /></AuthGuard>,
       },
     ],
   },

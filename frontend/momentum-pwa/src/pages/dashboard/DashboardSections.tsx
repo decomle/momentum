@@ -74,3 +74,24 @@ export const HabitCard = function ({ habit }: { habit: DashboardHabit }) {
     </div>
   )
 }
+
+export const CreateHabitCard = function() {
+  const navigate = useNavigate()
+  const goToCreateHabit = () => {
+    navigate('/demo/create_habit')
+  }
+  return (
+    <div className="bg-white rounded-xl p-6 shadow-sm border border-neutral-100 text-center">
+      <h2 className="text-lg font-semibold">No habits yet</h2>
+      <p className="mt-1 text-sm text-neutral-500">
+        Start with one small habit and build your momentum.
+      </p>
+      <button
+        onClick={goToCreateHabit}
+        className="mt-4 inline-flex items-center justify-center px-4 py-2 rounded-md btn-primary text-sm transition"
+      >
+        Create your first habit
+      </button>
+    </div>
+  )
+}

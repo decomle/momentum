@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
-import { AuthorCard } from "@/components/commons"
+import { AuthorCard, JammyLoader } from "@/components/commons"
 import { DashboardHeading } from "@/components/headings"
 import { LogoutCard } from "@/components/commons"
 
@@ -127,7 +127,8 @@ export default function DemoDashboardPage() {
 
   return (
     <div className="min-h-full flex justify-center">
-      <div className="w-full max-w-md p-4 pb-6 space-y-5">
+      <div className="w-full max-w-md min-h-full p-4 pb-6 flex flex-col">
+        <div className="space-y-5">
 
         {/* Header */}
         <DashboardHeading additionalComponent={<LogoutCard onLogout={handleLogout}/>} />
@@ -163,18 +164,22 @@ export default function DemoDashboardPage() {
         </div>
 
         {habits.length === 0 ? (
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-neutral-100 text-center">
-            <h2 className="text-lg font-semibold">No habits yet</h2>
-            <p className="mt-1 text-sm text-neutral-500">
-              Start with one small habit and build your momentum.
-            </p>
-            <button
-              onClick={goToCreateHabit}
-              className="mt-4 inline-flex items-center justify-center px-4 py-2 rounded-md btn-primary text-sm transition"
-            >
-              Create your first habit
-            </button>
-          </div>
+          <>
+            <div className="bg-white rounded-xl p-6 shadow-sm border border-neutral-100 text-center">
+              <h2 className="text-lg font-semibold">No habits yet</h2>
+              <p className="mt-1 text-sm text-neutral-500">
+                Start with one small habit and build your momentum.
+              </p>
+              <button
+                onClick={goToCreateHabit}
+                className="mt-4 inline-flex items-center justify-center px-4 py-2 rounded-md btn-primary text-sm transition"
+              >
+                Create your first habit
+              </button>
+            </div>
+
+            <JammyLoader desc="Funfact, you can install Momentum as app" />
+          </>
         ) : (
           habits.map((habit) => (
             <div
@@ -234,10 +239,11 @@ export default function DemoDashboardPage() {
           </div>
         )}
 
-        <div className="pt-5 border-t border-neutral-200 text-center">
-          <AuthorCard />
         </div>
 
+        <div className="pt-5 mt-auto border-t border-neutral-200 text-center">
+          <AuthorCard />
+        </div>
       </div>
     </div>
   )
