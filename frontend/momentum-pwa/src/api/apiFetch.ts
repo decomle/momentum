@@ -1,35 +1,30 @@
-import { clearAccessToken, getAccessToken, setAccessToken } from "@/lib/tokenStore"
+import { getAccessToken, setAccessToken, clearAccessToken } from "@/lib/tokenStore";
+import { queryClient } from '@/lib/queryClient'
+import { router } from "@/app/router";
 
-type apiFetchOptions = RequestInit & {
-  requireAuth?: boolean
-}
+type ApiOptions = RequestInit & { requireAuth?: boolean };
 
-// Module-level variable to store the "in-flight" refresh
 let refreshPromise: Promise<string | null> | null = null;
 
-async function refreshAccessToken() {
-  // If a refresh is already happening, return the existing promise
+async function refresh() {
   if (refreshPromise) return refreshPromise;
 
   refreshPromise = (async () => {
     try {
       const res = await fetch("/api/auth/refresh", {
         method: "POST",
-        credentials: "include",
+        credentials: "include"
       });
-
-      if (!res.ok) return null;
-
       const data = await res.json();
-      const token = data?.access_token;
-      
-      if (token) {
-        setAccessToken(token);
-        return token;
+
+      if (res.ok && data.access_token) {
+        setAccessToken(data.access_token);
+        return data.access_token;
       }
       return null;
+    } catch {
+      return null;
     } finally {
-      // Clear the promise so the next expiry can trigger a new refresh
       refreshPromise = null;
     }
   })();
@@ -37,46 +32,51 @@ async function refreshAccessToken() {
   return refreshPromise;
 }
 
-export async function apiFetch(
-  input: RequestInfo | URL,
-  options: apiFetchOptions = {},
-) {
-  const { requireAuth = false, headers, ...restOptions } = options;
-  
-  // Use a helper to build headers dynamically
-  const getHeaders = (token?: string | null) => {
-    const h = new Headers(headers);
-    if (requireAuth && token) {
-      h.set("Authorization", `Bearer ${token}`);
+/**
+ * Perform a global logout and redirect
+ */
+const handleAuthFailure = () => {
+  clearAccessToken();
+  queryClient.clear()
+  router.navigate("/home", { replace: true });
+};
+
+export async function apiFetch(url: string, options: ApiOptions = {}) {
+  const { requireAuth = false, ...rest } = options;
+  let token = getAccessToken();
+
+  // 1. Pre-fetch: If auth is needed but token is missing, refresh first
+  if (requireAuth && !token) {
+    token = await refresh();
+    if (!token) {
+      handleAuthFailure();
+      throw new Error("Authentication required");
     }
-    return h;
-  };
-
-  // 1. First Attempt
-  let res = await fetch(input, {
-    ...restOptions,
-    headers: getHeaders(getAccessToken()),
-    credentials: "include",
-  });
-
-  // 2. If not 401 or auth not required, just return
-  if (res.status !== 401 || !requireAuth) {
-    return res;
   }
 
-  // 3. Handle 401 - Attempt Refresh (Concurrent-safe)
-  const newToken = await refreshAccessToken();
+  const exec = (t?: string | null) => fetch(url, {
+    ...rest,
+    credentials: "include",
+    headers: {
+      ...rest.headers,
+      ...(t ? { Authorization: `Bearer ${t}` } : {}),
+    }
+  });
 
-  if (!newToken) {
-    clearAccessToken();
-    if (typeof window !== "undefined") window.location.assign("/home");
+  // 2. Initial Request
+  let res = await exec(token);
+
+  // 3. Handle 401: Refresh and retry once
+  if (res.status === 401 && requireAuth) {
+    token = await refresh();
+    if (token) {
+      return exec(token);
+    }
+
+    // Refresh failed - session is truly dead
+    handleAuthFailure();
     throw new Error("Session expired");
   }
 
-  // 4. Retry with the new token
-  return fetch(input, {
-    ...restOptions,
-    headers: getHeaders(newToken),
-    credentials: "include",
-  });
+  return res;
 }
