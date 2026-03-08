@@ -21,9 +21,10 @@ export default function useDashboard() {
   const habits = useMemo(() => (query.data?.habits ?? []).map((habit: any) => ({
     id: habit.id,
     name: habit.name,
+    description: habit.description,
     done: habit.isCompletedToday,
     stats: `${habit.frequency} • 🔥 ${habit.currentStreak} days • 🏆 ${habit.longestStreak} days`,
-    note: habit.description || "Keep the momentum going.",
+    quote: habit.quote || "Keep the momentum going.",
   })), [query.data?.habits]);
 
   return {

@@ -41,7 +41,7 @@ export type DashboardHabit = {
   description?: string,
   done: boolean,
   stats: string,
-  note: string
+  quote: string
 }
 
 export const HabitCard = function ({ habit }: { habit: DashboardHabit }) {
@@ -70,7 +70,7 @@ export const HabitCard = function ({ habit }: { habit: DashboardHabit }) {
 
       <div className="mt-3 text-sm text-neutral-600">{habit.stats}</div>
 
-      <div className="mt-3 text-sm italic text-neutral-500">{habit.note}</div>
+      <div className="mt-3 text-sm italic text-neutral-500">{habit.quote}</div>
     </div>
   )
 }

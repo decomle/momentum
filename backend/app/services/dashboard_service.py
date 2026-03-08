@@ -9,6 +9,7 @@ from sqlalchemy import select, func, and_
 from app.core.translator import t
 from zoneinfo import ZoneInfo
 from app.services import BaseService
+from app.services.habit_analytics_service import HabitAnalyticsService
 from app.db.models import Habit, HabitLog
 from app.enums import HabitFrequency
 from app.core.constants import DAILY_WARNING_THRESHOLD, WEEKLY_WARNING_THRESHOLD
@@ -144,6 +145,7 @@ class DashboardService(BaseService):
                 "id": row.id,
                 "name": row.name,
                 "description": row.description,
+                "quote": HabitAnalyticsService.generate_motivation_quote(),
                 "frequency": row.frequency,
                 "current_streak": row.current_streak,
                 "longest_streak": row.longest_streak,

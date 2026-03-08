@@ -59,7 +59,6 @@ async def get_habit(
     habit_service = HabitService(db)
     habit_log_service = HabitLogService(db)
     habit_period_service = HabitPeriodService(db)
-    habit_analytic_service = HabitAnalyticsService(db)
 
     habit = await habit_service.get_habit(habit_id=habit_id,user_id=user_id)
     
@@ -69,8 +68,8 @@ async def get_habit(
         "recent_logs": await habit_log_service.get_recent_logs(user_id=user_id, habit_id=habit_id, timezone=timezone),
         "recent_periods": await habit_period_service.get_recent_periods(user_id=user_id, habit_id=habit_id, timezone=timezone),
         "current_period": await habit_period_service.get_current_period(user_id=user_id, habit_id=habit_id, timezone=timezone),
-        "mood_message": t(habit_analytic_service.generate_ai_message(habit.current_streak), request=request),
-        "cheer_message": habit_analytic_service.generate_cheerful_message()
+        "mood_message": t(HabitAnalyticsService.generate_ai_message(habit.current_streak), request=request),
+        "cheer_message": HabitAnalyticsService.generate_cheerful_message()
     })
 
     return res_model

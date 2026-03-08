@@ -16,6 +16,7 @@ type DashboardHabitRaw = {
   name: string
   frequency: string
   description: string
+  quote: string
   current_streak: number
   longest_streak: number
   completed_today: boolean
@@ -42,6 +43,7 @@ export type DashboardHabit = {
   name: string
   frequency: string
   description: string
+  quote: string
   currentStreak: number
   longestStreak: number
   isCompletedToday: boolean // Renamed for better boolean clarity
@@ -90,6 +92,7 @@ export async function getDashboard(): Promise<DashboardData> {
       name: habit.name,
       frequency: habit.frequency,
       description: habit.description,
+      quote: habit.quote,
       currentStreak: habit.current_streak,
       longestStreak: habit.longest_streak,
       isCompletedToday: habit.completed_today,

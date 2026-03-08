@@ -19,6 +19,7 @@ class DashboardHabit(BaseModel):
     name: str
     frequency: str
     description: str
+    quote: str
     current_streak: int
     longest_streak: int
     completed_today: bool
