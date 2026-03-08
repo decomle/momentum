@@ -19,19 +19,19 @@ export default function DashboardPage() {
 
   const meta = dashboardQuery.data?.metadata ?? {
     date: "",
-    total_habits: 0,
-    completed_today: 0,
-    pending_today: 0,
-    completion_rate: 0,
-    warning_messages: [],
-    ai_message: "",
+    totalHabits: 0,
+    completedToday: 0,
+    pendingToday: 0,
+    completionRate: 0,
+    warningMessages: [],
+    aiMessage: "",
   }
 
   const habits = (dashboardQuery.data?.habits ?? []).map((habit) => ({
     name: habit.name,
     description: habit.description,
-    done: habit.completed_today,
-    stats: `${habit.frequency} • 🔥 ${habit.current_streak} days • 🏆 ${habit.longest_streak} days`,
+    done: habit.isCompletedToday,
+    stats: `${habit.frequency} • 🔥 ${habit.currentStreak} days • 🏆 ${habit.longestStreak} days`,
     note: habit.description || "Keep the momentum going.",
   }))
   const isLoading = dashboardQuery.isPending
@@ -89,14 +89,14 @@ export default function DashboardPage() {
           {isSuccess && (
             <>
               <MetadataCard
-                totalHabits={meta.total_habits}
-                completedToday={meta.completed_today}
-                pendingToday={meta.pending_today}
-                completionRate={meta.completion_rate}
+                totalHabits={meta.totalHabits}
+                completedToday={meta.completedToday}
+                pendingToday={meta.pendingToday}
+                completionRate={meta.completionRate}
               />
 
               <div className="text-sm italic text-neutral-500 px-1">
-                {meta.ai_message}
+                {meta.aiMessage}
               </div>
 
               {hasHabits ? (
