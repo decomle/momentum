@@ -36,7 +36,7 @@ export const MetadataCard = function ({ totalHabits, completedToday, pendingToda
 }
 
 export type DashboardHabit = {
-  id: string,
+  // id: string,
   name: string,
   description?: string,
   done: boolean,
@@ -75,7 +75,7 @@ export const HabitCard = function ({ habit }: { habit: DashboardHabit }) {
   )
 }
 
-export const CreateHabitCard = function() {
+export const CreateHabitCard = function () {
   const navigate = useNavigate()
   const goToCreateHabit = () => {
     navigate('/demo/create_habit')
@@ -94,4 +94,36 @@ export const CreateHabitCard = function() {
       </button>
     </div>
   )
+}
+
+export const CreateHabitButtons = function ({isAtBottom}: {isAtBottom: boolean}) {
+  const navigate = useNavigate()
+  const goToCreateHabit = () => {
+    navigate('/demo/create_habit')
+  }
+  return <div className="sticky bottom-[calc(env(safe-area-inset-bottom)+12px)] pointer-events-none">
+    <div className="relative h-14 w-full">
+      <button
+        onClick={goToCreateHabit}
+        aria-label="Add habit"
+        className={`absolute right-0 bottom-0 w-14 h-14 rounded-full btn-primary text-3xl leading-none shadow-lg flex items-center justify-center transition-[transform,opacity] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform ${isAtBottom
+          ? "opacity-0 scale-75 translate-y-1 pointer-events-none"
+          : "opacity-100 scale-100 translate-y-0 pointer-events-auto"
+          }`}
+      >
+        +
+      </button>
+
+      <button
+        onClick={goToCreateHabit}
+        aria-label="Add new habit"
+        className={`absolute left-0 right-0 bottom-0 h-12 rounded-md btn-primary text-sm font-medium shadow-lg transition-[transform,opacity] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform ${isAtBottom
+          ? "opacity-100 scale-100 translate-y-0 pointer-events-auto"
+          : "opacity-0 scale-95 translate-y-1 pointer-events-none"
+          }`}
+      >
+        Add new Habit
+      </button>
+    </div>
+  </div>
 }
