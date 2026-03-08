@@ -16,8 +16,8 @@ export default function () {
     setIsLoggedIn(hasAccessToken);
     if(hasAccessToken) {
       setTimeout(() => {
-        navigate("/demo/dashboard", {replace: true});
-      }, 1500)
+        navigate("/dashboard", {replace: true});
+      }, 2500)
     }
   }, []);
 

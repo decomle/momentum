@@ -1,18 +1,16 @@
-import { useNavigate } from "react-router-dom";
 import { AuthorCard, JammyLoader, LogoutCard, LoadingDots, ErrorSection } from "@/components/commons";
 import { DashboardHeading } from "@/components/headings";
 import { CreateHabitCard, HabitCard, MetadataCard, CreateHabitButtons } from "@/pages/dashboard/DashboardSections";
 
-import { useDashboard, useScrollPosition } from "@/hooks";
+import { useDashboard, useLogout, useScrollPosition } from "@/hooks";
 
 export default function DashboardPage() {
-  const navigate = useNavigate();
   const { isAtBottom } = useScrollPosition("app-scroll-container");
   const { metadata, habits, hasHabits, isLoading, isError, isSuccess, errorMessage: formError } = useDashboard();
+  const { logoutUser } = useLogout();
 
   const handleLogout = () => {
-    // We'll replace this with your real apiFetch/router.navigate logic soon
-    navigate("/demo/login", { replace: true });
+    logoutUser();
   };
 
   return (

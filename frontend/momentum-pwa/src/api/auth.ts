@@ -40,3 +40,16 @@ export async function register(data: RegisterFormValues) {
 
   return response.json();
 }
+
+export async function logout() {
+  const res = await apiFetch("/api/auth/logout", {
+    method: "POST",
+    requireAuth: false,
+  })
+
+  if (!res.ok) {
+    throw new Error((await res.json())?.message || "Logout failed")
+  }
+
+  return res.json()
+}

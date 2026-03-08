@@ -9,7 +9,7 @@ export default function useLogin() {
   const location = useLocation();
 
   // Determine where the user was trying to go before being redirected to login
-  const from = location.state?.from?.pathname || "/dashboard";
+  const from = location.state?.from?.pathname || '/';
 
   const mutation = useMutation({
     mutationFn: (data: LoginFormValues) => loginApi(data.email, data.password),

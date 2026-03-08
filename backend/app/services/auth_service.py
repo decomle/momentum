@@ -70,12 +70,9 @@ class AuthService(BaseService):
 
     async def logout_user(self, raw_refresh_token: str) -> None:
         token_hash = RefreshTokenService.hash_token(raw_refresh_token)
-        result = await self.db.execute(
-            select(RefreshToken).where(RefreshToken.token_hash == token_hash)
+        await self.db.execute(
+            delete(RefreshToken).where(RefreshToken.token_hash == token_hash)
         )
-        token = result.scalar_one_or_none()
-        if token:
-            await self.db.delete(token)
 
     async def refresh_access_token(self, raw_refresh_token: str) -> tuple[str, str]:
         token_hash = RefreshTokenService.hash_token(raw_refresh_token)

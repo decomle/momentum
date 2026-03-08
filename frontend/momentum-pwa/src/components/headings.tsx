@@ -14,7 +14,7 @@ const DEFAULT_DESCS = [
 
 export const LeftAlginedHeading = ({heading = "omentum", desc = DEFAULT_DESCS[Math.floor(Math.random() * DEFAULT_DESCS.length)]}: HeadingProps) => {
     return (
-        <Link to="/demo/dashboard" className="block space-y-1">
+        <Link to="/" className="block space-y-1">
           <div className="flex items-center gap-1">
             <img
               src="/icons/generated/m-mark-neutral-120.png"
@@ -32,7 +32,7 @@ export const LeftAlginedHeading = ({heading = "omentum", desc = DEFAULT_DESCS[Ma
 
 export const CenterAlginedHeading =  ({heading = "omentum", desc = DEFAULT_DESCS[Math.floor(Math.random() * DEFAULT_DESCS.length)]}: HeadingProps) => {
     return (
-        <Link to="/demo/dashboard" className="block space-y-2">
+        <Link to="/" className="block space-y-2">
             <div className="text-center space-y-2">
                 <div className="flex items-center justify-center gap-1">
                     <img
