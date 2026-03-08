@@ -15,6 +15,7 @@ class UserCreateRequest(BaseModel):
     username: str
     first_name: str
     last_name: str
+    timezone: str
     phone_number: str | None = None
     self_introduction: str | None = None
 

@@ -19,15 +19,14 @@ export default function DashboardPage() {
         <div className="space-y-5">
           <DashboardHeading additionalComponent={<LogoutCard />} />
 
+          <MetadataCard {...metadata} />
+          <div className="text-sm italic text-neutral-500 px-1">{metadata.aiMessage}</div>
           {isLoading && <JammyLoader desc={<LoadingDots prefix="Loading dashboard..." />} />}
 
           {isError && <ErrorSection error={formError}/>}
 
           {isSuccess && (
             <>
-              <MetadataCard {...metadata} />
-              <div className="text-sm italic text-neutral-500 px-1">{metadata.aiMessage}</div>
-
               {hasHabits ? (
                 habits.map((h) => <HabitCard key={h.id} habit={h} />)
               ) : (
