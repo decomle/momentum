@@ -28,6 +28,7 @@ export default function DashboardPage() {
   }
 
   const habits = (dashboardQuery.data?.habits ?? []).map((habit) => ({
+    id: habit.id,
     name: habit.name,
     description: habit.description,
     done: habit.isCompletedToday,
@@ -101,7 +102,7 @@ export default function DashboardPage() {
 
               {hasHabits ? (
                 habits.map((habit) => (
-                  <HabitCard habit={habit} />
+                  <HabitCard key={habit.id} habit={habit} />
                 ))
               ) : (
                 <CreateHabitCard />

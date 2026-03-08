@@ -1,4 +1,4 @@
-import { getAccessToken } from "@/lib/tokenStore"
+import { apiFetch } from "@/api/apiFetch"
 
 // --- 1. Raw API Shapes (Snake Case from Python) ---
 type DashboardMetadataRaw = {
@@ -53,18 +53,12 @@ export type DashboardData = {
 }
 
 export async function getDashboard(): Promise<DashboardData> {
-  const accessToken = getAccessToken()
-  if (!accessToken) {
-    throw new Error("Missing access token")
-  }
-
-  const res = await fetch("/api/dashboard", {
+  const res = await apiFetch("/api/dashboard", {
     method: "GET",
     headers: {
-      Authorization: `Bearer ${accessToken}`,
       "Content-Type": "application/json",
     },
-    credentials: "include",
+    requireAuth: true,
   })
 
   if (!res.ok) {

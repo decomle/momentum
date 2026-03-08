@@ -1,5 +1,7 @@
+import { apiFetch } from "@/api/apiFetch"
+
 export async function login(email: string, password: string) {
-  const res = await fetch("/api/auth/login", {
+  const res = await apiFetch("/api/auth/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -8,7 +10,7 @@ export async function login(email: string, password: string) {
       email,
       password,
     }),
-    credentials: "include",
+    requireAuth: false,
   })
 
   if (!res.ok) {
@@ -29,13 +31,13 @@ type RegisterPayload = {
 }
 
 export async function register(payload: RegisterPayload) {
-  const res = await fetch("/api/auth/register", {
+  const res = await apiFetch("/api/auth/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(payload),
-    credentials: "include",
+    requireAuth: false,
   })
 
   if (!res.ok) {
