@@ -104,6 +104,7 @@ class DashboardService(BaseService):
                 Habit.id,
                 Habit.name,
                 Habit.frequency,
+                Habit.description,
                 Habit.current_streak,
                 Habit.longest_streak,
                 HabitLog.habit_id.label("logged_habit_id"),
@@ -142,6 +143,7 @@ class DashboardService(BaseService):
             habits.append({
                 "id": row.id,
                 "name": row.name,
+                "description": row.description,
                 "frequency": row.frequency,
                 "current_streak": row.current_streak,
                 "longest_streak": row.longest_streak,

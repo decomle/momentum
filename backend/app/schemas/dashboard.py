@@ -18,6 +18,7 @@ class DashboardHabit(BaseModel):
     id: UUID
     name: str
     frequency: str
+    description: str
     current_streak: int
     longest_streak: int
     completed_today: bool
