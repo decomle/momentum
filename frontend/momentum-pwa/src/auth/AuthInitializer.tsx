@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { setAccessToken, getAccessToken } from "@/lib/tokenStore"
+import { apiFetch } from "@/api/apiFetch"
 
 export default function AuthInitializer({ children }: { children: React.ReactNode }) {
   const [ready, setReady] = useState(false)
@@ -8,9 +9,9 @@ export default function AuthInitializer({ children }: { children: React.ReactNod
     async function init() {
       if (!getAccessToken()) {
         try {
-          const res = await fetch("/api/auth/refresh", {
+          const res = await apiFetch("/api/auth/refresh", {
             method: "POST",
-            credentials: "include",
+            requireAuth: false,
           })
 
           if (res.ok) {

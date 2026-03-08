@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { Link } from "react-router-dom"
 
 type HeadingProps = { heading?: string, desc?: string}
@@ -12,7 +13,10 @@ const DEFAULT_DESCS = [
 ]
 
 
-export const LeftAlginedHeading = ({heading = "omentum", desc = DEFAULT_DESCS[Math.floor(Math.random() * DEFAULT_DESCS.length)]}: HeadingProps) => {
+export const LeftAlginedHeading = ({heading = "omentum", desc}: HeadingProps) => {
+    const [randomDesc] = useState(() => DEFAULT_DESCS[Math.floor(Math.random() * DEFAULT_DESCS.length)])
+    const finalDesc = desc ?? randomDesc
+
     return (
         <Link to="/" className="block space-y-1">
           <div className="flex items-center gap-1">
@@ -24,13 +28,16 @@ export const LeftAlginedHeading = ({heading = "omentum", desc = DEFAULT_DESCS[Ma
             <h1 className="text-2xl font-semibold tracking-tight">{heading}</h1>
           </div>
           <p className="text-sm text-neutral-500">
-            {desc}
+            {finalDesc}
           </p>
         </Link>
     )
 }
 
-export const CenterAlginedHeading =  ({heading = "omentum", desc = DEFAULT_DESCS[Math.floor(Math.random() * DEFAULT_DESCS.length)]}: HeadingProps) => {
+export const CenterAlginedHeading =  ({heading = "omentum", desc}: HeadingProps) => {
+    const [randomDesc] = useState(() => DEFAULT_DESCS[Math.floor(Math.random() * DEFAULT_DESCS.length)])
+    const finalDesc = desc ?? randomDesc
+
     return (
         <Link to="/" className="block space-y-2">
             <div className="text-center space-y-2">
@@ -44,7 +51,7 @@ export const CenterAlginedHeading =  ({heading = "omentum", desc = DEFAULT_DESCS
                 </div>
 
                 <p className="text-neutral-600 text-sm">
-                    {desc}
+                    {finalDesc}
                 </p>
             </div>
         </Link>
