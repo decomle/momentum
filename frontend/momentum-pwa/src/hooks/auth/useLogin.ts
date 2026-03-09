@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { login as loginApi } from "@/api/auth";
 import { setAccessToken } from "@/lib/tokenStore";
 import { type LoginFormValues } from "@/lib/schemas";
+import { queryClient } from "@/lib/queryClient";
 
 export default function useLogin() {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ export default function useLogin() {
     mutationFn: (data: LoginFormValues) => loginApi(data.email, data.password),
     onSuccess: (data) => {
       setAccessToken(data.access_token);
+      queryClient.invalidateQueries({ queryKey: ["currentUser"] });
       // Use replace: true so the "Login" page isn't in the back-stack
       navigate(from, { replace: true });
     },
