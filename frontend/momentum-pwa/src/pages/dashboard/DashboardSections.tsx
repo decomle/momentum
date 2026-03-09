@@ -40,7 +40,7 @@ export const MetadataCard = function ({ totalHabits, completedToday, pendingToda
 }
 
 export type DashboardHabit = {
-  // id: string,
+  id: string,
   name: string,
   description?: string,
   done: boolean,
@@ -51,7 +51,7 @@ export type DashboardHabit = {
 export const HabitCard = function ({ habit }: { habit: DashboardHabit }) {
   const navigate = useNavigate();
   const goToHabitLog = () => {
-    navigate("/demo/habit_log")
+    navigate(`/habits/${habit.id}/log`)
   }
   return (
     <div key={habit.name} onClick={goToHabitLog}

@@ -9,6 +9,7 @@ import DemoUpdateProfilePage from "@/pages/demo/DemoUpdateProfilePage"
 import DemoCreateHabitPage from "@/pages/demo/DemoCreateHabitPage"
 import DemoHabitPage from "@/pages/demo/DemoHabitPage"
 import DemoHabitLogPage from "@/pages/demo/DemoHabitLogPage"
+import HabitLogPage from "@/pages/habits/logs"
 import DashboardPage from "@/pages/dashboard"
 import DemoDashboardPage from "@/pages/demo/DemoDashboardPage"
 import DemoNotFoundPage from "@/pages/demo/Demo404Page"
@@ -83,6 +84,10 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard",
         element: <AuthGuard><DashboardPage /></AuthGuard>,
+      },
+      {
+        path: "/habits/:habit_id/log",
+        element: <AuthGuard><HabitLogPage /></AuthGuard>,
       },
       {
         path: "/profile",
