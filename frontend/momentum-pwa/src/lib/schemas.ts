@@ -32,3 +32,16 @@ export const loginSchema = z.object({
 });
 
 export type LoginFormValues = z.infer<typeof loginSchema>;
+
+export const updateProfileSchema = z.object({
+  username: z.string().trim().min(1, "Username is required."),
+  firstName: z.string().trim().min(1, "First name is required."),
+  lastName: z.string().trim().min(1, "Last name is required."),
+  timezone: z.string().refine((val) => TIMEZONES.includes(val), {
+    message: "Please select a valid timezone from the list."
+  }),
+  phoneNumber: z.string().optional(),
+  selfIntroduction: z.string().optional(),
+})
+
+export type UpdateProfileFormValues = z.infer<typeof updateProfileSchema>

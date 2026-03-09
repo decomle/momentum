@@ -34,8 +34,8 @@ async def update_me(
     user_service = UserService(db)
 
     user_id = jwt_payload["sub"]
-    profile = await transactional(db, 
+    user = await transactional(db, 
         lambda: user_service.upsert_profile(user_id=user_id, payload=payload)
     )
 
-    return profile
+    return UpdateProfileResponse.from_user(user)

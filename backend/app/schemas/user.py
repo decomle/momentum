@@ -45,6 +45,7 @@ class UserUpdateRequest(BaseModel):
     username: str | None = None
     first_name: str | None = None
     last_name: str | None = None
+    timezone: str | None = None
     phone_number: str | None = None
     self_introduction: str | None = None
 
@@ -52,6 +53,7 @@ class UserDetailResponse(UserResponse):
     username: str | None = None
     first_name: str | None = None
     last_name: str | None = None
+    timezone: str
     phone_number: str | None = None
     self_introduction: str | None = None
 
@@ -66,6 +68,7 @@ class UserDetailResponse(UserResponse):
             username=profile.username if profile else None,
             first_name=profile.first_name if profile else None,
             last_name=profile.last_name if profile else None,
+            timezone=user.timezone,
             phone_number=profile.phone_number if profile else None,
             self_introduction=profile.self_introduction if profile else None,
         )
@@ -74,5 +77,19 @@ class UpdateProfileResponse(BaseModel):
     username: str | None
     first_name: str | None
     last_name: str | None
+    timezone: str
     phone_number: str | None
     self_introduction: str | None
+
+    @classmethod
+    def from_user(cls, user: User):
+        profile = user.profile
+
+        return cls(
+            username=profile.username if profile else None,
+            first_name=profile.first_name if profile else None,
+            last_name=profile.last_name if profile else None,
+            timezone=user.timezone,
+            phone_number=profile.phone_number if profile else None,
+            self_introduction=profile.self_introduction if profile else None,
+        )

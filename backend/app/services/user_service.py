@@ -1,15 +1,11 @@
-    
-
 import uuid
 
-from sqlalchemy import select, exists, func
+from sqlalchemy import select, exists
 from sqlalchemy.orm import selectinload
 from pydantic_core import PydanticCustomError
 
 from app.services import BaseService
 from app.db.models import User, UserProfile
-from app.schemas.user import UserUpdateRequest
-from app.db.models.user_profile import UserProfile
 from app.schemas.user import UserUpdateRequest
 
 
@@ -32,10 +28,20 @@ class UserService(BaseService):
         self,
         user_id: uuid.UUID,
         payload: UserUpdateRequest,
-    ) -> UserProfile:
+    ) -> User:
+        user = await self.get_user(user_id=user_id, with_profile=True)
+        if not user:
+            raise PydanticCustomError(
+                "validations.USER_NOT_FOUND",
+                "User not found"
+            )
 
-        profile: UserProfile | None = await self.db.get(UserProfile, user_id)
+        profile: UserProfile | None = user.profile
         update_data = payload.model_dump(exclude_unset=True)
+        timezone = update_data.pop("timezone", None)
+
+        if timezone:
+            user.timezone = timezone
 
         if not profile:
             if "username" not in update_data:
@@ -56,7 +62,7 @@ class UserService(BaseService):
             self.db.add(profile)
             await self.db.flush()
 
-            return profile
+            return user
 
         if "username" in update_data:
             new_username = update_data["username"]
@@ -71,4 +77,4 @@ class UserService(BaseService):
             setattr(profile, field, value)
 
         await self.db.flush()
-        return profile
+        return user

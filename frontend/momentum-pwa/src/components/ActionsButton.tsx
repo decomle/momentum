@@ -66,7 +66,7 @@ export default function ActionsButton() {
             <button
               type="button"
               role="menuitem"
-              onClick={() => onActionClick(() => navigate("/demo/update_profile"))}
+              onClick={() => onActionClick(() => navigate("/profile"))}
               className="w-full rounded px-3 py-2 text-left text-xs font-medium text-neutral-700 hover:bg-neutral-100"
             >
               Update profile

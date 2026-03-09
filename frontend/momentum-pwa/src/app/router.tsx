@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom"
 
 import HomePage from "@/pages/home"
 import RegisterPage from "@/pages/account/register"
+import ProfilePage from "@/pages/account/profile"
 import DemoUpdateHabitPage from "@/pages/demo/DemoUpdateHabitPage"
 import LoginPage from "@/pages/login"
 import DemoUpdateProfilePage from "@/pages/demo/DemoUpdateProfilePage"
@@ -82,6 +83,10 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard",
         element: <AuthGuard><DashboardPage /></AuthGuard>,
+      },
+      {
+        path: "/profile",
+        element: <AuthGuard><ProfilePage /></AuthGuard>,
       },
     ],
   },
