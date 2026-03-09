@@ -22,7 +22,7 @@ const DEFAULT_USER_VALUE: UserContextValue = {
 function toDisplayName(user: CurrentUser | null) {
   if (!user) return "there"
 
-  const fullName = [user.first_name, user.last_name].filter(Boolean).join(" ").trim()
+  const fullName = [user.firstName, user.lastName].filter(Boolean).join(" ").trim()
   if (fullName) return fullName
   if (user.username) return user.username
 

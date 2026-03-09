@@ -2,11 +2,13 @@ import uuid
 
 from sqlalchemy import select, exists
 from sqlalchemy.orm import selectinload
+from sqlalchemy.exc import IntegrityError
 from pydantic_core import PydanticCustomError
 
 from app.services import BaseService
 from app.db.models import User, UserProfile
 from app.schemas.user import UserUpdateRequest
+from app.exceptions.types import InvalidUserNameException, DatabaseTechnicalIssueException
 
 
 class UserService(BaseService):
@@ -50,9 +52,7 @@ class UserService(BaseService):
                 )
 
             if await self.is_username_registered(update_data["username"]):
-                raise PydanticCustomError( "validations.USERNAME_UNIQUE",
-                    "Username already exists"
-                )
+                raise InvalidUserNameException("Username already exists")
 
             profile = UserProfile(
                 user_id=user_id,
@@ -60,7 +60,10 @@ class UserService(BaseService):
             )
 
             self.db.add(profile)
-            await self.db.flush()
+            try:
+                await self.db.flush()
+            except IntegrityError as error:
+                raise DatabaseTechnicalIssueException("A technical issue occurred. Please try again later") from error
 
             return user
 
@@ -69,12 +72,14 @@ class UserService(BaseService):
 
             if new_username != profile.username:
                 if await self.is_username_registered(new_username):
-                    raise PydanticCustomError( "validations.USERNAME_UNIQUE",
-                    "Username already exists"
-                )
+                    raise InvalidUserNameException("Username already exists")
 
         for field, value in update_data.items():
             setattr(profile, field, value)
 
-        await self.db.flush()
+        try:
+            await self.db.flush()
+        except IntegrityError as error:
+            raise DatabaseTechnicalIssueException("A technical issue occurred. Please try again later") from error
+
         return user

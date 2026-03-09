@@ -14,11 +14,11 @@ export default function useUpdateProfile() {
     mutationFn: (data: UpdateProfileFormValues) =>
       updateCurrentUserProfile({
         username: data.username.trim(),
-        first_name: data.firstName.trim(),
-        last_name: data.lastName.trim(),
+        firstName: data.firstName.trim(),
+        lastName: data.lastName.trim(),
         timezone: data.timezone,
-        phone_number: toNullable(data.phoneNumber),
-        self_introduction: toNullable(data.selfIntroduction),
+        phoneNumber: toNullable(data.phoneNumber),
+        selfIntroduction: toNullable(data.selfIntroduction),
       }),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ["currentUser"] })

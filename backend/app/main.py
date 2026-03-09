@@ -4,12 +4,12 @@ from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
 from contextlib import asynccontextmanager
 
-from app.exceptions.handlers import validation_exception_handler, invalid_credentials_handler
+from app.exceptions.handlers import validation_exception_handler, invalid_credentials_handler, invalid_username_handler, database_technical_issue_handler
 from app.db.database import async_engine, Base
 from app.i18n import configure_i18n
 from app.middlewares import locale_middleware
 from app.routers import auth_router, habits_router, habit_log_router, dashboard_router, user_router
-from app.exceptions.types import InvalidCredentialsError
+from app.exceptions.types import InvalidCredentialsError, InvalidUserNameException, DatabaseTechnicalIssueException
 from app.core.logging import setup_logging
 from app.core.scheduler import start_scheduler, scheduler
 from app.exceptions.handlers import not_found_handler, habit_log_windows_handler
@@ -49,6 +49,8 @@ app.include_router(user_router, prefix="/api")
 # Exception handlers
 app.add_exception_handler(RequestValidationError, validation_exception_handler)
 app.add_exception_handler(InvalidCredentialsError, invalid_credentials_handler)
+app.add_exception_handler(InvalidUserNameException, invalid_username_handler)
+app.add_exception_handler(DatabaseTechnicalIssueException, database_technical_issue_handler)
 app.add_exception_handler(NotFoundError, not_found_handler)
 app.add_exception_handler(LoggingWindowExpiredError, habit_log_windows_handler)
 

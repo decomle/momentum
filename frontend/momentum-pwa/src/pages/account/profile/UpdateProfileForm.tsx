@@ -32,11 +32,11 @@ export default function UpdateProfileForm({ user }: UpdateProfileFormProps) {
     mode: "onBlur",
     defaultValues: {
       username: user.username ?? "",
-      firstName: user.first_name ?? "",
-      lastName: user.last_name ?? "",
+      firstName: user.firstName ?? "",
+      lastName: user.lastName ?? "",
       timezone: user.timezone,
-      phoneNumber: user.phone_number ?? "",
-      selfIntroduction: user.self_introduction ?? "",
+      phoneNumber: user.phoneNumber ?? "",
+      selfIntroduction: user.selfIntroduction ?? "",
     },
   })
 
@@ -49,11 +49,11 @@ export default function UpdateProfileForm({ user }: UpdateProfileFormProps) {
   useEffect(() => {
     reset({
       username: user.username ?? "",
-      firstName: user.first_name ?? "",
-      lastName: user.last_name ?? "",
+      firstName: user.firstName ?? "",
+      lastName: user.lastName ?? "",
       timezone: user.timezone,
-      phoneNumber: user.phone_number ?? "",
-      selfIntroduction: user.self_introduction ?? "",
+      phoneNumber: user.phoneNumber ?? "",
+      selfIntroduction: user.selfIntroduction ?? "",
     })
   }, [reset, user])
 
