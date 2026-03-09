@@ -84,6 +84,19 @@ class HabitDetailResponse(HabitResponse):
     class Config:
         from_attributes = True
 
+
+class HabitSummaryResponse(BaseModel):
+    id: uuid.UUID
+    name: str
+    frequency: HabitFrequency
+    description: str | None
+    quote: str
+    current_streak: int | None
+    longest_streak: int | None
+    completed_today: bool
+    completed_yesterday: bool
+    completed_two_days_ago: bool
+
 class HabitListResponse(BaseModel):
     items: list[HabitResponse]
     meta: PaginationMeta

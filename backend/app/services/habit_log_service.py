@@ -80,6 +80,33 @@ class HabitLogService(BaseService):
 
         return habit_logs
 
+    async def get_recent_log_flags(
+            self,
+            user_id: uuid.UUID,
+            habit_id: uuid.UUID,
+            timezone: ZoneInfo
+    ) -> dict[str, bool]:
+        today = datetime.now(timezone).date()
+        yesterday = today - timedelta(days=1)
+        two_days_ago = today - timedelta(days=2)
+
+        stmt = (
+            select(HabitLog.log_date)
+            .where(
+                HabitLog.user_id == user_id,
+                HabitLog.habit_id == habit_id,
+                HabitLog.log_date.in_([today, yesterday, two_days_ago]),
+            )
+        )
+        result = await self.db.execute(stmt)
+        logged_dates = set(result.scalars().all())
+
+        return {
+            "completed_today": today in logged_dates,
+            "completed_yesterday": yesterday in logged_dates,
+            "completed_two_days_ago": two_days_ago in logged_dates,
+        }
+
     async def get_logs(
         self,
         user_id: uuid.UUID,

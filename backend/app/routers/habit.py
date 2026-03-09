@@ -10,6 +10,7 @@ from app.schemas.habit import (
     HabitListResponse, 
     HabitResponse, 
     HabitDetailResponse, 
+    HabitSummaryResponse,
     HabitUpdateRequest
 )
 from app.core.translator import t
@@ -47,6 +48,36 @@ async def list_habits(
     user_id = jwt_payload["sub"]
     return await habit_service.get_user_habits(user_id, page=page, size=size)
 
+@router.get("/{habit_id}/summary", response_model=HabitSummaryResponse)
+async def get_habit_summary(
+    habit_id: uuid.UUID,
+    jwt_payload: dict = Depends(verify_access_token),
+    db: AsyncSession = Depends(get_db),
+):
+    user_id = jwt_payload["sub"]
+    timezone = TimeZoneUtils.get_timezone(jwt_payload)
+
+    habit_service = HabitService(db)
+    habit_log_service = HabitLogService(db)
+
+    habit = await habit_service.get_habit(habit_id=habit_id, user_id=user_id)
+    recent_log_flags = await habit_log_service.get_recent_log_flags(
+        user_id=user_id,
+        habit_id=habit_id,
+        timezone=timezone,
+    )
+
+    return HabitSummaryResponse(
+        id=habit.id,
+        name=habit.name,
+        frequency=habit.frequency,
+        description=habit.description,
+        quote=HabitAnalyticsService.generate_motivation_quote(),
+        current_streak=habit.current_streak,
+        longest_streak=habit.longest_streak,
+        **recent_log_flags,
+    )
+
 @router.get("/{habit_id}", response_model=HabitDetailResponse)
 async def get_habit(
     habit_id: uuid.UUID,
@@ -61,7 +92,7 @@ async def get_habit(
     habit_period_service = HabitPeriodService(db)
 
     habit = await habit_service.get_habit(habit_id=habit_id,user_id=user_id)
-    
+
     res_model = HabitDetailResponse.model_validate(habit, from_attributes=True)
 
     res_model = res_model.model_copy(update={

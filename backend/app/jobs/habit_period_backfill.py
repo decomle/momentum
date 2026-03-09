@@ -4,7 +4,6 @@ from app.db.database import async_session_maker
 from app.services.habit_service import HabitService
 from app.services.habit_streak_service import HabitStreakService
 from app.services.habit_period_service import HabitPeriodService
-from app.services.user_service import UserService
 from app.utils import TimeZoneUtils
 from app.db.transaction import transactional
 from app.db.models.habit import Habit

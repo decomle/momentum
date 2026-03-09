@@ -3,7 +3,7 @@ from math import ceil
 from uuid import UUID
 
 from sqlalchemy import func, select, tuple_
-from sqlalchemy.orm import selectinload
+from sqlalchemy.orm import joinedload
 from app.db.models import Habit
 from app.schemas.habit import CreateHabitRequest
 from app.exceptions.types.commons import NotFoundError
@@ -112,7 +112,7 @@ class HabitService(BaseService):
     ) -> list[Habit]:
         stmt = (
             select(Habit)
-            .options(selectinload(Habit.user))
+            .options(joinedload(Habit.user))
             .where(
                 Habit.is_active.is_(True), 
                 Habit.deleted_at.is_(None),
