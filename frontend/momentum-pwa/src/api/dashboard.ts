@@ -1,33 +1,5 @@
 import { apiFetch } from "@/api/apiFetch"
 
-// --- 1. Raw API Shapes (Snake Case from Python) ---
-type DashboardMetadataRaw = {
-  date: string
-  total_habits: number
-  completed_today: number
-  pending_today: number
-  completion_rate: number
-  warning_messages: string[]
-  ai_message: string
-}
-
-type DashboardHabitRaw = {
-  id: string
-  name: string
-  frequency: string
-  description: string
-  quote: string
-  current_streak: number
-  longest_streak: number
-  completed_today: boolean
-}
-
-type DashboardResponseRaw = {
-  metadata: DashboardMetadataRaw
-  habits: DashboardHabitRaw[]
-}
-
-// --- 2. Clean Frontend Types (Camel Case for React) ---
 export type DashboardMetadata = {
   date: string
   totalHabits: number
@@ -46,7 +18,7 @@ export type DashboardHabit = {
   quote: string
   currentStreak: number
   longestStreak: number
-  isCompletedToday: boolean // Renamed for better boolean clarity
+  isCompletedToday: boolean
 }
 
 export type DashboardData = {
@@ -54,48 +26,36 @@ export type DashboardData = {
   habits: DashboardHabit[]
 }
 
-export async function getDashboard(): Promise<DashboardData> {
-  const res = await apiFetch("/api/dashboard", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    requireAuth: true,
-  })
+const mapDashboard = (r: any): DashboardData => ({
+  metadata: {
+    ...r.metadata,
+    totalHabits: r.metadata.total_habits,
+    completedToday: r.metadata.completed_today,
+    pendingToday: r.metadata.pending_today,
+    completionRate: r.metadata.completion_rate,
+    aiMessage: r.metadata.ai_message,
+  },
+  habits: r.habits.map((h: any) => ({
+    ...h,
+    currentStreak: h.current_streak,
+    longestStreak: h.longest_streak,
+    isCompletedToday: h.completed_today,
+  })),
+})
 
+
+const handleResponse = async (res: Response, errorMsg: string) => {
   if (!res.ok) {
-    let message = "Failed to load dashboard"
-    try {
-      const data = await res.json()
-      message = data?.message || message
-    } catch (e) {
-      console.error('Error querying dashboard...', e)
-    }
-    throw new Error(message)
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData.message || errorMsg);
   }
+  return res.json();
+}
 
-  const raw: DashboardResponseRaw = await res.json()
-
-  // Manual Mapping: Transform snake_case to camelCase
-  return {
-    metadata: {
-      date: raw.metadata.date,
-      totalHabits: raw.metadata.total_habits,
-      completedToday: raw.metadata.completed_today,
-      pendingToday: raw.metadata.pending_today,
-      completionRate: raw.metadata.completion_rate,
-      warningMessages: raw.metadata.warning_messages,
-      aiMessage: raw.metadata.ai_message,
-    },
-    habits: raw.habits.map((habit) => ({
-      id: habit.id,
-      name: habit.name,
-      frequency: habit.frequency,
-      description: habit.description,
-      quote: habit.quote,
-      currentStreak: habit.current_streak,
-      longestStreak: habit.longest_streak,
-      isCompletedToday: habit.completed_today,
-    })),
-  }
+export async function getDashboard(): Promise<DashboardData> {
+  const res = await apiFetch("/api/dashboard", { requireAuth: true });
+  
+  const data = await handleResponse(res, "Failed to load dashboard");
+  
+  return mapDashboard(data);
 }

@@ -1,17 +1,5 @@
 import { apiFetch } from "@/api/apiFetch"
 
-type CurrentUserRaw = {
-  id: string
-  email: string
-  created_at: string
-  username: string | null
-  first_name: string | null
-  last_name: string | null
-  timezone: string
-  phone_number: string | null
-  self_introduction: string | null
-}
-
 export type CurrentUser = {
   id: string
   email: string
@@ -33,63 +21,43 @@ export type UpdateCurrentUserProfilePayload = {
   selfIntroduction?: string
 }
 
-type UpdateProfileResponseRaw = {
-  username: string | null
-  first_name: string | null
-  last_name: string | null
-  timezone: string
-  phone_number: string | null
-  self_introduction: string | null
-}
+export type UpdateProfileResponse = Omit<CurrentUser, 'id' | 'email' | 'createdAt'>
 
-export type UpdateProfileResponse = {
-  username: string | null
-  firstName: string | null
-  lastName: string | null
-  timezone: string
-  phoneNumber: string | null
-  selfIntroduction: string | null
-}
+const mapCurrentUser = (r: any): CurrentUser => ({
+  ...r,
+  createdAt: r.created_at,
+  firstName: r.first_name,
+  lastName: r.last_name,
+  phoneNumber: r.phone_number,
+  selfIntroduction: r.self_introduction,
+})
 
-function mapCurrentUser(raw: CurrentUserRaw): CurrentUser {
-  return {
-    id: raw.id,
-    email: raw.email,
-    createdAt: raw.created_at,
-    username: raw.username,
-    firstName: raw.first_name,
-    lastName: raw.last_name,
-    timezone: raw.timezone,
-    phoneNumber: raw.phone_number,
-    selfIntroduction: raw.self_introduction,
-  }
-}
+const mapUpdateProfileResponse = (r: any): UpdateProfileResponse => ({
+  username: r.username,
+  firstName: r.first_name,
+  lastName: r.last_name,
+  timezone: r.timezone,
+  phoneNumber: r.phone_number,
+  selfIntroduction: r.self_introduction,
+})
 
-function mapUpdateProfileResponse(raw: UpdateProfileResponseRaw): UpdateProfileResponse {
-  return {
-    username: raw.username,
-    firstName: raw.first_name,
-    lastName: raw.last_name,
-    timezone: raw.timezone,
-    phoneNumber: raw.phone_number,
-    selfIntroduction: raw.self_introduction,
-  }
-}
-
-export async function getCurrentUser() {
-  const res = await apiFetch("/api/users/me", {
-    requireAuth: true,
-  })
-
+const handleResponse = async (res: Response, errorMsg: string) => {
   if (!res.ok) {
-    throw new Error((await res.json())?.message || "Failed to load current user")
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData.message || errorMsg);
   }
-
-  const raw: CurrentUserRaw = await res.json()
-  return mapCurrentUser(raw)
+  return res.json();
 }
 
-export async function updateCurrentUserProfile(payload: UpdateCurrentUserProfilePayload) {
+export async function getCurrentUser(): Promise<CurrentUser> {
+  const res = await apiFetch("/api/users/me", { requireAuth: true });
+  const data = await handleResponse(res, "Failed to load current user");
+  return mapCurrentUser(data);
+}
+
+export async function updateCurrentUserProfile(
+  payload: UpdateCurrentUserProfilePayload
+): Promise<UpdateProfileResponse> {
   const res = await apiFetch("/api/users/me", {
     method: "PATCH",
     requireAuth: true,
@@ -101,12 +69,8 @@ export async function updateCurrentUserProfile(payload: UpdateCurrentUserProfile
       phone_number: payload.phoneNumber,
       self_introduction: payload.selfIntroduction,
     }),
-  })
+  });
 
-  if (!res.ok) {
-    throw new Error((await res.json())?.message || "Failed to update profile")
-  }
-
-  const raw: UpdateProfileResponseRaw = await res.json()
-  return mapUpdateProfileResponse(raw)
+  const data = await handleResponse(res, "Failed to update profile");
+  return mapUpdateProfileResponse(data);
 }

@@ -24,7 +24,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (!getAccessToken()) {
         try {
           const data = await refreshAccessToken()
-          setAccessToken(data.access_token)
+          setAccessToken(data.accessToken)
           setIsAuthenticated(true)
         } catch {
           setIsAuthenticated(false)

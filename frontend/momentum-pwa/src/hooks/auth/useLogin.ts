@@ -15,7 +15,7 @@ export default function useLogin() {
   const mutation = useMutation({
     mutationFn: (data: LoginFormValues) => loginApi(data.email, data.password),
     onSuccess: (data) => {
-      setAccessToken(data.access_token);
+      setAccessToken(data.accessToken);
       queryClient.invalidateQueries({ queryKey: ["currentUser"] });
       // Use replace: true so the "Login" page isn't in the back-stack
       navigate(from, { replace: true });

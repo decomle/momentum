@@ -17,7 +17,7 @@ export default function () {
     if(hasAccessToken) {
       setTimeout(() => {
         navigate("/dashboard", {replace: true});
-      }, 2500)
+      }, 1000)
     }
   }, []);
 
