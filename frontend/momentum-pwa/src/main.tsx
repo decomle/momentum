@@ -4,9 +4,7 @@ import { RouterProvider } from "react-router-dom"
 import { QueryClientProvider } from "@tanstack/react-query"
 import { queryClient } from '@/lib/queryClient'
 // import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import AuthInitializer from '@/auth/AuthInitializer'
-import { CurrentUserProvider } from "@/auth/CurrentUserContext"
-
+import { AuthProvider, UserProvider } from "@/contexts"
 import './index.css'
 
 import { router } from "./app/router"
@@ -15,12 +13,12 @@ import { router } from "./app/router"
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <AuthInitializer>
-        <CurrentUserProvider>
+      <AuthProvider>
+        <UserProvider>
           <RouterProvider router={router} />
-        </CurrentUserProvider>
+        </UserProvider>
         {/* {import.meta.env.DEV && <ReactQueryDevtools initialIsOpen={false} />} */}
-      </AuthInitializer>
+      </AuthProvider>
     </QueryClientProvider>
   </StrictMode>,
 )

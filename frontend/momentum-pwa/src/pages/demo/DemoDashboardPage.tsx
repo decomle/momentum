@@ -99,11 +99,6 @@ export default function DemoDashboardPage() {
     navigate("/demo/create_habit")
   }
 
-  const handleLogout = () => {
-    console.log('Fake logout action')
-    navigate("/demo/login", { replace: true })
-  }
-
   useEffect(() => {
     const scrollContainer = document.getElementById("app-scroll-container")
     if (!scrollContainer) return

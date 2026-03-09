@@ -4,3 +4,5 @@ export {default as useLogout} from '@/hooks/auth/useLogout'
 export {default as useDashboard} from '@/hooks/useDashboard'
 
 export {default as useScrollPosition} from '@/hooks/useScrollToPosition'
+export { useAuth } from "@/contexts/AuthContext"
+export { useUser } from "@/contexts/UserContext"

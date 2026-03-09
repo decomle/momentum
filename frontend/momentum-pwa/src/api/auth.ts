@@ -1,6 +1,10 @@
 import { apiFetch } from "@/api/apiFetch"
 import { type RegisterFormValues } from "@/lib/schemas"
 
+type TokenResponse = {
+  access_token: string
+}
+
 export async function login(email: string, password: string) {
   const res = await apiFetch("/api/auth/login", {
     method: "POST",
@@ -16,6 +20,19 @@ export async function login(email: string, password: string) {
   }
 
   return res.json()
+}
+
+export async function refreshAccessToken() {
+  const res = await apiFetch("/api/auth/refresh", {
+    method: "POST",
+    requireAuth: false,
+  })
+
+  if (!res.ok) {
+    throw new Error((await res.json())?.message || "Session refresh failed")
+  }
+
+  return res.json() as Promise<TokenResponse>
 }
 
 export async function register(data: RegisterFormValues) {
