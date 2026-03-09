@@ -18,6 +18,7 @@ const inputClass = (hasError: boolean) =>
 
 export default function UpdateProfileForm({ user }: UpdateProfileFormProps) {
   const [timezoneOpen, setTimezoneOpen] = useState(false)
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false)
   const { updateProfile, isLoading, isSuccess, isError, error: formError } = useUpdateProfile()
 
   const {
@@ -57,12 +58,39 @@ export default function UpdateProfileForm({ user }: UpdateProfileFormProps) {
     })
   }, [reset, user])
 
+  useEffect(() => {
+    if (!isSuccess && !isError) {
+      setShowSuccessMessage(false)
+      return
+    }
+
+    const scrollContainer = document.getElementById("app-scroll-container")
+    if (scrollContainer) {
+      scrollContainer.scrollTo({ top: 0, behavior: "smooth" })
+    }
+
+    if (isSuccess) {
+      const timer = window.setTimeout(() => {
+        setShowSuccessMessage(true)
+      }, 500)
+
+      return () => window.clearTimeout(timer)
+    }
+  }, [isSuccess, isError])
+
   return (
     <>
-      {isSuccess && <MessageCard message="Profile updated successfully." />}
+      {showSuccessMessage && <MessageCard message="Profile updated successfully." />}
       {isError && <ErrorSection title="Update profile failed" error={formError} />}
 
-      <form className="space-y-4" onSubmit={handleSubmit((data) => updateProfile(data))} noValidate>
+      <form
+        className="space-y-4"
+        onSubmit={handleSubmit((data) => {
+          setShowSuccessMessage(false)
+          updateProfile(data)
+        })}
+        noValidate
+      >
         <div>
           <label className="mb-1 block text-sm text-neutral-600">Username</label>
           <input type="text" {...register("username")} className={inputClass(!!errors.username)} />
