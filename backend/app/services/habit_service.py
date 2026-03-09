@@ -108,11 +108,11 @@ class HabitService(BaseService):
         self, 
         no_of_record = 10, 
         last_created_at: datetime | None = None,
-        last_id: UUID | None = None
+        last_id: UUID | None = None,
+        with_user: bool | None = False
     ) -> list[Habit]:
         stmt = (
             select(Habit)
-            .options(joinedload(Habit.user))
             .where(
                 Habit.is_active.is_(True), 
                 Habit.deleted_at.is_(None),
@@ -120,6 +120,9 @@ class HabitService(BaseService):
             .order_by(Habit.created_at.asc(), Habit.id.asc())
             .limit(no_of_record)
         )
+        if with_user:
+            stmt = stmt.options(joinedload(Habit.user))
+        
         if last_created_at is not None and last_id is not None:
             stmt = stmt.where(
                 tuple_(Habit.created_at, Habit.id) > (last_created_at, last_id)
@@ -127,4 +130,4 @@ class HabitService(BaseService):
 
 
         result = await self.db.execute(stmt)
-        return result.scalars().all()
+        return result.scalars().unique().all()

@@ -26,6 +26,7 @@ async def period_backfill_job():
                 no_of_record=batch_size, 
                 last_created_at=last_created_at,
                 last_id=last_id,
+                with_user=True
             )
             if not habits:
                 break
