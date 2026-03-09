@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
-import { AuthorCard, JammyLoader } from "@/components/commons"
+import { ActionsButton, AuthorCard, JammyLoader } from "@/components/commons"
 import { DashboardHeading } from "@/components/headings"
-import { LogoutCard } from "@/components/commons"
 
 export default function DemoDashboardPage() {
   const navigate = useNavigate()
@@ -131,7 +130,7 @@ export default function DemoDashboardPage() {
         <div className="space-y-5">
 
         {/* Header */}
-        <DashboardHeading additionalComponent={<LogoutCard onLogout={handleLogout}/>} />
+        <DashboardHeading additionalComponent={<ActionsButton />} />
 
         {/* Meta */}
         <div className="bg-white rounded-xl p-4 shadow-sm border border-neutral-100">

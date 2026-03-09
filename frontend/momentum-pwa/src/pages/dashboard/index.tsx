@@ -1,4 +1,10 @@
-import { AuthorCard, JammyLoader, LogoutCard, LoadingDots, ErrorSection } from "@/components/commons";
+import { 
+  AuthorCard, 
+  JammyLoader,
+  ActionsButton, 
+  LoadingDots, 
+  ErrorSection 
+} from "@/components/commons";
 import { DashboardHeading } from "@/components/headings";
 import { 
   CreateHabitCard, 
@@ -17,7 +23,7 @@ export default function DashboardPage() {
     <div className="min-h-full flex justify-center">
       <div className="w-full max-w-md min-h-full p-4 pb-6 flex flex-col">
         <div className="space-y-5">
-          <DashboardHeading additionalComponent={<LogoutCard />} />
+          <DashboardHeading additionalComponent={<ActionsButton />} />
 
           <MetadataCard {...metadata} />
           <div className="text-sm italic text-neutral-500 px-1">{metadata.aiMessage}</div>
