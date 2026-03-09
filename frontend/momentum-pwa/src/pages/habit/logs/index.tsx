@@ -4,8 +4,8 @@ import { useParams } from "react-router-dom"
 import { AuthorCard, ErrorSection, JammyLoader, LoadingDots, MessageCard } from "@/components/commons"
 import { LeftAlginedHeading } from "@/components/headings"
 import { useHabitSummary } from "@/hooks"
-import HabitInfoSection from "@/pages/habits/logs/HabitInfoSection"
-import LogSection from "@/pages/habits/logs/LogSection"
+import HabitInfoSection from "@/pages/habit/logs/HabitInfoSection"
+import LogSection from "@/pages/habit/logs/LogSection"
 
 export default function HabitLogPage() {
   const { habit_id: habitId } = useParams<{ habit_id: string }>()
