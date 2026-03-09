@@ -4,34 +4,38 @@ export type DashboardMetadata = {
   totalHabits: number,
   completedToday: number,
   pendingToday: number,
-  completionRate: number
+  completionRate: number,
+  message?: string
 }
 
-export const MetadataCard = function ({ totalHabits, completedToday, pendingToday, completionRate }: DashboardMetadata) {
+export const MetadataCard = function ({ totalHabits, completedToday, pendingToday, completionRate, message }: DashboardMetadata) {
   return (
-    <div className="bg-white rounded-xl p-4 shadow-sm border border-neutral-100">
-      <div className="flex justify-between text-sm text-neutral-600">
-        <div>
-          <p className="font-medium">{totalHabits}</p>
-          <p className="text-xs text-neutral-500">Habits</p>
-        </div>
+    <>
+        <div className="bg-white rounded-xl p-4 shadow-sm border border-neutral-100">
+        <div className="flex justify-between text-sm text-neutral-600">
+          <div>
+            <p className="font-medium">{totalHabits}</p>
+            <p className="text-xs text-neutral-500">Habits</p>
+          </div>
 
-        <div>
-          <p className="font-medium">{completedToday}</p>
-          <p className="text-xs text-neutral-500">Done</p>
-        </div>
+          <div>
+            <p className="font-medium">{completedToday}</p>
+            <p className="text-xs text-neutral-500">Done</p>
+          </div>
 
-        <div>
-          <p className="font-medium">{pendingToday}</p>
-          <p className="text-xs text-neutral-500">Pending</p>
-        </div>
+          <div>
+            <p className="font-medium">{pendingToday}</p>
+            <p className="text-xs text-neutral-500">Pending</p>
+          </div>
 
-        <div>
-          <p className="font-medium">{completionRate}%</p>
-          <p className="text-xs text-neutral-500">Completion</p>
+          <div>
+            <p className="font-medium">{completionRate}%</p>
+            <p className="text-xs text-neutral-500">Completion</p>
+          </div>
         </div>
       </div>
-    </div>
+      {message && <div className="text-sm italic text-neutral-500 px-1">{message}</div>}
+    </>
   )
 }
 

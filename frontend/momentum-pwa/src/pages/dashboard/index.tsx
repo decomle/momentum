@@ -5,6 +5,7 @@ import {
   LoadingDots, 
   ErrorSection 
 } from "@/components/commons";
+
 import { DashboardHeading } from "@/components/headings";
 import { 
   CreateHabitCard, 
@@ -26,7 +27,7 @@ export default function DashboardPage() {
           <DashboardHeading additionalComponent={<ActionsButton />} />
 
           <MetadataCard {...metadata} />
-          <div className="text-sm italic text-neutral-500 px-1">{metadata.aiMessage}</div>
+          
           {isLoading && <JammyLoader desc={<LoadingDots prefix="Loading dashboard..." />} />}
 
           {isError && <ErrorSection error={formError}/>}
