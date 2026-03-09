@@ -7,29 +7,18 @@ from app.db.models import User
 from app.schemas.user import UserCreateRequest, UserResponse
 from app.schemas.auth import LoginRequest, TokenResponse
 from app.services.auth_service import AuthService
-from app.services.refresh_token_service import RefreshTokenService
-from app.core.security import create_access_token
 from app.dependencies.auth import get_current_user, verify_access_token
 from app.db.transaction import transactional
-from app.utils.timezone import TimeZoneUtils
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
 @router.post("/login", response_model=TokenResponse)
 async def login(data: LoginRequest, response: Response, db: AsyncSession = Depends(get_db)):
     auth_service = AuthService(db)
-    # user = await service.login_user(data.email, data.password)
-    user = await transactional(db, lambda: auth_service.login_user(data.email, data.password))
-
-    # We will need roles and permissions later, for now we just put "user" role
-    access_token = create_access_token({
-        "sub": str(user.id),
-        "roles": ["user"],
-        "tz": str(TimeZoneUtils.get_timezone(user)),
-    })
-
-    token_service = RefreshTokenService(db)
-    refresh_token = await transactional(db, lambda: token_service.create_refresh_token(user.id))
+    access_token, refresh_token = await transactional(
+        db,
+        lambda: auth_service.login_user(data.email, data.password),
+    )
 
     response.set_cookie(
         key="refresh_token",

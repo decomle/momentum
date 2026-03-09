@@ -1,5 +1,6 @@
 from datetime import datetime, timezone
 from sqlalchemy import select, delete, func, exists
+from sqlalchemy.orm import joinedload
 
 from app.services import BaseService
 from app.services.user_service import UserService
@@ -65,9 +66,21 @@ class AuthService(BaseService):
 
         return new_user, new_profile
 
-    async def login_user(self, email: str, password: str) -> User:
-        # alias for authenticate_user, kept for clarity
-        return await self.authenticate_user(email, password)
+    async def _issue_token_pair_for_user(self, user: User) -> tuple[str, str]:
+        access_token = create_access_token({
+            "sub": str(user.id),
+            "roles": ["user"],
+            "tz": str(TimeZoneUtils.get_timezone(user)),
+        })
+
+        token_service = RefreshTokenService(self.db)
+        refresh_token = await token_service.create_refresh_token(user.id)
+
+        return access_token, refresh_token
+
+    async def login_user(self, email: str, password: str) -> tuple[str, str]:
+        user = await self.authenticate_user(email, password)
+        return await self._issue_token_pair_for_user(user)
 
     async def logout_user(self, raw_refresh_token: str) -> None:
         token_hash = RefreshTokenService.hash_token(raw_refresh_token)
@@ -79,7 +92,9 @@ class AuthService(BaseService):
         token_hash = RefreshTokenService.hash_token(raw_refresh_token)
 
         result = await self.db.execute(
-            select(RefreshToken).where(RefreshToken.token_hash == token_hash)
+            select(RefreshToken)
+            .options(joinedload(RefreshToken.user))
+            .where(RefreshToken.token_hash == token_hash)
         )
         token = result.scalar_one_or_none()
         if not token:
@@ -88,20 +103,13 @@ class AuthService(BaseService):
         if token.expires_at < datetime.now(timezone.utc):
             raise InvalidCredentialsError("Refresh token expired")
 
-        user_id = token.user_id
+        user = token.user
+        if not user:
+            raise InvalidCredentialsError("Invalid refresh token")
+
         await self.db.delete(token)
 
-        token_service = RefreshTokenService(self.db)
-        new_refresh_token = await token_service.create_refresh_token(user_id)
-
-        # Might need to add timezone to RefreshToken model in the future
-        new_access_token = create_access_token({
-            "sub": str(user_id),
-            "roles": ["user"],
-            "tz": str(TimeZoneUtils.get_timezone(token)) 
-        })
-
-        return new_access_token, new_refresh_token
+        return await self._issue_token_pair_for_user(user)
 
     async def cleanup_expired_refresh_tokens(self) -> int:
         now = datetime.now(timezone.utc)
