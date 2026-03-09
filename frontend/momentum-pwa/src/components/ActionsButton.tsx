@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from "react"
 import { useNavigate } from "react-router-dom"
 
-import { useLogout } from "@/hooks"
+import { useLogout, useUser } from "@/hooks"
 
 
 export default function ActionsButton() {
   const [isOpen, setIsOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
   const { logoutUser } = useLogout()
+  const { displayName } = useUser()
   const navigate = useNavigate()
 
 
@@ -53,8 +54,15 @@ export default function ActionsButton() {
         {isOpen && (
           <div
             role="menu"
-            className="absolute right-0 mt-2 w-40 rounded-md border border-neutral-200 bg-white p-1 shadow-md"
+            className="absolute right-0 mt-2 w-48 rounded-md border border-neutral-200 bg-white p-1 shadow-md"
           >
+            <p className="px-3 pb-1 pt-2 text-left text-xs font-medium text-neutral-900">
+              Hello, {displayName}
+            </p>
+            <p className="px-3 pb-2 text-left text-[11px] leading-snug text-neutral-500">
+              You can install this as an app for quicker access.
+            </p>
+            <div className="mx-2 my-1 border-t border-neutral-200" />
             <button
               type="button"
               role="menuitem"
