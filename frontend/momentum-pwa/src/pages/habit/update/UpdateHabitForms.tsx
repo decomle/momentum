@@ -67,7 +67,7 @@ export default function UpdateHabitForms({ habitId }: { habitId: string }) {
             {HABIT_FREQUENCIES.map(freq => (
               <label key={freq} className="inline-flex items-center gap-2 text-sm text-neutral-700">
                 <input type="radio" {...register("frequency")}
-                  value={freq} checked={habit.frequency === freq}
+                  value={freq}
                   className="w-4 h-4"
                 />
                 {freq}
@@ -83,10 +83,10 @@ export default function UpdateHabitForms({ habitId }: { habitId: string }) {
         {/* Target per period */}
         <div className="space-y-1">
           <label className="text-sm text-neutral-600">Target per period</label>
-          <input type="number" {...register("targetPerPeriod")} min={1} className={inputClass(!!errors.targetPerPeriod)} />
+          <input type="number" {...register("targetPerPeriod", { valueAsNumber: true })} min={1} className={inputClass(!!errors.targetPerPeriod)} />
           {errors.targetPerPeriod && <p className="mt-1 text-xs text-red-600">{errors.targetPerPeriod.message}</p>}
           <p className="text-xs text-neutral-500">
-            Example: 1 time per day.
+            Example: 5 time per week.
           </p>
         </div>
 
