@@ -8,6 +8,9 @@ class AppException(Exception):
 class NotFoundError(AppException):
     pass
 
+class CommonBusinessConstraintError(AppException):
+    def __init__(self, message: str = "Failed business constraits"):
+        super().__init__(message)
 
 class HabitArchivedError(AppException):
     def __init__(self, message: str = "Habit is archived and cannot be modified"):

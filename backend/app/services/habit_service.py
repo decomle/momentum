@@ -6,8 +6,9 @@ from sqlalchemy import func, select, tuple_
 from sqlalchemy.orm import joinedload
 from app.db.models import Habit
 from app.schemas.habit import CreateHabitRequest
-from app.exceptions.types.commons import NotFoundError
+from app.exceptions.types import NotFoundError, CommonBusinessConstraintError
 from app.services import BaseService
+from app.enums import HabitFrequency
 
 class HabitService(BaseService):
 
@@ -91,6 +92,15 @@ class HabitService(BaseService):
         # Dynamically update provided fields
         for field, value in update_data.items():
             setattr(habit, field, value)
+        
+        if habit.frequency == HabitFrequency.DAILY:
+            if habit.target_per_period != 1:
+                raise CommonBusinessConstraintError("Daily habit must have target of 1")
+        elif habit.frequency == HabitFrequency.WEEKLY:
+            if habit.target_per_period > 7 or habit.target_per_period < 1:
+                raise CommonBusinessConstraintError("Weekly habit must have target of 1 to 7")
+        else:
+            raise CommonBusinessConstraintError("Habit frequency not supported")
 
         await self.db.flush()
 

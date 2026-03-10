@@ -9,10 +9,10 @@ from app.db.database import async_engine, Base
 from app.i18n import configure_i18n
 from app.middlewares import locale_middleware
 from app.routers import auth_router, habits_router, habit_log_router, dashboard_router, user_router
-from app.exceptions.types import InvalidCredentialsError, InvalidUserNameException, DatabaseTechnicalIssueException
+from app.exceptions.types import CommonBusinessConstraintError, InvalidCredentialsError, InvalidUserNameException, DatabaseTechnicalIssueException
 from app.core.logging import setup_logging
 from app.core.scheduler import start_scheduler, scheduler
-from app.exceptions.handlers import not_found_handler, habit_log_windows_handler
+from app.exceptions.handlers import not_found_handler, habit_log_windows_handler, common_business_constrait_handler
 from app.exceptions.types import NotFoundError, LoggingWindowExpiredError
 
 setup_logging()
@@ -53,6 +53,7 @@ app.add_exception_handler(InvalidUserNameException, invalid_username_handler)
 app.add_exception_handler(DatabaseTechnicalIssueException, database_technical_issue_handler)
 app.add_exception_handler(NotFoundError, not_found_handler)
 app.add_exception_handler(LoggingWindowExpiredError, habit_log_windows_handler)
+app.add_exception_handler(CommonBusinessConstraintError, common_business_constrait_handler)
 
 @app.get("/")
 def root():
