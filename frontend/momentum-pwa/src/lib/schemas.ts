@@ -45,3 +45,20 @@ export const updateProfileSchema = z.object({
 })
 
 export type UpdateProfileFormValues = z.infer<typeof updateProfileSchema>
+
+const FREQUENCIES = ["DAILY", "WEEKLY"] as const;
+
+export const habitSchema = z.object({
+  habitName: z.string().trim().min(1, "Habit name is required."),
+  description: z.string().optional(),
+  frequency: z.enum(FREQUENCIES).refine(val => val !== undefined, {
+    message: "Please select a frequency"
+  }),
+  targetPerPeriod: z.number().min(1, "Target must be greater than 1").max(7, "Target must be less than 7")
+}).refine((data) => (data.frequency === "DAILY" && data.targetPerPeriod !== 1), {
+  path: ["targetPerPeriod"],
+  message: "Daily habits must have a target of 1"
+});
+
+export type UpdateHabitFormValues = z.infer<typeof habitSchema>
+export type CreateHabitFormValues = z.infer<typeof habitSchema>

@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import { LoadingDots, ErrorSection } from "@/components/commons";
 
 const inputClass = (hasError: boolean) =>
-  `w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 ${hasError ? "border-red-300 focus:ring-red-200" : "border-neutral-200 focus:ring-neutral-300"
+  `w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 ${
+    hasError ? "border-red-300 focus:ring-red-200" : "border-neutral-200 focus:ring-neutral-300"
   }`
 
 export default function UpdateHabitForms({ habitId }: { habitId: string }) {
