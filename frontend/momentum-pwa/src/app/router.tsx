@@ -19,6 +19,7 @@ import DemoTermsPage from "@/pages/demo/DemoTermsPage"
 import AuthorPage from "@/pages/AuthorPage"
 import DemoRegisterPage from "@/pages/demo/DemoRegistrationPage"
 import HabitUpdatePage from "@/pages/habit/update"
+import HabitCreatePage from "@/pages/habit/create"
 
 import AuthGuard from "@/features/auth/AuthGuard"
 import AppLayout from "@/layout/AppLayout"
@@ -102,6 +103,10 @@ export const router = createBrowserRouter([
       {
         path: "/habits/:habit_id/update",
         element: <AuthGuard><HabitUpdatePage /></AuthGuard>,
+      },
+      {
+        path: "/habits/create",
+        element: <AuthGuard><HabitCreatePage /></AuthGuard>,
       },
     ],
   },

@@ -3,7 +3,7 @@ import { useHabitSummary } from "@/hooks";
 import { LeftAlginedHeading } from "@/components/headings";
 import { ErrorSection, AuthorCard, JammyLoader, LoadingDots } from "@/components/commons";
 
-import UpdateHabitForms from "@/pages/habit/update/UpdateHabitForms";
+import UpdateHabitForms from "@/pages/habit/update/UpdateHabitForm";
 
 
 export default function HabitUpdatePage() {

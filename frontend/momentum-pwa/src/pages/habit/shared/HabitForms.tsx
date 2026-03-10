@@ -44,7 +44,7 @@ export default function HabitForm({ initialData, onSubmit, isLoading, submitText
     <form className="space-y-4" onSubmit={handleSubmit(onSubmit)} noValidate>
       {/* Habit name */}
       <div className="space-y-1">
-        <label className="mb-1 block text-sm text-neutral-600">Habit name</label>
+        <label className="mb-1 block text-sm text-neutral-600">Habit name*</label>
         <input type="text" className={inputClass(!!errors.name)} {...register("name")} />
         {errors.name && <p className="mt-1 text-xs text-red-600">{errors.name.message}</p>}
       </div>
@@ -71,7 +71,7 @@ export default function HabitForm({ initialData, onSubmit, isLoading, submitText
 
       {/* Target */}
       <div className="space-y-1">
-        <label className="text-sm text-neutral-600">Target per period</label>
+        <label className="text-sm text-neutral-600">Target per period*</label>
         <input 
             type="number" 
             {...register("targetPerPeriod", { valueAsNumber: true })} 
