@@ -2,7 +2,7 @@ import { z } from "zod";
 
 // --- 1. Constants & Enums ---
 export const TIMEZONES = Intl.supportedValuesOf("timeZone");
-const FREQUENCIES = ["DAILY", "WEEKLY"] as const;
+export const HABIT_FREQUENCIES = ["DAILY", "WEEKLY"];
 
 // --- 2. Shared User Base ---
 const userBaseSchema = z.object({
@@ -42,10 +42,10 @@ export const updateProfileSchema = userBaseSchema;
 export const habitSchema = z.object({
   habitName: z.string().trim().min(1, "Habit name is required."),
   description: z.string().optional(),
-  frequency: z.enum(FREQUENCIES, {
-    message: "Please select a frequency",
+  frequency: z.enum(HABIT_FREQUENCIES, {
+    message: "Please select a valid frequency",
   }),
-  targetPerPeriod: z.coerce.number().min(1, "Target must be at least 1"),
+  targetPerPeriod: z.number().min(1, "Target must be at least 1"),
 }).refine((data) => {
   // Return TRUE if valid
   if (data.frequency === "DAILY") {

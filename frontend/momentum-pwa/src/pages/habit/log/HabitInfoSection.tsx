@@ -26,7 +26,7 @@ export default function HabitInfoSection({ habit }: HabitInfoSectionProps) {
           <span>View</span>
         </Link>
 
-        <Link to={`/habits/${habit.id}/edit`}
+        <Link to={`/habits/${habit.id}/update`}
           className="flex flex-1 items-center justify-center gap-2 rounded-md border border-neutral-300 py-2 text-sm hover:bg-neutral-100"
         >
           <span>✏️</span>
