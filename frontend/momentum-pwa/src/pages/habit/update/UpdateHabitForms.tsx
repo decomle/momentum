@@ -1,25 +1,24 @@
-import { useHabitSummary } from "@/hooks";
 import { Link } from "react-router-dom";
-import { LoadingDots, ErrorSection } from "@/components/commons";
 import { type HabitFormValues } from "@/lib/schemas";
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { habitSchema, HABIT_FREQUENCIES } from "@/lib/schemas";
 import { useEffect } from "react";
+import useUpdateHabit from "@/hooks/habit/useUpdateHabit";
+import type { HabitSummary } from "@/api/habit";
+import { ErrorSection, MessageCard } from "@/components/commons";
 
 
 const inputClass = (hasError: boolean) =>
   `w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 ${hasError ? "border-red-300 focus:ring-red-200" : "border-neutral-200 focus:ring-neutral-300"
   }`
 
-export default function UpdateHabitForms({ habitId }: { habitId: string }) {
-  const { summary: habit, isLoading, isError, error: formError } = useHabitSummary(habitId)
+export default function UpdateHabitForms({ habit }: { habit: HabitSummary }) {
+  const { updateHabit, isLoading, isSuccess, isError, error: formError } = useUpdateHabit(habit.id)
   const {
     register,
     handleSubmit,
     reset,
-    setValue,
-    watch,
     formState: { errors },
   } = useForm<HabitFormValues>({
     resolver: zodResolver(habitSchema),
@@ -42,16 +41,12 @@ export default function UpdateHabitForms({ habitId }: { habitId: string }) {
   }, [reset, habit])
   
 
-  if (isLoading) {
-    return <LoadingDots prefix="Loading habit..." />
-  }
-  if (isError || !habit) {
-    return <ErrorSection title="Unable to update habit" error={formError || "There is a techinical error, please try again later"} />
-  }
   return (
     <>
+      {isSuccess && <MessageCard message="Habit updated successfully." />}
+      {isError && <ErrorSection title="Update habit failed" error={formError} />}
       {/* Form */}
-      <form className="space-y-4" noValidate>
+      <form className="space-y-4" onSubmit={handleSubmit((data) => updateHabit(data))} noValidate>
 
         {/* Habit name */}
         <div className="space-y-1">
@@ -107,9 +102,9 @@ export default function UpdateHabitForms({ habitId }: { habitId: string }) {
             Cancel
           </Link>
 
-          <Link to="/" className="text-center flex-1 py-3 btn-primary rounded-md transition">
-            Update Habit
-          </Link>
+          <button type="submit" disabled={isLoading} className="text-center flex-1 py-3 btn-primary rounded-md transition">
+            {isLoading ? "Saving..." : "Update Habit"}
+          </button>
         </div>
       </form>
     </>
