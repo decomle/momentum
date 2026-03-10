@@ -40,7 +40,7 @@ export const updateProfileSchema = userBaseSchema;
 
 // --- 5. Habit Schemas ---
 export const habitSchema = z.object({
-  habitName: z.string().trim().min(1, "Habit name is required."),
+  name: z.string().trim().min(1, "Habit name is required."),
   description: z.string().optional(),
   frequency: z.enum(HABIT_FREQUENCIES, {
     message: "Please select a valid frequency",

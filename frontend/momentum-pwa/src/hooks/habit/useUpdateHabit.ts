@@ -12,7 +12,7 @@ export default function useUpdateHabit(habitId: string) {
   const mutation = useMutation({
     mutationFn: (data: HabitFormValues) =>
       updateHabit(habitId, {
-        name: data.habitName,
+        name: data.name,
         description: toNullable(data.description),
         frequency: data.frequency,
         targetPerPeriod: data.targetPerPeriod

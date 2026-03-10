@@ -12,7 +12,7 @@ export type Habit = {
 }
 
 export type HabitSummary = {
-  id: string; name: string; frequency: string; description: string | null; quote: string;
+  id: string; name: string; frequency: string; description?: string; quote: string;
   targetPerPeriod: number, currentStreak: number | null; longestStreak: number | null;
   completedToday?: boolean; completedYesterday?: boolean; completedTwoDaysAgo?: boolean;
 }
