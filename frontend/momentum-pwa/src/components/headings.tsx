@@ -18,7 +18,7 @@ export const LeftAlginedHeading = ({heading = "omentum", desc}: HeadingProps) =>
     const finalDesc = desc ?? randomDesc
 
     return (
-        <Link to="/" className="block space-y-1">
+        <Link to="/dashboard" className="block space-y-1">
           <div className="flex items-center gap-1">
             <img
               src="/icons/generated/m-mark-neutral-120.png"
@@ -64,6 +64,7 @@ type DashboardHeadingProps = {
 
 export const DashboardHeading = ({ additionalComponent }: DashboardHeadingProps) => {
     return (
+      <Link to="/" >
         <div className="flex items-start justify-between gap-3">
           <div>
             <div className="flex items-center gap-1">
@@ -78,5 +79,6 @@ export const DashboardHeading = ({ additionalComponent }: DashboardHeadingProps)
           </div>
           {additionalComponent && additionalComponent}
         </div>
+      </Link>
     )
 }
