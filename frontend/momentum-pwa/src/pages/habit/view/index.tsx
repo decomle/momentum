@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom"
-import { AuthorCard, ErrorSection, LoadingDots } from "@/components/commons"
+import { ErrorSection, LoadingDots } from "@/components/commons"
 import { LeftAlginedHeading } from "@/components/headings"
 import { useHabit } from "@/hooks"
 import ActionButtonsSection from "@/pages/habit/view/ActionButtonsSection"
