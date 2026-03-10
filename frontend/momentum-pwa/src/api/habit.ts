@@ -13,7 +13,7 @@ export type Habit = {
 
 export type HabitSummary = {
   id: string; name: string; frequency: string; description: string | null; quote: string;
-  currentStreak: number | null; longestStreak: number | null;
+  targetPerPeriod: number, currentStreak: number | null; longestStreak: number | null;
   completedToday: boolean; completedYesterday: boolean; completedTwoDaysAgo: boolean;
 }
 
@@ -47,6 +47,7 @@ const mapHabit = (r: any): Habit => ({
 
 const mapHabitSummary = (r: any): HabitSummary => ({
   ...r,
+  targetPerPeriod: r.target_per_period,
   currentStreak: r.current_streak,
   longestStreak: r.longest_streak,
   completedToday: r.completed_today,

@@ -90,6 +90,7 @@ class HabitSummaryResponse(BaseModel):
     name: str
     frequency: HabitFrequency
     description: str | None
+    target_per_period: int
     quote: str
     current_streak: int | None
     longest_streak: int | None

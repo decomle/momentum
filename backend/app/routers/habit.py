@@ -72,6 +72,7 @@ async def get_habit_summary(
         name=habit.name,
         frequency=habit.frequency,
         description=habit.description,
+        target_per_period=habit.target_per_period,
         quote=HabitAnalyticsService.generate_motivation_quote(),
         current_streak=habit.current_streak,
         longest_streak=habit.longest_streak,
