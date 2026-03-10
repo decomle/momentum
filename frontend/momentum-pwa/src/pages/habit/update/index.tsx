@@ -1,12 +1,13 @@
-import { LeftAlginedHeading } from "@/components/headings";
-import { ErrorSection } from "@/components/commons";
 import { useParams } from "react-router-dom";
-import { AuthorCard } from "@/components/commons";
+
+import { LeftAlginedHeading } from "@/components/headings";
+import { ErrorSection, AuthorCard } from "@/components/commons";
+
 import UpdateHabitForms from "@/pages/habit/update/UpdateHabitForms";
+
 
 export default function HabitUpdatePage() {
   const { habit_id: habitId } = useParams<{ habit_id: string }>()
-
 
   if (!habitId) {
     return (
