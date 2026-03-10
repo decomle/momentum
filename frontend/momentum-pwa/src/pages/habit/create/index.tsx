@@ -9,7 +9,7 @@ export default function HabitCreatePage() {
     <div className="h-full flex flex-col p-4">
       <div className="w-full flex-1 flex flex-col">
         {/* Title */}
-        <LeftAlginedHeading heading="Update Habit" desc="Modify the habit details." />
+        <LeftAlginedHeading heading="Create Habit" desc="Start a new journey, shall we?" />
 
         <div className="pt-6 border-t border-neutral-200 space-y-6">
           <CreateHabitForm />

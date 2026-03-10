@@ -45,7 +45,7 @@ export default function HabitForm({ initialData, onSubmit, isLoading, submitText
       {/* Habit name */}
       <div className="space-y-1">
         <label className="mb-1 block text-sm text-neutral-600">Habit name*</label>
-        <input type="text" className={inputClass(!!errors.name)} {...register("name")} />
+        <input placeholder="Workout" type="text" className={`placeholder:text-sm ${inputClass(!!errors.name)}`} {...register("name")} />
         {errors.name && <p className="mt-1 text-xs text-red-600">{errors.name.message}</p>}
       </div>
 
