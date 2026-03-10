@@ -64,21 +64,21 @@ type DashboardHeadingProps = {
 
 export const DashboardHeading = ({ additionalComponent }: DashboardHeadingProps) => {
     return (
-      <Link to="/" >
-        <div className="flex items-start justify-between gap-3">
-          <div>
-            <div className="flex items-center gap-1">
-              <img
-                src="/icons/generated/m-mark-neutral-120.png"
-                alt="Momentum M icon"
-                className="w-12 h-12 object-contain"
-              />
-              <h1 className="-ml-1 text-4xl font-bold tracking-tight leading-none">omentum</h1>
-            </div>
-            <p className="text-xs text-neutral-500">{DEFAULT_DESCS[0]}</p>
+      <div className="flex items-start justify-between gap-3">
+        <Link to="/" >
+        <div>
+          <div className="flex items-center gap-1">
+            <img
+              src="/icons/generated/m-mark-neutral-120.png"
+              alt="Momentum M icon"
+              className="w-12 h-12 object-contain"
+            />
+            <h1 className="-ml-1 text-4xl font-bold tracking-tight leading-none">omentum</h1>
           </div>
-          {additionalComponent && additionalComponent}
+          <p className="text-xs text-neutral-500">{DEFAULT_DESCS[0]}</p>
         </div>
-      </Link>
+        </Link>
+        {additionalComponent && additionalComponent}
+      </div>
     )
 }

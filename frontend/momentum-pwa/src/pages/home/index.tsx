@@ -17,7 +17,7 @@ export default function () {
     if(hasAccessToken) {
       setTimeout(() => {
         navigate("/dashboard", {replace: true});
-      }, 1000)
+      }, 2500)
     }
   }, []);
 
@@ -31,7 +31,7 @@ export default function () {
 
           <div className="border-t border-neutral-200" />
 
-          <JammyLoader desc={isLoggedIn ? <LoadingDots prefix="Logging you in" /> : "Perfecting york...."} />
+          <JammyLoader desc={isLoggedIn ? <LoadingDots prefix="You're already logged in" /> : "Perfecting york...."} />
 
           {/* Description Card */}
           <HomeDescriptions />
