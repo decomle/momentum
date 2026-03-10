@@ -74,15 +74,17 @@ const handleResponse = async (res: Response, errorMsg: string) => {
 }
 
 // --- 4. API Functions ---
-export const getHabit = (id: string): Promise<Habit> => 
-  apiFetch(`/api/habits/${id}`, { requireAuth: true })
-    .then(r => handleResponse(r, "Failed to load habit"))
-    .then(mapHabit);
+export const getHabit = async (id: string): Promise<Habit> => {
+  const response = await apiFetch(`/api/habits/${id}`, { requireAuth: true });
+  const data = await handleResponse(response, "Failed to load habit");
+  return mapHabit(data);
+}
 
-export const getHabitSummary = (id: string): Promise<HabitSummary> => 
-  apiFetch(`/api/habits/${id}/summary`, { requireAuth: true })
-    .then(r => handleResponse(r, "Failed to load summary"))
-    .then(mapHabitSummary);
+export const getHabitSummary = async (id: string): Promise<HabitSummary> => {
+  const response = await apiFetch(`/api/habits/${id}/summary`, {requireAuth: true});
+  const data = await handleResponse(response, "Failed to load summary");
+  return mapHabitSummary(data);
+};
 
 export async function logHabit(habitId: string, payload: LogHabitPayload): Promise<HabitLog> {
   const res = await apiFetch(`/api/habits/${habitId}/logs`, {

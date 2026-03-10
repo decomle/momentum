@@ -5,6 +5,7 @@ import { type HabitFormValues } from "@/lib/schemas";
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { habitSchema, HABIT_FREQUENCIES } from "@/lib/schemas";
+import { useEffect } from "react";
 
 
 const inputClass = (hasError: boolean) =>
@@ -30,6 +31,16 @@ export default function UpdateHabitForms({ habitId }: { habitId: string }) {
       targetPerPeriod: Number(habit?.targetPerPeriod ?? 1),
     },
   })
+
+  useEffect(() => {
+    reset({
+      habitName: habit?.name ?? "",
+      description: habit?.description ?? "",
+      frequency: habit?.frequency ?? "DAILY",
+      targetPerPeriod: habit?.targetPerPeriod ?? 1
+    })
+  }, [reset, habit])
+  
 
   if (isLoading) {
     return <LoadingDots prefix="Loading habit..." />
