@@ -1,7 +1,7 @@
 import { LeftAlginedHeading } from "@/components/headings"
 import { AuthorCard } from "@/components/commons"
 
-export default function DemoTermsPage() {
+export default function TermsPage() {
   return (
     <div className="h-full flex flex-col p-4">
       <div className="w-full flex-1 min-h-0 flex flex-col">

@@ -1,36 +1,46 @@
-import { 
-  AuthorCard, 
+import { useEffect } from "react";
+import {
+  AuthorCard,
   JammyLoader,
-  ActionsButton, 
-  LoadingDots, 
-  ErrorSection 
+  ActionsButton,
+  LoadingDots,
+  ErrorSection
 } from "@/components/commons";
+import { MessageCard } from "@/components/commons";
 
 import { DashboardHeading } from "@/components/headings";
-import { 
-  CreateHabitCard, 
-  HabitCard, 
-  MetadataCard, 
-  CreateHabitButtons 
+import {
+  CreateHabitCard,
+  HabitCard,
+  MetadataCard,
+  CreateHabitButtons
 } from "@/pages/dashboard/DashboardSections";
 
 import { useDashboard, useScrollPosition } from "@/hooks";
+import { useLocation } from "react-router-dom";
 
 export default function DashboardPage() {
   const { isAtBottom } = useScrollPosition("app-scroll-container");
   const { metadata, habits, hasHabits, isLoading, isError, isSuccess, errorMessage: formError } = useDashboard();
-
+  const location = useLocation()
+  const message = location.state?.message
+  useEffect(() => {
+    if (location.state?.message) {
+      window.history.replaceState({}, document.title);
+    }
+  }, [location.state]);
   return (
     <div className="min-h-full flex justify-center">
       <div className="w-full max-w-md min-h-full p-4 pb-6 flex flex-col">
         <div className="space-y-5">
-          <DashboardHeading additionalComponent={<ActionsButton />} />
 
+          <DashboardHeading additionalComponent={<ActionsButton />} />
+          {message && <MessageCard message={message} />}
           <MetadataCard {...metadata} />
-          
+
           {isLoading && <JammyLoader desc={<LoadingDots prefix="Loading dashboard..." />} />}
 
-          {isError && <ErrorSection error={formError}/>}
+          {isError && <ErrorSection error={formError} />}
 
           {isSuccess && (
             <>

@@ -103,7 +103,7 @@ export const CreateHabitCard = function () {
 export const CreateHabitButtons = function ({isAtBottom}: {isAtBottom: boolean}) {
   const navigate = useNavigate()
   const goToCreateHabit = () => {
-    navigate('/demo/create_habit')
+    navigate('/habits/create')
   }
   return <div className="sticky bottom-[calc(env(safe-area-inset-bottom)+12px)] pointer-events-none">
     <div className="relative h-14 w-full">

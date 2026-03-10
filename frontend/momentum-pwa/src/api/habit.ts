@@ -130,3 +130,12 @@ export async function createHabit(payload: CreateUpdateHabitPayload): Promise<Ha
   const data = await handleResponse(res, "Failed to create habit");
   return mapHabitSummary(data);
 }
+
+export async function deleteHabit(habitId: string) {
+  const res = await apiFetch(`/api/habits/${habitId}`, {
+    method: "DELETE",
+    requireAuth: true,  
+  })
+  const data = await handleResponse(res, "Failed to create habit");
+  return mapHabitSummary(data);
+}

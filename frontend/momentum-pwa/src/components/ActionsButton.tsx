@@ -60,7 +60,7 @@ export default function ActionsButton() {
               Hello, {displayName}
             </p>
             <p className="px-3 pb-2 text-left text-[11px] leading-snug text-neutral-500">
-              You can install this as an app for quicker access.
+              You can install Momentum as app for quicker access.
             </p>
             <div className="mx-2 my-1 border-t border-neutral-200" />
             <button

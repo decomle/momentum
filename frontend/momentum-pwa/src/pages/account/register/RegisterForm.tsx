@@ -134,7 +134,7 @@ export default function RegisterForm() {
           <input type="checkbox" {...register("acceptedTerms")} className="mt-0.5 h-4 w-4" />
           <span>
             I agree to the{" "}
-            <Link to="/demo/terms" className="underline underline-offset-2 hover:text-neutral-900">
+            <Link to="/terms" className="underline underline-offset-2 hover:text-neutral-900">
               Terms and Conditions
             </Link>
           </span>
