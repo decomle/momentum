@@ -14,11 +14,12 @@ export type Habit = {
 export type HabitSummary = {
   id: string; name: string; frequency: string; description: string | null; quote: string;
   targetPerPeriod: number, currentStreak: number | null; longestStreak: number | null;
-  completedToday: boolean; completedYesterday: boolean; completedTwoDaysAgo: boolean;
+  completedToday?: boolean; completedYesterday?: boolean; completedTwoDaysAgo?: boolean;
 }
 
 export type HabitLog = { id: string; habitId: string; userId: string; logDate: string; moodScore: number; remark: string | null; createdAt: string }
 export type LogHabitPayload = { logDate: string; moodScore: number; remark?: string }
+export type UpdateHabitPayload = {name: string, description: string | undefined, frequency: string, targetPerPeriod: number}
 
 const mapHabit = (r: any): Habit => ({
   ...r,
@@ -98,4 +99,19 @@ export async function logHabit(habitId: string, payload: LogHabitPayload): Promi
   })
   const data = await handleResponse(res, "Failed to log habit");
   return mapHabitLog(data);
+}
+
+export async function updateHabit(habitId: string, payload: UpdateHabitPayload): Promise<any> {
+  const res = await apiFetch(`/api/habits/${habitId}`, {
+    method: "PATCH",
+    requireAuth: true,
+    body: JSON.stringify({
+      name: payload.name,
+      description: payload.description,
+      frequency: payload.frequency,
+      target_per_period: payload.targetPerPeriod,
+    }),
+  })
+  const data = await handleResponse(res, "Failed to update habit");
+  return mapHabitSummary(data);
 }
